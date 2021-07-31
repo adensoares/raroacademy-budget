@@ -9,6 +9,10 @@ class AppColors {
   static const Color green = Color.fromRGBO(88, 179, 104, 1);
   static const Color pink = Color.fromRGBO(245, 72, 127, 1);
   static const Color yellow = Color.fromRGBO(250, 199, 54, 1);
+  static const Color black = Color.fromRGBO(0, 0, 0, 0.87);
+  static const Color gray = Color.fromRGBO(0, 0, 0, 0.54);
+  static const Color lightGray = Color.fromRGBO(196, 196, 196, 1);
+  static const Color red = Color.fromRGBO(244, 67, 54, 1);
 
   static const splashGradient = LinearGradient(
       colors: [
