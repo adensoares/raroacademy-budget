@@ -1,5 +1,6 @@
 import 'package:budget/src/modules/home/home_page.dart';
-import 'package:budget/src/modules/splash/splash_page.dart';
+import 'package:budget/src/shared/widgets/header_pages_budget_widget.dart';
+
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -10,7 +11,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SplashPage(),
+      home: HeaderPagesBudgetWidget(),
     );
   }
 }
