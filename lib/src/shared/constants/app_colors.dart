@@ -14,6 +14,23 @@ class AppColors {
   static const Color lightGray = Color.fromRGBO(196, 196, 196, 1);
   static const Color red = Color.fromRGBO(244, 67, 54, 1);
 
+// Purple in MaterialColor
+  static const MaterialColor customMaterialPurple = MaterialColor(
+    0xFF181861,
+    <int, Color>{
+      50: Color.fromRGBO(52, 48, 144, .1),
+      100: Color.fromRGBO(52, 48, 144, .2),
+      200: Color.fromRGBO(52, 48, 144, .3),
+      300: Color.fromRGBO(52, 48, 144, .4),
+      400: Color.fromRGBO(52, 48, 144, .5),
+      500: Color.fromRGBO(52, 48, 144, .6),
+      600: Color.fromRGBO(52, 48, 144, .7),
+      700: Color.fromRGBO(52, 48, 144, .8),
+      800: Color.fromRGBO(52, 48, 144, .9),
+      900: Color.fromRGBO(52, 48, 144, 1),
+    },
+  );
+
   static const splashGradient = LinearGradient(
       colors: [
         cyan,
