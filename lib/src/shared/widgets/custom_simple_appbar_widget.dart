@@ -39,37 +39,42 @@ class _SimpleAppbarState extends State<SimpleAppbar> {
                 children: [
                   IconButton(
                     onPressed: (){},
-                    icon: Icon(Icons.menu)
+                    icon: Icon(Icons.menu, color: Colors.white,)
                   ),
                   if(title != "Olá José")
-                  Expanded(                    
-                    child: Text("Olá, José", style: AppTextStyles.white24w400Roboto,)
-                  ),
-                  DropdownButton<String>(
-                    value: dropdownValue,
-                    icon: const Icon(Icons.arrow_downward),
-                    iconSize: 24,
-                    elevation: 16,
-                    style: const TextStyle(
-                      color: Colors.red
+
+                  Text("Olá, José", style: AppTextStyles.white24w400Roboto,),
+
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border()
                     ),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.deepPurpleAccent,
+                    child: DropdownButton<String>(
+                      value: dropdownValue,
+                      icon: const Icon(Icons.arrow_downward),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: const TextStyle(
+                        color: Colors.red
+                      ),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.deepPurpleAccent,
+                      ),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownValue = newValue!;
+                        });
+                      },
+                      items: <String>['Agosto', 'Setembro', 'Outubro', 'Novembro']
+                        .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        })
+                        .toList(),
                     ),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownValue = newValue!;
-                      });
-                    },
-                    items: <String>['Agosto', 'Setembro', 'Outubro', 'Novembro']
-                      .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      })
-                      .toList(),
                   )                                 
                 ],             
               ),
@@ -86,9 +91,10 @@ class _SimpleAppbarState extends State<SimpleAppbar> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 mainAxisSize: MainAxisSize.max,
                children: [
-                 TextButton(onPressed: (){}, child: Text("Entradas", style: AppTextStyles.white24w400Roboto,)),
-                 TextButton(onPressed: (){}, child: Text("Entradas", style: AppTextStyles.white24w400Roboto,)),
-                 TextButton(onPressed: (){}, child: Text("Entradas", style: AppTextStyles.white24w400Roboto,)),
+                 TextButton(onPressed: (){}, child: Text("Entradas", style: AppTextStyles.white16w400Roboto,)),
+                 SizedBox(width: 1,)
+                 TextButton(onPressed: (){}, child: Text("Entradas", style: AppTextStyles.white16w400Roboto,)),
+                 TextButton(onPressed: (){}, child: Text("Entradas", style: AppTextStyles.white16w400Roboto,)),
                ],
               )
             ],
