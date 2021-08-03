@@ -44,6 +44,8 @@ class CustomTextFormField extends StatelessWidget {
         labelText: labelText,
         alignLabelWithHint: true,
         errorStyle: AppTextStyles.red12w400Roboto,
+        hintText: hintText,
+        hintStyle: AppTextStyles.gray16w400Roboto,
       ),
     );
   }
