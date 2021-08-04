@@ -3,7 +3,7 @@ import 'package:budget/src/modules/login/buttons/google/button_google_widget.dar
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:budget/src/shared/widgets/button_widget.dart';
-import 'package:budget/src/shared/widgets/custom_text_form_field.dart';
+import 'package:budget/src/shared/widgets/custom_text_form_field_widget.dart';
 import 'package:budget/src/shared/widgets/header_page_login_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:validatorless/validatorless.dart';
@@ -52,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             CustomTextFormField(
+                              obscureText: false,
                               controler: emailEC,
                               validator: Validatorless.multiple([
                                 Validatorless.email('email inválido'),
