@@ -1,17 +1,20 @@
+import 'package:flutter/material.dart';
+
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
-import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     Key? key,
     this.hintText,
     this.labelText,
+    this.helperText,
     this.keyboardType,
     this.suffixIcon,
     this.border,
-    this.helperText,
     this.onTap,
+    this.validator,
+    this.controler,
   }) : super(key: key);
 
   final String? hintText;
@@ -22,6 +25,8 @@ class CustomTextFormField extends StatelessWidget {
   final bool obscureText = false;
   final InputBorder? border;
   final void Function()? onTap;
+  final String? Function(String?)? validator;
+  final TextEditingController? controler;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +35,8 @@ class CustomTextFormField extends StatelessWidget {
       obscureText: obscureText,
       cursorColor: AppColors.black,
       style: AppTextStyles.black16w400Roboto,
+      controller: controler,
+      validator: validator,
       onTap: onTap,
       decoration: InputDecoration(
         focusedBorder: UnderlineInputBorder(
