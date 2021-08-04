@@ -1,5 +1,7 @@
 import 'package:animated_card/animated_card.dart';
 import 'package:budget/src/modules/home/home_page.dart';
+import 'package:budget/src/modules/login/login_page.dart';
+import 'package:budget/src/modules/signup/signup_page.dart';
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +20,7 @@ class _SplashPageState extends State<SplashPage> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => const HomePage())));
+                  builder: (BuildContext context) => LoginPage())));
     });
     super.initState();
   }
