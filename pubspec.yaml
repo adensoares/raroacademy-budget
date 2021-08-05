@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   animated_card: ^2.0.0
   validatorless: ^1.2.0
+  wc_form_validators: ^1.0.0
   
   
 

@@ -1,7 +1,10 @@
 import 'package:budget/src/modules/login/login_page.dart';
+import 'package:budget/src/modules/signup/validator_password.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:validatorless/validatorless.dart';
+import 'package:wc_form_validators/wc_form_validators.dart';
 
 enum Terms { accepted }
 
@@ -15,6 +18,12 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   final PageController pageController = PageController(initialPage: 0);
   Terms? termsAnswer = Terms.accepted;
+  final _signupKeypage1 = GlobalKey<FormState>();
+  final _signupKeypage2 = GlobalKey<FormState>();
+  final _signupKeypage4 = GlobalKey<FormState>();
+  final _passwordEC = TextEditingController();
+
+  bool aceitou = false;
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +73,28 @@ class _SignupPageState extends State<SignupPage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CustomTextFormField(
-                            labelText: "Nome",
-                            obscureText: false,
-                          ),
-                          CustomTextFormField(
-                            labelText: "E-mail",
-                            obscureText: false,
-                          ),
+                          Form(
+                              key: _signupKeypage1,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  CustomTextFormField(
+                                    labelText: "Nome",
+                                    obscureText: false,
+                                    validator: Validatorless.required(
+                                        'campo obrigatório!'),
+                                  ),
+                                  CustomTextFormField(
+                                    labelText: "E-mail",
+                                    obscureText: false,
+                                    validator: Validatorless.multiple([
+                                      Validatorless.email('email inválido'),
+                                      Validatorless.required(
+                                          'campo obrigatório'),
+                                    ]),
+                                  ),
+                                ],
+                              ))
                         ],
                       ),
                     ),
@@ -116,9 +139,11 @@ class _SignupPageState extends State<SignupPage> {
                               color: Colors.white,
                             ),
                             onTap: () {
-                              pageController.nextPage(
-                                  duration: Duration(milliseconds: 1000),
-                                  curve: Curves.ease);
+                              if (_signupKeypage1.currentState!.validate()) {
+                                pageController.nextPage(
+                                    duration: Duration(milliseconds: 1000),
+                                    curve: Curves.ease);
+                              }
                             },
                           ),
                         ],
@@ -165,16 +190,39 @@ class _SignupPageState extends State<SignupPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CustomTextFormField(
-                              labelText: "Telefone",
-                              obscureText: false,
-                            ),
-                            CustomTextFormField(
-                              labelText: "CPF",
-                              obscureText: false,
-                              helperText:
-                                  "O CPF é necessário para conectar suas contas",
-                            ),
+                            Form(
+                                key: _signupKeypage2,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CustomTextFormField(
+                                      labelText: "Telefone",
+                                      helperText:
+                                          'telefone com ddd e 9 digitos (exemplo ddd: 071)',
+                                      obscureText: false,
+                                      validator: Validatorless.multiple([
+                                        Validatorless.max(12,
+                                            'numero muito grande!, insira 12 numeros!'),
+                                        Validatorless.min(12,
+                                            'numero pequeno! insira 12 numeros!'),
+                                        Validatorless.number('numero inválido'),
+                                        Validatorless.required(
+                                            'campo obrigatório'),
+                                      ]),
+                                    ),
+                                    CustomTextFormField(
+                                      labelText: "CPF",
+                                      obscureText: false,
+                                      validator: Validatorless.multiple([
+                                        Validatorless.cpf('número incorreto'),
+                                        Validatorless.required(
+                                            'campo obrigatório'),
+                                      ]),
+                                      helperText:
+                                          "O CPF é necessário para conectar suas contas",
+                                    ),
+                                  ],
+                                ))
                           ],
                         ),
                       ),
@@ -216,9 +264,11 @@ class _SignupPageState extends State<SignupPage> {
                                 color: Colors.white,
                               ),
                               onTap: () {
-                                pageController.nextPage(
-                                    duration: Duration(milliseconds: 1000),
-                                    curve: Curves.ease);
+                                if (_signupKeypage2.currentState!.validate()) {
+                                  pageController.nextPage(
+                                      duration: Duration(milliseconds: 1000),
+                                      curve: Curves.ease);
+                                }
                               },
                             ),
                           ],
@@ -280,14 +330,12 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                             child: Row(
                               children: [
-                                Radio(
-                                  toggleable: true,
-                                  activeColor: AppColors.gray,
-                                  value: Terms.accepted,
-                                  groupValue: termsAnswer,
-                                  onChanged: (Terms? value) {
+                                Checkbox(
+                                  value: aceitou,
+                                  shape: CircleBorder(),
+                                  onChanged: (bool? value) {
                                     setState(() {
-                                      termsAnswer = value;
+                                      aceitou = value!;
                                     });
                                   },
                                 ),
@@ -339,9 +387,17 @@ class _SignupPageState extends State<SignupPage> {
                               color: Colors.white,
                             ),
                             onTap: () {
-                              pageController.nextPage(
-                                  duration: Duration(milliseconds: 1000),
-                                  curve: Curves.ease);
+                              if (aceitou) {
+                                pageController.nextPage(
+                                    duration: Duration(milliseconds: 1000),
+                                    curve: Curves.ease);
+                              } else {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text('Termos obrigatórios'),
+                                  duration: Duration(seconds: 2),
+                                ));
+                              }
                             },
                           ),
                         ],
@@ -405,14 +461,32 @@ class _SignupPageState extends State<SignupPage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CustomTextFormField(
-                            labelText: "Crie uma senha",
-                            obscureText: true,
-                          ),
-                          CustomTextFormField(
-                            labelText: "Confirme sua senha",
-                            obscureText: true,
-                          ),
+                          Form(
+                              key: _signupKeypage4,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  CustomTextFormField(
+                                      controler: _passwordEC,
+                                      labelText: "Crie uma senha",
+                                      obscureText: true,
+                                      validator: Validators.compose([
+                                        Validators.required('campo requerido!'),
+                                        Validators.patternRegExp(
+                                            RegExp(
+                                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$'),
+                                            'senha inválida'),
+                                      ])),
+                                  CustomTextFormField(
+                                    validator: Validatorless.multiple([
+                                      ValidatorPassword.compare(_passwordEC,
+                                          'as senhas não são iguais'),
+                                    ]),
+                                    labelText: "Confirme sua senha",
+                                    obscureText: true,
+                                  ),
+                                ],
+                              ))
                         ],
                       ),
                     ),
@@ -454,9 +528,13 @@ class _SignupPageState extends State<SignupPage> {
                               color: Colors.white,
                             ),
                             onTap: () {
-                              pageController.nextPage(
-                                  duration: Duration(milliseconds: 1000),
-                                  curve: Curves.ease);
+                              var formpage4valid =
+                                  _signupKeypage4.currentState!.validate();
+                              if (formpage4valid) {
+                                pageController.nextPage(
+                                    duration: Duration(milliseconds: 1000),
+                                    curve: Curves.ease);
+                              }
                             },
                           ),
                         ],
