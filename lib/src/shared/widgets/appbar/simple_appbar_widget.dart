@@ -2,32 +2,32 @@ import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class SimpleAppbar extends StatelessWidget implements PreferredSizeWidget{
-  const SimpleAppbar({ Key? key, this.title = "", this.gradient, }) : super(key: key);
-
-  @override
-  Size get preferredSize => Size.fromHeight(100);
+  const SimpleAppbar({ Key? key, this.title = "", this.gradient, required this.expanded, }) : super(key: key);
 
   final String title;
   final Gradient? gradient;
-  //final void Function() onPressed;
+  final bool expanded;
+
+  @override
+  Size get preferredSize => Size.fromHeight(expanded ? 189 : 100);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.only(left:16.0, right: 16.0, top: 36.0, bottom: 16.0),
       height: preferredSize.height,
       decoration: BoxDecoration(
         gradient: gradient
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
           Expanded(
             flex: 1,
             child: Align(
-              alignment: Alignment.bottomLeft,
+              alignment: Alignment.topLeft,
               child: Builder(
                 builder: (context) {
                   return IconButton(
@@ -40,14 +40,11 @@ class SimpleAppbar extends StatelessWidget implements PreferredSizeWidget{
           ),
           Expanded(
             flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom:8.0, top: 8.0),
-              child: Text(
-                title,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center, 
-                style: AppTextStyles.white24w400Roboto,
-              ),
+            child: Text(
+              title,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center, 
+              style: AppTextStyles.white24w400Roboto,
             )
           ),
           Expanded(
