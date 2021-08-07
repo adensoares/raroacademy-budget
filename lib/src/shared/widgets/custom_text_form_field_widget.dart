@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
@@ -11,11 +12,12 @@ class CustomTextFormField extends StatelessWidget {
     this.helperText,
     this.keyboardType,
     this.suffixIcon,
+    required this.obscureText,
     this.border,
     this.onTap,
     this.validator,
     this.controler,
-    required this.obscureText,
+    this.inputformatter,
   }) : super(key: key);
 
   final String? hintText;
@@ -28,10 +30,12 @@ class CustomTextFormField extends StatelessWidget {
   final void Function()? onTap;
   final String? Function(String?)? validator;
   final TextEditingController? controler;
+  final List<TextInputFormatter>? inputformatter;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: inputformatter,
       keyboardType: keyboardType,
       obscureText: obscureText,
       cursorColor: AppColors.black,
