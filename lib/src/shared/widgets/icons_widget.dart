@@ -7,7 +7,7 @@ class IconsWidget extends StatelessWidget {
     this.iconcolor,
     this.gradient,
     required this.size,
-    required this.containerColor,
+    this.containerColor,
   }) : super(key: key);
 
   final IconData? icontype;
