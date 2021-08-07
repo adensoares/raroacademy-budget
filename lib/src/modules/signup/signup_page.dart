@@ -3,6 +3,7 @@ import 'package:budget/src/modules/signup/validator_password.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:validatorless/validatorless.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 
@@ -22,6 +23,10 @@ class _SignupPageState extends State<SignupPage> {
   final _signupKeypage2 = GlobalKey<FormState>();
   final _signupKeypage4 = GlobalKey<FormState>();
   final _passwordEC = TextEditingController();
+  final _maskformaterCPF = MaskTextInputFormatter(
+      mask: '###.###.###-##', filter: {'#': RegExp(r'[0-9]')});
+  final _maskformaterNumber = MaskTextInputFormatter(
+      mask: '(###) #####-####', filter: {'#': RegExp(r'[0-9]')});
 
   bool aceitou = false;
 
@@ -196,9 +201,10 @@ class _SignupPageState extends State<SignupPage> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     CustomTextFormField(
+                                      inputformatter: [_maskformaterNumber],
                                       labelText: "Telefone",
                                       helperText:
-                                          'telefone com ddd e 9 digitos (exemplo ddd: 071)',
+                                          'telefone com ddd (exemplo : 071)',
                                       obscureText: false,
                                       validator: Validatorless.multiple([
                                         Validatorless.max(12,
@@ -211,6 +217,7 @@ class _SignupPageState extends State<SignupPage> {
                                       ]),
                                     ),
                                     CustomTextFormField(
+                                      inputformatter: [_maskformaterCPF],
                                       labelText: "CPF",
                                       obscureText: false,
                                       validator: Validatorless.multiple([
