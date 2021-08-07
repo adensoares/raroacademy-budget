@@ -1,7 +1,7 @@
 import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
-import 'custom_dropdown_widget.dart';
+import '../shared_widgets.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
    const CustomAppbar({ Key? key, required this.text, this.gradient, required this.tabBar, required this.dropdown }) : super(key: key);
