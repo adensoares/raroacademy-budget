@@ -1,3 +1,4 @@
+import 'package:budget/src/modules/expenses/expenses_page.dart';
 import 'package:budget/src/modules/home/home_page.dart';
 import 'package:budget/src/modules/login/login_page.dart';
 import 'package:budget/src/modules/signup/signup_page.dart';
@@ -13,7 +14,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: AppColors.customMaterialPurple,
       ),
-      home: SignupPage(),
+      home: ExpensesPage(),
     );
   }
 }
