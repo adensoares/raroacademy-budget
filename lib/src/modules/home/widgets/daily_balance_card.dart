@@ -4,8 +4,13 @@ import 'package:flutter/material.dart';
 
 class DailyBalanceCard extends StatelessWidget {
   const DailyBalanceCard({
-    Key? key,
+    Key? key, required this.balance, required this.incomes, required this.expenses, required this.dropdown,
   }) : super(key: key);
+
+  final String balance;
+  final String incomes;
+  final String expenses;
+  final CustomDropdown dropdown;
 
   @override
   Widget build(BuildContext context) {
@@ -15,25 +20,8 @@ class DailyBalanceCard extends StatelessWidget {
         children: [
           ListTile(
             contentPadding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 8.0),
-            trailing: CustomDropdown(
-              initialValue: "Ago",
-              dropdownItens: [
-                "Jan",
-                "Fev",
-                "Mar",
-                "Abr",
-                "Mai",
-                "Jun",
-                "Jul",
-                "Ago",
-                "Set",
-                "Out",
-                "Nov",
-                "Dez",
-              ],
-              gradient: AppColors.splashGradient,
-            ),
-            title: Text("Saldo Geral", style: AppTextStyles.purple20w500Roboto,),
+            trailing: dropdown,
+            title: Text("Dia a dia", style: AppTextStyles.purple20w500Roboto,),
             subtitle: Text("R\$ 3.000,00", style: AppTextStyles.black24w400Roboto,),
           ),
           Padding(
