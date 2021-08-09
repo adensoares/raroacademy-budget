@@ -13,6 +13,7 @@ class AppColors {
   static const Color gray = Color.fromRGBO(0, 0, 0, 0.54);
   static const Color lightGray = Color.fromRGBO(196, 196, 196, 1);
   static const Color red = Color.fromRGBO(244, 67, 54, 1);
+  static const Color grayCardBackgorund = Color.fromRGBO(253, 253, 253, 1);
 
 // Purple in MaterialColor
   static const MaterialColor customMaterialPurple = MaterialColor(
