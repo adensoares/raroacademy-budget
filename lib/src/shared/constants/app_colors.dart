@@ -40,4 +40,18 @@ class AppColors {
       begin: Alignment.topLeft,
       end: Alignment(0.8, 0.0),
       transform: GradientRotation(345 * pi / 180));
+
+  static const headerButtonGradient = LinearGradient(
+    colors: [
+      cyan,
+      purple,
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    stops: [
+      0.0,
+      0.6,
+    ],
+    transform: GradientRotation((-305 * pi) / 180),
+  );
 }
