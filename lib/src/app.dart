@@ -17,7 +17,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: AppColors.customMaterialPurple,
       ),
-      home: ExpensesPage(),
+      home: IncomesPage(),
     );
   }
 }
