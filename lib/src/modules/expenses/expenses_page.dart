@@ -58,7 +58,9 @@ class _ExpensesPageState extends State<ExpensesPage> {
         gradient: AppColors.headerButtonGradient,
         expanded: true,
       ),
-      drawer: Drawer(),
+      drawer: CustomDrawer(
+        textHeader: "Olá, José",
+      ),
       body: Padding(
         padding: const EdgeInsets.only(
           bottom: 40.0,
