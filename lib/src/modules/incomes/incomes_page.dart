@@ -91,7 +91,7 @@ class _IncomesPageState extends State<IncomesPage> {
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: AppColors.gray),
                           ),
-                          labelText: 'Tipo de saída',
+                          labelText: 'Tipo de entrada',
                         ),
                         isExpanded: true,
                         onChanged: (value) {
