@@ -55,7 +55,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
     return Scaffold(
       appBar: SimpleAppbar(
         title: "Saída",
-        gradient: AppColors.splashGradient,
+        gradient: AppColors.headerButtonGradient,
         expanded: true,
       ),
       drawer: Drawer(),
@@ -86,54 +86,54 @@ class _ExpensesPageState extends State<ExpensesPage> {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton(
-                          isExpanded: true,
-                          underline: Container(),
-                          onChanged: (value) {
-                            setState(() {
-                              _value = value as DropDownExpensesType;
-                            });
-                          },
-                          value: _value,
-                          selectedItemBuilder: (BuildContext context) {
-                            return list
-                                .map<Widget>((DropDownExpensesType item) {
-                              return Row(
-                                children: [
-                                  Text(_value.value),
-                                ],
-                              );
-                            }).toList();
-                          },
-                          items: list
-                              .map(
-                                (e) => DropdownMenuItem(
-                                  value: e,
-                                  child: Row(
-                                    children: [
-                                      IconsWidget(
-                                        icontype: e.iconsWidget.icontype,
-                                        size: e.iconsWidget.size,
-                                        containerColor:
-                                            e.iconsWidget.containerColor,
-                                        iconcolor: e.iconsWidget.iconcolor,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: Text(
-                                          e.value,
-                                          style:
-                                              AppTextStyles.black16w400Roboto,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )
-                              .toList(),
+                      child: DropdownButtonFormField(
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: AppColors.gray),
+                          ),
+                          labelText: 'Tipo de saída',
                         ),
+                        isExpanded: true,
+                        onChanged: (value) {
+                          setState(() {
+                            _value = value as DropDownExpensesType;
+                          });
+                        },
+                        value: _value,
+                        selectedItemBuilder: (BuildContext context) {
+                          return list.map<Widget>((DropDownExpensesType item) {
+                            return Row(
+                              children: [
+                                Text(_value.value),
+                              ],
+                            );
+                          }).toList();
+                        },
+                        items: list
+                            .map(
+                              (e) => DropdownMenuItem(
+                                value: e,
+                                child: Row(
+                                  children: [
+                                    IconsWidget(
+                                      icontype: e.iconsWidget.icontype,
+                                      size: e.iconsWidget.size,
+                                      containerColor:
+                                          e.iconsWidget.containerColor,
+                                      iconcolor: e.iconsWidget.iconcolor,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Text(
+                                        e.value,
+                                        style: AppTextStyles.black16w400Roboto,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                            .toList(),
                       ),
                     ),
                     Padding(
@@ -170,7 +170,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
             Icons.add,
             color: Colors.white,
           ),
-          gradient: AppColors.splashGradient,
+          gradient: AppColors.headerButtonGradient,
           onTap: () {}),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
