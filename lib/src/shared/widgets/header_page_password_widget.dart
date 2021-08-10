@@ -5,10 +5,8 @@ class HeaderPagePasswordWidget extends StatelessWidget {
   HeaderPagePasswordWidget({
     Key? key,
     required this.text,
-    required this.text1,
   }) : super(key: key);
   final String text;
-  final String text1;
 
   @override
   Widget build(BuildContext context) {

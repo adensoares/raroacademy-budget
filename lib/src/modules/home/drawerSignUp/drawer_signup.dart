@@ -70,7 +70,7 @@ class _DrawerSignupState extends State<DrawerSignup> {
                                     Validatorless.email('email inválido'),
                                   ])),
                               CustomTextFormField(
-                                inputformatter: [maskformaterNumber],
+                                inputformatter: [_maskformaterNumber],
                                 obscureText: false,
                                 keyboardType: TextInputType.number,
                                 labelText: 'Celular',
