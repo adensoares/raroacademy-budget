@@ -18,7 +18,7 @@ class _DrawerSignupState extends State<DrawerSignup> {
   final _formkey = GlobalKey<FormState>();
   final _maskformaterCPF = MaskTextInputFormatter(
       mask: '###.###.###-##', filter: {'#': RegExp(r'[0-9]')});
-  final _maskformaterNumber = MaskTextInputFormatter(
+  final maskformaterNumber = MaskTextInputFormatter(
       mask: '(###) #####-####', filter: {'#': RegExp(r'[0-9]')});
 
   @override

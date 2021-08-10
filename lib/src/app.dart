@@ -1,5 +1,7 @@
+import 'package:budget/src/modules/expenses/expenses_page.dart';
 import 'package:budget/src/modules/home/drawerSignUp/drawer_signup.dart';
 import 'package:budget/src/modules/home/home_page.dart';
+import 'package:budget/src/modules/incomes/incomes_page.dart';
 import 'package:budget/src/modules/login/login_page.dart';
 import 'package:budget/src/modules/login/password_page.dart';
 import 'package:budget/src/modules/signup/signup_page.dart';
