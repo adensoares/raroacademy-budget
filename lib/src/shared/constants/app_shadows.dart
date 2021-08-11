@@ -1,5 +1,6 @@
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AppShadows {
   static final BoxShadow x2_y1_b5_s0_black12 = BoxShadow(
@@ -105,6 +106,13 @@ class AppShadows {
     offset: Offset(0.0, 3.0),
     blurRadius: 5.0,
     spreadRadius: -1,
+  );
+
+  static final BoxShadow x0_y_2_b12_s0_white39 = BoxShadow(
+    color: Colors.white.withOpacity(0.39),
+    offset: Offset(0.0, -2.0),
+    blurRadius: 12.0,
+    spreadRadius: 0,
   );
 
 }

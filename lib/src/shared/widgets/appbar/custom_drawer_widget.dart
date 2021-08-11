@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
-    Key? key, required this.textHeader,
+    Key? key,
+    required this.textHeader,
   }) : super(key: key);
 
   final String textHeader;
@@ -22,7 +23,7 @@ class CustomDrawer extends StatelessWidget {
                   padding: EdgeInsets.only(left: 25.0, top: 44.0),
                   height: 100,
                   decoration: BoxDecoration(
-                    gradient: AppColors.splashGradient,
+                    gradient: AppColors.headerButtonGradient,
                   ),
                   child: Text(
                     textHeader,
@@ -30,16 +31,18 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 25.0, top: 15.0),
-                  child: Text("Perfil", style: AppTextStyles.lightGray14w400Roboto,)
-                ),
+                    padding: EdgeInsets.only(left: 25.0, top: 15.0),
+                    child: Text(
+                      "Perfil",
+                      style: AppTextStyles.lightGray14w400Roboto,
+                    )),
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 25.0),
                   title: Text(
                     "Cadastro",
                     style: AppTextStyles.black16w400Roboto,
                   ),
-                  onTap: (){},
+                  onTap: () {},
                 )
               ],
             ),
@@ -49,11 +52,12 @@ class CustomDrawer extends StatelessWidget {
             title: const Text(
               'Sair',
               textAlign: TextAlign.center,
-              style: AppTextStyles.purple16w400Roboto,),
+              style: AppTextStyles.purple16w400Roboto,
+            ),
             onTap: () {
               Navigator.pop(context);
             },
-          ),  
+          ),
         ],
       ),
     );
