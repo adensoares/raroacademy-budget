@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "407455368077",
+    "project_id": "raro-budget-academy",
+    "storage_bucket": "raro-budget-academy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:407455368077:android:b9126c887709cb6a6733c4",
+        "android_client_info": {
+          "package_name": "com.example.budget"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "407455368077-t2lee0fd3e5h6vnblitqf3cc09795iu1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.budget",
+            "certificate_hash": "f43ffe78e593c715ba3368f1414eb51e9e9c88b6"
+          }
+        },
+        {
+          "client_id": "407455368077-4raiddr9483e78jofu77vt7oachesr5i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqoY7s9MfNMRMTu5dwAHXKVAhxRxrRA6Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "407455368077-4raiddr9483e78jofu77vt7oachesr5i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
