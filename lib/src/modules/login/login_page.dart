@@ -1,10 +1,13 @@
 import 'package:budget/src/modules/login/buttons/facebook/button_facebook_widget.dart';
 import 'package:budget/src/modules/login/buttons/google/button_google_widget.dart';
+import 'package:budget/src/modules/login/login_repository.dart';
+import 'package:budget/src/modules/login/password_page.dart';
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:budget/src/shared/widgets/button_widget.dart';
 import 'package:budget/src/shared/widgets/custom_text_form_field_widget.dart';
 import 'package:budget/src/shared/widgets/header_page_login_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:validatorless/validatorless.dart';
 
@@ -17,7 +20,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formloginkey = GlobalKey<FormState>();
-  final emailEC = TextEditingController();
+  final _emailEC = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             CustomTextFormField(
                               obscureText: false,
-                              controler: emailEC,
+                              controler: _emailEC,
                               validator: Validatorless.multiple([
                                 Validatorless.email('email inválido'),
                                 Validatorless.required('campo requerido!')
@@ -80,13 +83,26 @@ class _LoginPageState extends State<LoginPage> {
                                       style: AppTextStyles.gray16w400Roboto,
                                     ),
                                   ),
-                                  onTap: () {
+                                  onTap: () async {
                                     var formvalid = _formloginkey.currentState
                                             ?.validate() ??
                                         false;
                                     if (formvalid) {
-                                      // * chamar a controler para tratar os dados
+                                      final loginExisteNoFirebase =
+                                          await LoginRepository(email: _emailEC)
+                                              .emailExiste();
 
+                                      if (loginExisteNoFirebase! != true) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content:
+                                                    Text('Login não existe!')));
+                                      } else
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    PasswordPage()));
                                     }
                                   },
                                 )),
