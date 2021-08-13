@@ -1,5 +1,7 @@
+import 'package:budget/src/modules/login/login_page.dart';
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -54,8 +56,10 @@ class CustomDrawer extends StatelessWidget {
               textAlign: TextAlign.center,
               style: AppTextStyles.purple16w400Roboto,
             ),
-            onTap: () {
-              Navigator.pop(context);
+            onTap: () async {
+              await FirebaseAuth.instance.signOut().then((value) =>
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => LoginPage())));
             },
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:budget/src/modules/login/login_page.dart';
+import 'package:budget/src/modules/signup/signup_repository.dart';
 import 'package:budget/src/modules/signup/validator_password.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
@@ -22,13 +23,28 @@ class _SignupPageState extends State<SignupPage> {
   final _signupKeypage1 = GlobalKey<FormState>();
   final _signupKeypage2 = GlobalKey<FormState>();
   final _signupKeypage4 = GlobalKey<FormState>();
-  final _passwordEC = TextEditingController();
+  TextEditingController _emailEC = TextEditingController();
+  TextEditingController _passwordEC = TextEditingController();
+  TextEditingController _nameEC = TextEditingController();
+  TextEditingController _cpfEC = TextEditingController();
+  TextEditingController _numberEC = TextEditingController();
+
   final _maskformaterCPF = MaskTextInputFormatter(
       mask: '###.###.###-##', filter: {'#': RegExp(r'[0-9]')});
   final _maskformaterNumber = MaskTextInputFormatter(
       mask: '(###) #####-####', filter: {'#': RegExp(r'[0-9]')});
 
   bool aceitou = false;
+
+  @override
+  void dispose() {
+    _emailEC = TextEditingController();
+    _passwordEC = TextEditingController();
+    _nameEC = TextEditingController();
+    _cpfEC = TextEditingController();
+    _numberEC = TextEditingController();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,12 +100,14 @@ class _SignupPageState extends State<SignupPage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   CustomTextFormField(
+                                    controler: _nameEC,
                                     labelText: "Nome",
                                     obscureText: false,
                                     validator: Validatorless.required(
                                         'campo obrigatório!'),
                                   ),
                                   CustomTextFormField(
+                                    controler: _emailEC,
                                     labelText: "E-mail",
                                     obscureText: false,
                                     validator: Validatorless.multiple([
@@ -119,7 +137,7 @@ class _SignupPageState extends State<SignupPage> {
                               style: AppTextStyles.gray16w400Roboto,
                             ),
                             onTap: () {
-                              Navigator.of(context).push(
+                              Navigator.of(context).pop(
                                 MaterialPageRoute(
                                   builder: (BuildContext context) =>
                                       LoginPage(),
@@ -143,11 +161,20 @@ class _SignupPageState extends State<SignupPage> {
                               Icons.arrow_forward,
                               color: Colors.white,
                             ),
-                            onTap: () {
+                            onTap: () async {
                               if (_signupKeypage1.currentState!.validate()) {
-                                pageController.nextPage(
-                                    duration: Duration(milliseconds: 1000),
-                                    curve: Curves.ease);
+                                final emailJacCadastrado =
+                                    await SignupRepository(email: _emailEC)
+                                        .emailJacadastrado();
+                                if (emailJacCadastrado != true) {
+                                  pageController.nextPage(
+                                      duration: Duration(milliseconds: 1000),
+                                      curve: Curves.ease);
+                                } else
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Email ja existe! tente outro!')));
                               }
                             },
                           ),
@@ -201,7 +228,9 @@ class _SignupPageState extends State<SignupPage> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     CustomTextFormField(
+                                      controler: _numberEC,
                                       inputformatter: [_maskformaterNumber],
+                                      keyboardType: TextInputType.number,
                                       labelText: "Telefone",
                                       helperText:
                                           'telefone com ddd (exemplo : 071)',
@@ -217,6 +246,8 @@ class _SignupPageState extends State<SignupPage> {
                                       ]),
                                     ),
                                     CustomTextFormField(
+                                      controler: _cpfEC,
+                                      keyboardType: TextInputType.number,
                                       inputformatter: [_maskformaterCPF],
                                       labelText: "CPF",
                                       obscureText: false,
@@ -598,13 +629,24 @@ class _SignupPageState extends State<SignupPage> {
                                 "VAMOS LÁ!",
                                 style: AppTextStyles.white14w500Roboto,
                               ),
-                              onTap: () {
+                              onTap: () async {
+                                await SignupRepository(
+                                  number: _numberEC,
+                                  cpf: _cpfEC,
+                                  email: _emailEC,
+                                  password: _passwordEC,
+                                  name: _nameEC,
+                                ).registrar();
+
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
                                         LoginPage(),
                                   ),
                                 );
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    content: Text(
+                                        'Parabens ${_nameEC.text}, cadastro feito com sucesso!')));
                               },
                             ),
                           ),

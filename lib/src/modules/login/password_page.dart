@@ -1,3 +1,5 @@
+import 'package:budget/src/modules/home/home_page.dart';
+import 'package:budget/src/modules/login/login_repository.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:budget/src/shared/widgets/button_widget.dart';
 import 'package:budget/src/shared/widgets/custom_text_form_field_widget.dart';
@@ -15,8 +17,8 @@ class PasswordPage extends StatefulWidget {
 
 class _PasswordPageState extends State<PasswordPage> {
   final _formloginWithPasswordkey = GlobalKey<FormState>();
-  final emailEC = TextEditingController();
-  final passwordEC = TextEditingController();
+  final _emailEC = TextEditingController();
+  final _passwordEC = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,7 @@ class _PasswordPageState extends State<PasswordPage> {
                           children: [
                             CustomTextFormField(
                               obscureText: false,
-                              controler: emailEC,
+                              controler: _emailEC,
                               keyboardType: TextInputType.emailAddress,
                               validator: Validatorless.multiple([
                                 Validatorless.email('email inválido'),
@@ -64,7 +66,7 @@ class _PasswordPageState extends State<PasswordPage> {
                             ),
                             CustomTextFormField(
                               obscureText: true,
-                              controler: passwordEC,
+                              controler: _passwordEC,
                               validator:
                                   Validatorless.required('campo obrigatório'),
                               labelText: 'Senha',
@@ -96,14 +98,30 @@ class _PasswordPageState extends State<PasswordPage> {
                                       style: AppTextStyles.gray16w400Roboto,
                                     ),
                                   ),
-                                  onTap: () {
+                                  onTap: () async {
                                     var formvalid = _formloginWithPasswordkey
                                             .currentState
                                             ?.validate() ??
                                         false;
                                     if (formvalid) {
-                                      // * chamar a controler para tratar os dados
-
+                                      final senhaExisteNoFirebase =
+                                          await LoginRepository(
+                                                  password: _passwordEC)
+                                              .senhaExiste();
+                                      if (senhaExisteNoFirebase != true) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content:
+                                                    Text('Senha incorreta!')));
+                                      } else
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content: Text(
+                                                    'Login feito com sucesso!')));
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => HomePage()));
                                     }
                                   },
                                 ),
