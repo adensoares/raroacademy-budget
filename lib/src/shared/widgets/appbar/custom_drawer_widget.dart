@@ -1,8 +1,9 @@
-import 'package:budget/src/modules/login/login_page.dart';
+import 'package:budget/src/modules/login/login/login_page.dart';
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -44,7 +45,9 @@ class CustomDrawer extends StatelessWidget {
                     "Cadastro",
                     style: AppTextStyles.black16w400Roboto,
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Modular.to.navigate("drawerSignup");
+                  },
                 )
               ],
             ),
@@ -57,9 +60,9 @@ class CustomDrawer extends StatelessWidget {
               style: AppTextStyles.purple16w400Roboto,
             ),
             onTap: () async {
-              await FirebaseAuth.instance.signOut().then((value) =>
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (_) => LoginPage())));
+              await FirebaseAuth.instance
+                  .signOut()
+                  .then((value) => Modular.to.navigate("/login"));
             },
           ),
         ],
