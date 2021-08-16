@@ -1,7 +1,7 @@
 import 'package:budget/src/modules/home/balance/balance_incomes/balance_incomes_repository.dart';
 import 'package:budget/src/shared/models/transaction_model.dart';
 
-enum AppStatus{empy, loading, succes, error}
+enum AppStatus{empy, loading, success, error}
 
 class BalanceIncomesController {
 
@@ -13,10 +13,10 @@ class BalanceIncomesController {
     try{
       state = AppStatus.loading;
       incomesTransactions = await repository.getIncomes();
+      state = AppStatus.success;
     }
     catch(e){
       state = AppStatus.error;
     }
   }
-
 }

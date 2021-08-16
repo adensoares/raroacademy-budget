@@ -8,14 +8,18 @@ class BalanceIncomesRepository {
     try {
       final response = await FirebaseFirestore.instance
           .collection('/transactions')
-          .where('userId', isEqualTo: "")
-          .get() as List;
+          .where("userId", isEqualTo: "auShXOUMllSyz77ogasa")
+          .where("transactionType", isEqualTo: "in")
+          .get();          
 
-      List<TransactionModel> listTransactions =  response.map((e) => TransactionModel.fromJson(e)).toList();
+      print(response.docs.length);
+
+      List<TransactionModel> listTransactions =  response.docs.map((e) => TransactionModel.fromMap(e.data())).toList();
+      print(listTransactions);
       return listTransactions;
-    } on FirebaseAuthException catch (e) {
-      print('erro com o login codigo : ${e.code}');
-      throw e.message ?? 'Não foi possível recuperar as transações';
+    }on FirebaseAuthException catch (e) {
+      print('Erro no servidor: ${e.code}');
+      throw e.message ?? 'Não foi possível recuperar os dados do servdor. Erro ${e.code}';
     }
   }
 }

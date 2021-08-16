@@ -1,14 +1,18 @@
-class Transaction {
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class TransactionModel {
 
   String userId;
   int price;
-  DateTime date;
+  Timestamp date;
   String transactionName;
   String? transactionDescription;
   String transactionType;
   String transactionCategory;
 
-  Transaction({
+  TransactionModel({
     required this.userId,
     required this.price,
     required this.date,
@@ -28,7 +32,7 @@ class Transaction {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
   
-    return other is Transaction &&
+    return other is TransactionModel &&
       other.userId == userId &&
       other.price == price &&
       other.date == date &&
@@ -48,4 +52,52 @@ class Transaction {
       transactionType.hashCode ^
       transactionCategory.hashCode;
   }
+
+  TransactionModel copyWith({
+    String? userId,
+    int? price,
+    Timestamp? date,
+    String? transactionName,
+    String? transactionDescription,
+    String? transactionType,
+    String? transactionCategory,
+  }) {
+    return TransactionModel(
+      userId: userId ?? this.userId,
+      price: price ?? this.price,
+      date: date ?? this.date,
+      transactionName: transactionName ?? this.transactionName,
+      transactionDescription: transactionDescription ?? this.transactionDescription,
+      transactionType: transactionType ?? this.transactionType,
+      transactionCategory: transactionCategory ?? this.transactionCategory,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'userId': userId,
+      'price': price,
+      'date': date.millisecondsSinceEpoch,
+      'transactionName': transactionName,
+      'transactionDescription': transactionDescription,
+      'transactionType': transactionType,
+      'transactionCategory': transactionCategory,
+    };
+  }
+
+  factory TransactionModel.fromMap(Map<String, dynamic> map) {
+    return TransactionModel(
+      userId: map['userId'],
+      price: map['price'],
+      date: map['date'],
+      transactionName: map['transactionName'],
+      transactionDescription: map['transactionDescription'],
+      transactionType: map['transactionType'],
+      transactionCategory: map['transactionCategory'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory TransactionModel.fromJson(String source) => TransactionModel.fromMap(json.decode(source));
 }
