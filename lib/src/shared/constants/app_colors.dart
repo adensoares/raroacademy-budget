@@ -54,4 +54,18 @@ class AppColors {
     ],
     transform: GradientRotation((-305 * pi) / 180),
   );
+
+  static const circleButtonGradient = LinearGradient(
+    colors: [
+      cyan,
+      purple,
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    stops: [
+      0.0,
+      0.6,
+    ],
+    transform: GradientRotation((305 * pi) / 180),
+  );
 }

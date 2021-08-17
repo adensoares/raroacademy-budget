@@ -1,11 +1,12 @@
 import 'package:budget/src/modules/home/home_page.dart';
-import 'package:budget/src/modules/login/login_repository.dart';
+import 'package:budget/src/modules/login/login/login_repository.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:budget/src/shared/widgets/button_widget.dart';
 import 'package:budget/src/shared/widgets/custom_text_form_field_widget.dart';
 import 'package:budget/src/shared/widgets/header_page_login_widget.dart';
 import 'package:budget/src/shared/widgets/header_page_password_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:validatorless/validatorless.dart';
 
 class PasswordPage extends StatefulWidget {
@@ -86,7 +87,7 @@ class _PasswordPageState extends State<PasswordPage> {
                                 ),
                                 ButtonWidget(
                                   color: Colors.grey,
-                                  borderRadius: 10,
+                                  borderRadius: 50,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         top: 10,
@@ -110,18 +111,20 @@ class _PasswordPageState extends State<PasswordPage> {
                                               .senhaExiste();
                                       if (senhaExisteNoFirebase != true) {
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content:
-                                                    Text('Senha incorreta!')));
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text('Senha incorreta!'),
+                                          ),
+                                        );
                                       } else
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content: Text(
-                                                    'Login feito com sucesso!')));
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => HomePage()));
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                'Login feito com sucesso!'),
+                                          ),
+                                        );
+                                      Modular.to.navigate("/home");
                                     }
                                   },
                                 ),

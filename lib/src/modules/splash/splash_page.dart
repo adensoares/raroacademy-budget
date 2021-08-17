@@ -1,9 +1,7 @@
 import 'package:animated_card/animated_card.dart';
-import 'package:budget/src/modules/home/home_page.dart';
-import 'package:budget/src/modules/login/login_page.dart';
-import 'package:budget/src/modules/signup/signup_page.dart';
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class SplashPage extends StatefulWidget {
   SplashPage({Key? key}) : super(key: key);
@@ -16,11 +14,9 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((timeStamp) {
-      Future.delayed(Duration(seconds: 3)).then((value) =>
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => LoginPage())));
+      Future.delayed(Duration(seconds: 3)).then(
+        (value) => Modular.to.navigate("/login"),
+      );
     });
     super.initState();
   }

@@ -1,9 +1,10 @@
-import 'package:budget/src/modules/login/login_page.dart';
+import 'package:budget/src/modules/login/login/login_page.dart';
+import 'package:budget/src/modules/login/signup/validator_password.dart';
 import 'package:budget/src/modules/signup/signup_repository.dart';
-import 'package:budget/src/modules/signup/validator_password.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:validatorless/validatorless.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
@@ -137,12 +138,7 @@ class _SignupPageState extends State<SignupPage> {
                               style: AppTextStyles.gray16w400Roboto,
                             ),
                             onTap: () {
-                              Navigator.of(context).pop(
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      LoginPage(),
-                                ),
-                              );
+                              Modular.to.navigate("/login");
                             },
                             prefixIcon: Icon(
                               Icons.arrow_back,
@@ -154,7 +150,7 @@ class _SignupPageState extends State<SignupPage> {
                             borderRadius: 20.0,
                             height: 35,
                             width: 120,
-                            gradient: AppColors.splashGradient,
+                            gradient: AppColors.headerButtonGradient,
                             child: Text("Continuar",
                                 style: AppTextStyles.white14w500Roboto),
                             posfixIcon: Icon(
@@ -294,7 +290,7 @@ class _SignupPageState extends State<SignupPage> {
                               borderRadius: 20.0,
                               height: 35,
                               width: 120,
-                              gradient: AppColors.splashGradient,
+                              gradient: AppColors.headerButtonGradient,
                               child: Text("Continuar",
                                   style: AppTextStyles.white14w500Roboto),
                               posfixIcon: Icon(
@@ -417,7 +413,7 @@ class _SignupPageState extends State<SignupPage> {
                             borderRadius: 20.0,
                             height: 35,
                             width: 120,
-                            gradient: AppColors.splashGradient,
+                            gradient: AppColors.headerButtonGradient,
                             child: Text("Continuar",
                                 style: AppTextStyles.white14w500Roboto),
                             posfixIcon: Icon(
@@ -558,7 +554,7 @@ class _SignupPageState extends State<SignupPage> {
                             borderRadius: 20.0,
                             height: 35,
                             width: 120,
-                            gradient: AppColors.splashGradient,
+                            gradient: AppColors.headerButtonGradient,
                             child: Text("Continuar",
                                 style: AppTextStyles.white14w500Roboto),
                             posfixIcon: Icon(
@@ -637,16 +633,13 @@ class _SignupPageState extends State<SignupPage> {
                                   password: _passwordEC,
                                   name: _nameEC,
                                 ).registrar();
-
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        LoginPage(),
+                                Modular.to.navigate("/login");
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        'Parabens ${_nameEC.text}, cadastro feito com sucesso!'),
                                   ),
                                 );
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: Text(
-                                        'Parabens ${_nameEC.text}, cadastro feito com sucesso!')));
                               },
                             ),
                           ),
