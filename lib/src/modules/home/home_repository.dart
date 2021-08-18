@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class HomeRepository {
 
@@ -16,9 +19,9 @@ class HomeRepository {
       print(generalBalance);
       return (generalBalance.toDouble()).reais();
 
-    }on FirebaseException catch (e) {
-      print('Erro no servidor: ${e.code}');
-      throw e.message ?? 'Não foi possível recuperar os dados do servdor. Erro ${e.code}';
+    } catch (e) {
+      print('Erro no servidor: $e');
+      throw Exception("Erro de conexão");
     }
   }
 
@@ -31,14 +34,33 @@ class HomeRepository {
       .doc("auShXOUMllSyz77ogasa")
       .get();
 
+      print((response.data()!["nameMonths"]).runtimeType);
+
       print(response.data()!["nameMonths"]);
-      months = (response.data()!["nameMonths"]) as List<String>;
+      months = (response.data()!["nameMonths"]).cast<String>();
       print(months);
       return months;
 
-    }on FirebaseException catch (e) {
-      print('Erro no servidor: ${e.code}');
-      throw e.message ?? 'Não foi possível recuperar os dados do servdor. Erro ${e.code}';
+    }catch (e) {
+      print('Erro no servidor: $e');
+      throw Exception("Erro de conexão");
+    }
+  }
+
+  Future<void> getMonthlyBalance(String month) async {
+    try {
+      final response = await FirebaseFirestore.instance
+      .collection("/balances")
+      .doc("auShXOUMllSyz77ogasa")
+      .get();
+
+      Map<String, dynamic> data = response.data()!["months"][month];
+      //json.decode()
+      print(response.data()!["months"]);
+
+    }catch (e) {
+      print('Erro no servidor: $e');
+      throw Exception("Erro de conexão");
     }
   }
 

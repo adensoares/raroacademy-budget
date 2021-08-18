@@ -43,4 +43,17 @@ abstract class _HomeControllerBase with Store {
       state = AppStatus.error;
     }
   }
+
+  @action
+  Future<void> getMonthlyBalance() async {
+    try {
+      state = AppStatus.loading;
+      await repository.getMonthlyBalance("Agosto");
+      state = AppStatus.success;
+    }
+    catch(e) {
+      print(e);
+      state = AppStatus.error;
+    }
+  }
 }

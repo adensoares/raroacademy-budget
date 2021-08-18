@@ -21,9 +21,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    super.initState();
     controller.getGeneralBalance();
     controller.getMonths();
-    super.initState();
+    controller.getMonthlyBalance();
   }
   @override
   Widget build(BuildContext context) {
@@ -65,8 +66,16 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         }else {
-          return Center(
-            child: Text("Erro!"),
+          return Column(
+            children: [
+              Text("Erro na conexão", style: AppTextStyles.cyan48w400Roboto,),
+              ButtonWidget(
+                borderRadius: 34.0,
+                child: Text("TENTAR NOVAMENTE", style: AppTextStyles.white14w500Roboto,),
+                onTap: (){
+                }
+              )
+            ],
           );
         }
       }
