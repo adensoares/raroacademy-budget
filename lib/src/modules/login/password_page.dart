@@ -1,10 +1,12 @@
 import 'package:budget/src/modules/home/home_page.dart';
+import 'package:budget/src/modules/login/login_page.dart';
 import 'package:budget/src/modules/login/login_repository.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:budget/src/shared/widgets/button_widget.dart';
 import 'package:budget/src/shared/widgets/custom_text_form_field_widget.dart';
 import 'package:budget/src/shared/widgets/header_page_login_widget.dart';
 import 'package:budget/src/shared/widgets/header_page_password_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:validatorless/validatorless.dart';
 
@@ -19,6 +21,7 @@ class _PasswordPageState extends State<PasswordPage> {
   final _formloginWithPasswordkey = GlobalKey<FormState>();
   final _emailEC = TextEditingController();
   final _passwordEC = TextEditingController();
+  LoginPage loginpage = LoginPage();
 
   @override
   Widget build(BuildContext context) {
@@ -99,29 +102,44 @@ class _PasswordPageState extends State<PasswordPage> {
                                     ),
                                   ),
                                   onTap: () async {
-                                    var formvalid = _formloginWithPasswordkey
-                                            .currentState
-                                            ?.validate() ??
-                                        false;
-                                    if (formvalid) {
-                                      final senhaExisteNoFirebase =
-                                          await LoginRepository(
-                                                  password: _passwordEC)
-                                              .senhaExiste();
-                                      if (senhaExisteNoFirebase != true) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content:
-                                                    Text('Senha incorreta!')));
-                                      } else
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content: Text(
-                                                    'Login feito com sucesso!')));
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => HomePage()));
+                                    try {
+                                      var formvalid = _formloginWithPasswordkey
+                                              .currentState
+                                              ?.validate() ??
+                                          false;
+                                      if (formvalid) {
+                                        final loginExisteNoFirebase =
+                                            await LoginRepository(
+                                                    email: _emailEC)
+                                                .emailExiste();
+                                        final senhaExisteNoFirebase =
+                                            await LoginRepository(
+                                                    password: _passwordEC)
+                                                .senhaExiste();
+                                        if (senhaExisteNoFirebase != true) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'senha incorreta!')));
+                                        } else if (loginExisteNoFirebase !=
+                                            true) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'Email incorreto!')));
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'Parabens ! Login feito com sucesso!')));
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) => HomePage()));
+                                        }
+                                      }
+                                    } catch (e) {
+                                      Center(child: Text('deu erro'));
                                     }
                                   },
                                 ),

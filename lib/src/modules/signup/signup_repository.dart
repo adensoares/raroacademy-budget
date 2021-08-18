@@ -43,6 +43,7 @@ class SignupRepository {
               email: email!.text, password: password!.text);
       final user = response.user;
       await FirebaseFirestore.instance.collection('/users').doc(user!.uid).set({
+        'Uid': user.uid,
         'email': email!.text,
         'cpf': cpf!.text,
         'phone-number': number!.text,

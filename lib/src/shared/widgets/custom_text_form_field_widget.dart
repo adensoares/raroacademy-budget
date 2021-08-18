@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -12,12 +12,13 @@ class CustomTextFormField extends StatelessWidget {
     this.helperText,
     this.keyboardType,
     this.suffixIcon,
+    required this.obscureText,
     this.border,
     this.onTap,
     this.validator,
     this.controler,
-    required this.obscureText,
     this.inputformatter,
+    this.initialValue,
   }) : super(key: key);
 
   final String? hintText;
@@ -31,10 +32,12 @@ class CustomTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextEditingController? controler;
   final List<MaskTextInputFormatter>? inputformatter;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
       keyboardType: keyboardType,
       obscureText: obscureText,
       cursorColor: AppColors.black,

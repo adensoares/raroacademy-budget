@@ -1,8 +1,10 @@
+import 'package:budget/src/modules/login/buttons/google/button_google_repository.dart';
 import 'package:budget/src/modules/login/login_page.dart';
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
@@ -57,9 +59,12 @@ class CustomDrawer extends StatelessWidget {
               style: AppTextStyles.purple16w400Roboto,
             ),
             onTap: () async {
+              await GoogleSignIn().signOut();
               await FirebaseAuth.instance.signOut().then((value) =>
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (_) => LoginPage())));
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (_) => LoginPage()),
+                      (route) => false));
             },
           ),
         ],

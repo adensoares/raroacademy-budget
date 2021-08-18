@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:budget/src/modules/login/buttons/google/button_google_repository.dart';
+
 class ButtonGoogleWidget extends StatelessWidget {
-  ButtonGoogleWidget({Key? key}) : super(key: key);
+  ButtonGoogleWidget({
+    Key? key,
+    required this.onpressed,
+  }) : super(key: key);
+  final Future Function() onpressed;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +18,7 @@ class ButtonGoogleWidget extends StatelessWidget {
           primary: Colors.white,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0))),
-      onPressed: () {},
+      onPressed: onpressed,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

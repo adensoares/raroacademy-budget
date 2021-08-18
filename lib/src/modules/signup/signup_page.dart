@@ -3,6 +3,7 @@ import 'package:budget/src/modules/signup/signup_repository.dart';
 import 'package:budget/src/modules/signup/validator_password.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:validatorless/validatorless.dart';
@@ -630,20 +631,26 @@ class _SignupPageState extends State<SignupPage> {
                                 style: AppTextStyles.white14w500Roboto,
                               ),
                               onTap: () async {
-                                await SignupRepository(
-                                  number: _numberEC,
-                                  cpf: _cpfEC,
-                                  email: _emailEC,
-                                  password: _passwordEC,
-                                  name: _nameEC,
-                                ).registrar();
+                                try {
+                                  await SignupRepository(
+                                    number: _numberEC,
+                                    cpf: _cpfEC,
+                                    email: _emailEC,
+                                    password: _passwordEC,
+                                    name: _nameEC,
+                                  ).registrar();
 
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        LoginPage(),
-                                  ),
-                                );
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                          builder: (_) => LoginPage()),
+                                      (route) => false);
+                                } on FirebaseAuthException catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Ocorreu um erro de nome : ${e.message}, tente novamente!')));
+                                }
+
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                     content: Text(
                                         'Parabens ${_nameEC.text}, cadastro feito com sucesso!')));

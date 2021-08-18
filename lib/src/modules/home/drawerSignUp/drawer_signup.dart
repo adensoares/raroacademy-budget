@@ -1,3 +1,4 @@
+import 'package:budget/src/modules/home/drawerSignUp/drawer_signup_repository.dart';
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/appbar/simple_appbar_widget.dart';
@@ -20,6 +21,11 @@ class _DrawerSignupState extends State<DrawerSignup> {
       mask: '###.###.###-##', filter: {'#': RegExp(r'[0-9]')});
   final _maskformaterNumber = MaskTextInputFormatter(
       mask: '(###) #####-####', filter: {'#': RegExp(r'[0-9]')});
+
+  TextEditingController _emailSub = TextEditingController();
+  TextEditingController _nameSub = TextEditingController();
+  TextEditingController _phoneSub = TextEditingController();
+  TextEditingController _cpfSub = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +57,13 @@ class _DrawerSignupState extends State<DrawerSignup> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               CustomTextFormField(
+                                controler: _nameSub,
                                 obscureText: false,
                                 keyboardType: TextInputType.name,
                                 labelText: 'Nome',
                               ),
                               CustomTextFormField(
+                                controler: _cpfSub,
                                 inputformatter: [_maskformaterCPF],
                                 obscureText: false,
                                 keyboardType: TextInputType.number,
@@ -63,6 +71,7 @@ class _DrawerSignupState extends State<DrawerSignup> {
                                 validator: Validatorless.cpf('Valor inválido'),
                               ),
                               CustomTextFormField(
+                                  controler: _emailSub,
                                   obscureText: false,
                                   keyboardType: TextInputType.emailAddress,
                                   labelText: 'E-mail',
@@ -70,6 +79,7 @@ class _DrawerSignupState extends State<DrawerSignup> {
                                     Validatorless.email('email inválido'),
                                   ])),
                               CustomTextFormField(
+                                controler: _phoneSub,
                                 inputformatter: [_maskformaterNumber],
                                 obscureText: false,
                                 keyboardType: TextInputType.number,
@@ -90,9 +100,29 @@ class _DrawerSignupState extends State<DrawerSignup> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          if (_formkey.currentState!.validate()) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('alterações feitas com sucesso!')));
+          final bool formkey = _formkey.currentState!.validate();
+          if (formkey) {
+            try {
+              DrawerSignupRepository(
+                      emailSub: _emailSub,
+                      nameSub: _nameSub,
+                      phoneSub: _phoneSub,
+                      cpfSub: _cpfSub,
+                      messsage: ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text('Alterações feitas com sucesso'))),
+                      messsageError: ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content:
+                                  Text(('ocorreu um erro ! tente novamente')))))
+                  .updateUser();
+            } catch (e) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text('ocorreu um erro! $e')));
+            }
+
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //     SnackBar(content: Text('alterações feitas com sucesso!')));
           }
         },
         label: Text('SALVAR ALTERAÇÕES'),
