@@ -100,29 +100,29 @@ class _DrawerSignupState extends State<DrawerSignup> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          final bool formkey = _formkey.currentState!.validate();
-          if (formkey) {
+          String? nome = _nameSub.text;
+          String? phone = _phoneSub.text;
+          String? email = _emailSub.text;
+          String? cpf = _cpfSub.text;
+
+          if ((nome.isNotEmpty ||
+              phone.isNotEmpty ||
+              email.isNotEmpty ||
+              cpf.isNotEmpty)) {
             try {
               DrawerSignupRepository(
-                      emailSub: _emailSub,
-                      nameSub: _nameSub,
-                      phoneSub: _phoneSub,
-                      cpfSub: _cpfSub,
-                      messsage: ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text('Alterações feitas com sucesso'))),
-                      messsageError: ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content:
-                                  Text(('ocorreu um erro ! tente novamente')))))
-                  .updateUser();
+                emailSub: _emailSub,
+                nameSub: _nameSub,
+                phoneSub: _phoneSub,
+                cpfSub: _cpfSub,
+              ).updateUser();
             } catch (e) {
               ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text('ocorreu um erro! $e')));
+                  .showSnackBar(SnackBar(content: Text('erro :  $e')));
             }
-
-            // ScaffoldMessenger.of(context).showSnackBar(
-            //     SnackBar(content: Text('alterações feitas com sucesso!')));
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Nenhum campo foi modificado!')));
           }
         },
         label: Text('SALVAR ALTERAÇÕES'),

@@ -1,6 +1,7 @@
 import 'package:budget/src/modules/home/home_page.dart';
 
 import 'package:budget/src/modules/login/buttons/facebook/button_facebook_widget.dart';
+import 'package:budget/src/modules/login/buttons/facebook/facebook_repository.dart';
 import 'package:budget/src/modules/login/buttons/google/button_google_repository.dart';
 import 'package:budget/src/modules/login/buttons/google/button_google_widget.dart';
 import 'package:budget/src/modules/login/login_repository.dart';
@@ -157,7 +158,10 @@ class _LoginPageState extends State<LoginPage> {
                                     ],
                                   ));
                         }),
-                        ButtonFacebookWidget(),
+                        ButtonFacebookWidget(
+                          onpressed: () =>
+                              FacebookRepository().signInWithFacebook(),
+                        ),
                       ],
                     ),
                   ],
