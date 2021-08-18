@@ -36,18 +36,16 @@ dependencies:
   cloud_firestore: ^2.4.0
   firebase_core: "^1.4.0"
   firebase_auth: ^3.0.1
+  flutter_facebook_auth: "^3.5.0"  
   google_sign_in: ^5.0.7
-  flutter_facebook_auth: ^3.5.0
-  
+  mobx: ^2.0.4
+  flutter_mobx: ^2.0.2
 
-  
-
-  
-  
-  
   
 
 dev_dependencies:
+  build_runner: ^2.1.1
+  mobx_codegen: ^2.0.2
   flutter_test:
     sdk: flutter
 

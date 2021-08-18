@@ -1,9 +1,11 @@
+import 'package:budget/src/modules/home/home_controller.dart';
 import 'package:budget/src/modules/home/widgets/daily_balance_card.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'widgets/general_balance_card_widget.dart';
 import 'widgets/last_transactions_card_widget.dart';
@@ -16,6 +18,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  HomeController controller = HomeController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.getGeneralBalance();
+    controller.getMonths();
+    controller.getMonthlyBalance();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

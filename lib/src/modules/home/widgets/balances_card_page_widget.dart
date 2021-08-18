@@ -1,11 +1,17 @@
-import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:flutter/material.dart';
 
+import 'package:budget/src/shared/constants/shared_constants.dart';
+import 'package:budget/src/shared/models/transaction_model.dart';
+
 class BalancesCardPage extends StatelessWidget {
+
   const BalancesCardPage({
     Key? key,
+    required this.transactions,
   }) : super(key: key);
 
+  final List<TransactionModel> transactions;
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -15,12 +21,14 @@ class BalancesCardPage extends StatelessWidget {
         child: Column(
           children: [
             Flexible(
-              child: ListView(
+              child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 //physics: NeverScrollableScrollPhysics(),
                 //shrinkWrap: true,
-                children: [
-                  ListTile(
+                itemCount: transactions.length,
+                
+                itemBuilder: (context, index){
+                  return ListTile(
                     leading: Container(
                       width: 40,
                       height: 40,
@@ -29,46 +37,9 @@ class BalancesCardPage extends StatelessWidget {
                         shape: BoxShape.circle
                       ),
                     ),
-                    title: Text("Teste1"),
-                  ),
-                  ListTile(
-                    title: Text("Teste2"),
-                  ),
-                  ListTile(
-                    title: Text("Teste3"),
-                  ),
-                  ListTile(
-                    title: Text("Teste4"),
-                  ),
-                  ListTile(
-                    title: Text("Teste5"),
-                  ),
-                  ListTile(
-                    title: Text("Teste6"),
-                  ),
-                  ListTile(
-                    title: Text("Teste7"),
-                  ),
-                  ListTile(
-                    title: Text("Teste8"),
-                  ),
-                  ListTile(
-                    title: Text("Teste8"),
-                  ),
-                   ListTile(
-                    title: Text("Teste8"),
-                  ),
-                   ListTile(
-                    title: Text("Teste8"),
-                  ),
-                   ListTile(
-                    title: Text("Teste8"),
-                  ),
-                   ListTile(
-                    title: Text("Teste8"),
-                  ),
-                  
-                ],
+                    title: Text(transactions[index].transactionName),
+                  );
+                },
               ),
             ),
             Divider(),

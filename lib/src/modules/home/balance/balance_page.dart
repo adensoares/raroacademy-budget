@@ -1,7 +1,7 @@
-import 'package:budget/src/modules/home/balance/balance_expenses/balance_expenses_page.dart';
-import 'package:budget/src/modules/home/balance/balance_incomes/balance_incomes_page.dart';
-import 'package:budget/src/modules/home/balance/balance_total/balance_total_page.dart';
-import 'package:budget/src/modules/home/widgets/balances_card_page_widget.dart';
+import 'package:budget/src/modules/home/balance/balance_controller.dart';
+import 'package:budget/src/modules/home/balance/pages/balance_expenses_page.dart';
+import 'package:budget/src/modules/home/balance/pages/balance_incomes_page.dart';
+import 'package:budget/src/modules/home/balance/pages/balance_total_page.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/appbar/custom_appbar_widget.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
@@ -15,6 +15,15 @@ class BalancePage extends StatefulWidget {
 }
 
 class _BalancePageState extends State<BalancePage> {
+
+  BalanceController controller = BalanceController();
+
+  @override
+  void initState() {
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -22,7 +31,7 @@ class _BalancePageState extends State<BalancePage> {
       child: Scaffold(
         appBar: CustomAppbar(
             text: "R\$ 1.104,53",
-            gradient: AppColors.splashGradient, 
+            gradient: AppColors.headerButtonGradient, 
             dropdown: CustomDropdown(
             initialValue: 'Ago',
             dropdownItens: [
@@ -40,9 +49,9 @@ class _BalancePageState extends State<BalancePage> {
           ),
         body: TabBarView(
           children: [
-            BalanceIncomes(),
-            BalanceExpenses(),
-            BalanceTotal(),
+            BalanceIncomes(controller: controller,),
+            BalanceExpenses(controller: controller),
+            BalanceTotal(controller: controller),
           ]
         ),
         drawer: CustomDrawer(textHeader: "Olá, José",),
