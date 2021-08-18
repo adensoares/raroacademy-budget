@@ -18,6 +18,7 @@ class HeaderPagePasswordWidget extends StatelessWidget {
             Image.asset('assets/images/budget_logo_login_page.png'),
             SizedBox(
               height: 16.15,
+              width: MediaQuery.of(context).size.width,
             ),
             Text(
               text,

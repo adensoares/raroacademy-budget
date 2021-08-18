@@ -1,6 +1,6 @@
 import 'package:budget/src/modules/login/login/login_page.dart';
 import 'package:budget/src/modules/login/signup/validator_password.dart';
-import 'package:budget/src/modules/signup/signup_repository.dart';
+import 'package:budget/src/modules/login/signup/signup_repository.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
 import 'package:flutter/material.dart';
@@ -106,6 +106,9 @@ class _SignupPageState extends State<SignupPage> {
                                     obscureText: false,
                                     validator: Validatorless.required(
                                         'campo obrigatório!'),
+                                  ),
+                                  SizedBox(
+                                    height: 24,
                                   ),
                                   CustomTextFormField(
                                     controler: _emailEC,
@@ -240,6 +243,9 @@ class _SignupPageState extends State<SignupPage> {
                                         Validatorless.required(
                                             'campo obrigatório'),
                                       ]),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
                                     ),
                                     CustomTextFormField(
                                       controler: _cpfEC,
@@ -501,16 +507,20 @@ class _SignupPageState extends State<SignupPage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   CustomTextFormField(
-                                      controler: _passwordEC,
-                                      labelText: "Crie uma senha",
-                                      obscureText: true,
-                                      validator: Validators.compose([
-                                        Validators.required('campo requerido!'),
-                                        Validators.patternRegExp(
-                                            RegExp(
-                                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$'),
-                                            'senha inválida'),
-                                      ])),
+                                    controler: _passwordEC,
+                                    labelText: "Crie uma senha",
+                                    obscureText: true,
+                                    validator: Validators.compose([
+                                      Validators.required('campo requerido!'),
+                                      Validators.patternRegExp(
+                                          RegExp(
+                                              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$'),
+                                          'senha inválida'),
+                                    ]),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
                                   CustomTextFormField(
                                     validator: Validatorless.multiple([
                                       ValidatorPassword.compare(_passwordEC,
@@ -633,13 +643,13 @@ class _SignupPageState extends State<SignupPage> {
                                   password: _passwordEC,
                                   name: _nameEC,
                                 ).registrar();
-                                Modular.to.navigate("/login");
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
                                         'Parabens ${_nameEC.text}, cadastro feito com sucesso!'),
                                   ),
                                 );
+                                Modular.to.navigate('/login');
                               },
                             ),
                           ),

@@ -39,7 +39,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                         alignment: Alignment.topLeft,
                         child: Builder(builder: (context) {
                           return IconButton(
-                            onPressed: () => Modular.to.pushNamed('/home'),
+                            onPressed: () => Modular.to.navigate('/home'),
                             icon: Icon(
                               Icons.arrow_back,
                               color: Colors.white,

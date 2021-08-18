@@ -1,6 +1,7 @@
 import 'package:budget/src/modules/home/widgets/daily_balance_card.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -22,6 +23,15 @@ class _HomePageState extends State<HomePage> {
         title: "Olá, José da silva",
         gradient: AppColors.headerButtonGradient,
         expanded: false,
+        child: Builder(builder: (context) {
+          return IconButton(
+            onPressed: () => Scaffold.of(context).openDrawer(),
+            icon: Icon(
+              Icons.menu,
+              color: Colors.white,
+            ),
+          );
+        }),
       ),
       drawer: CustomDrawer(
         textHeader: "Olá, José",
@@ -57,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               onTap: () {
-                Modular.to.navigate("balance");
+                Modular.to.navigate("/home/balance");
               },
             ),
             LastTransactionsCard()

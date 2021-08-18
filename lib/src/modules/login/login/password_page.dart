@@ -1,5 +1,6 @@
 import 'package:budget/src/modules/home/home_page.dart';
 import 'package:budget/src/modules/login/login/login_repository.dart';
+import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:budget/src/shared/widgets/button_widget.dart';
 import 'package:budget/src/shared/widgets/custom_text_form_field_widget.dart';
@@ -63,7 +64,7 @@ class _PasswordPageState extends State<PasswordPage> {
                               hintText: 'insira seu email',
                             ),
                             SizedBox(
-                              height: 28,
+                              height: 16,
                             ),
                             CustomTextFormField(
                               obscureText: true,
@@ -79,14 +80,16 @@ class _PasswordPageState extends State<PasswordPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Modular.to.navigate("/login");
+                                  },
                                   child: Text(
                                     'RECUPERAR SENHA',
                                     style: AppTextStyles.purple14w500Roboto,
                                   ),
                                 ),
                                 ButtonWidget(
-                                  color: Colors.grey,
+                                  gradient: AppColors.headerButtonGradient,
                                   borderRadius: 50,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
@@ -95,8 +98,8 @@ class _PasswordPageState extends State<PasswordPage> {
                                         right: 16,
                                         left: 16),
                                     child: Text(
-                                      'Continuar',
-                                      style: AppTextStyles.gray16w400Roboto,
+                                      'CONTINUAR',
+                                      style: AppTextStyles.white14w500Roboto,
                                     ),
                                   ),
                                   onTap: () async {
