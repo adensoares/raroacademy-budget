@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                         text1: 'Novo usuário? ',
                         text2: 'Crie uma conta',
                         ontap: () {
-                          Modular.to.navigate("signup");
+                          Modular.to.navigate("/login/signup");
                         }),
                   ),
                   SizedBox(height: 64),
@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                             Align(
                                 alignment: Alignment.centerRight,
                                 child: ButtonWidget(
-                                  color: Colors.grey,
+                                  color: AppColors.lightGray,
                                   borderRadius: 50,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
@@ -80,8 +80,8 @@ class _LoginPageState extends State<LoginPage> {
                                         right: 16,
                                         left: 16),
                                     child: Text(
-                                      'Continuar',
-                                      style: AppTextStyles.gray16w400Roboto,
+                                      'CONTINUAR',
+                                      style: AppTextStyles.gray14w500Roboto,
                                     ),
                                   ),
                                   onTap: () async {
@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 content:
                                                     Text('Login não existe!')));
                                       } else
-                                        Modular.to.navigate("password");
+                                        Modular.to.navigate("/login/password");
                                     }
                                   },
                                 )),

@@ -1,6 +1,6 @@
-import 'package:budget/src/modules/home/balance/balance_expenses/balance_expenses_page.dart';
-import 'package:budget/src/modules/home/balance/balance_incomes/balance_incomes_page.dart';
-import 'package:budget/src/modules/home/balance/balance_total/balance_total_page.dart';
+import 'package:budget/src/modules/home/balance/pages/balance_expenses_page.dart';
+import 'package:budget/src/modules/home/balance/pages/balance_incomes_page.dart';
+import 'package:budget/src/modules/home/balance/pages/balance_total_page.dart';
 import 'package:budget/src/modules/home/widgets/balances_card_page_widget.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/appbar/custom_appbar_widget.dart';
@@ -56,10 +56,11 @@ class _BalancePageState extends State<BalancePage> {
                     ),
                     onTap: () {
                       DefaultTabController.of(context)?.index == 0
-                          ? Modular.to.navigate("incomes")
+                          ? Modular.to.navigate("/home/balance/incomes")
                           : DefaultTabController.of(context)?.index == 1
-                              ? Modular.to.navigate("expenses")
-                              : Modular.to.navigate("/login");
+                              ? Modular.to.navigate("/home/balance/incomes")
+                              : Modular.to
+                                  .popUntil(ModalRoute.withName('/login'));
                       print(DefaultTabController.of(context)?.index);
                     },
                   )

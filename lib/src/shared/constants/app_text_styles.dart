@@ -106,6 +106,13 @@ class AppTextStyles {
     letterSpacing: 0.4,
   );
 
+  static const TextStyle gray14w500Roboto = TextStyle(
+    fontSize: 14.0,
+    fontWeight: FontWeight.w500,
+    color: AppColors.gray,
+    letterSpacing: 0.4,
+  );
+
   static const TextStyle gray16w400Roboto = TextStyle(
     fontSize: 16.0,
     fontWeight: FontWeight.w400,

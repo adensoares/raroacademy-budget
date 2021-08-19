@@ -1,6 +1,7 @@
 import 'package:budget/src/shared/constants/dropdown_incomes_type.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
@@ -57,6 +58,13 @@ class _IncomesPageState extends State<IncomesPage> {
         title: "Entrada",
         gradient: AppColors.headerButtonGradient,
         expanded: true,
+        child: IconButton(
+          onPressed: () => Modular.to.navigate('/home/balance'),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
       ),
       drawer: CustomDrawer(
         textHeader: "Olá, José",
