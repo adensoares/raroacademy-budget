@@ -649,7 +649,6 @@ class _SignupPageState extends State<SignupPage> {
                                         'Parabens ${_nameEC.text}, cadastro feito com sucesso!'),
                                   ),
                                 );
-                                Modular.to.navigate('/login');
                               },
                             ),
                           ),

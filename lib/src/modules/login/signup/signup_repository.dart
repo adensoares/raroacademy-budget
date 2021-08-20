@@ -47,7 +47,6 @@ class SignupRepository {
         'cpf': cpf!.text,
         'phone-number': number!.text,
         'name': name!.text,
-        'senha': password!.text,
       }).catchError((_) {
         print('aconteceu um erro');
       });
