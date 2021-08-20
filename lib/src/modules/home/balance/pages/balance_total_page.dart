@@ -21,13 +21,14 @@ class _BalanceTotalState extends State<BalanceTotal> {
 @override
 void initState() { 
   super.initState();
-
+  
 }
   
   @override
   Widget build(BuildContext context) {
     return BalancesCardPage(
       transactions: widget.controller.transactions,
+      balance: widget.controller.monthlyBalance.total,
     );
   }
 }

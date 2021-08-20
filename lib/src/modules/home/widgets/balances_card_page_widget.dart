@@ -1,3 +1,4 @@
+import 'package:budget/src/shared/utils/transactions_icons.dart';
 import 'package:flutter/material.dart';
 
 import 'package:budget/src/shared/constants/shared_constants.dart';
@@ -7,10 +8,12 @@ class BalancesCardPage extends StatelessWidget {
 
   const BalancesCardPage({
     Key? key,
-    required this.transactions,
+    required this.transactions, 
+    required this.balance,
   }) : super(key: key);
 
   final List<TransactionModel> transactions;
+  final int balance;
   
   @override
   Widget build(BuildContext context) {
@@ -28,15 +31,9 @@ class BalancesCardPage extends StatelessWidget {
                 itemCount: transactions.length,
                 
                 itemBuilder: (context, index){
+                  print(transactions[index].transactionType);
                   return ListTile(
-                    leading: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.yellow,
-                        shape: BoxShape.circle
-                      ),
-                    ),
+                    leading: getIconTransaction(transactions[index].transactionCategory),
                     title: Text(transactions[index].transactionName),
                   );
                 },
@@ -48,7 +45,7 @@ class BalancesCardPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Total Saídas", style: AppTextStyles.purple16w500Roboto,),
-                  Text("-R\$ 2.415,00", style: AppTextStyles.red14w500Roboto,),
+                  Text("-R\$ $balance", style: AppTextStyles.red14w500Roboto,),
               ],
               )
             ),

@@ -11,6 +11,7 @@ class TransactionModel {
   String? transactionDescription;
   String transactionType;
   String transactionCategory;
+  String month;
 
   TransactionModel({
     required this.userId,
@@ -20,12 +21,13 @@ class TransactionModel {
     this.transactionDescription,
     required this.transactionType,
     required this.transactionCategory,
+    required this.month,
   });
 
 
   @override
   String toString() {
-    return 'Transaction(userId: $userId, price: $price, date: $date, transactionName: $transactionName, transactionDescription: $transactionDescription, transactionType: $transactionType, transactionCategory: $transactionCategory)';
+    return 'Transaction(userId: $userId, price: $price, date: $date, transactionName: $transactionName, transactionDescription: $transactionDescription, transactionType: $transactionType, transactionCategory: $transactionCategory, month: $month)';
   }
 
   @override
@@ -39,7 +41,8 @@ class TransactionModel {
       other.transactionName == transactionName &&
       other.transactionDescription == transactionDescription &&
       other.transactionType == transactionType &&
-      other.transactionCategory == transactionCategory;
+      other.transactionCategory == transactionCategory &&
+      other.month == month;
   }
 
   @override
@@ -50,7 +53,8 @@ class TransactionModel {
       transactionName.hashCode ^
       transactionDescription.hashCode ^
       transactionType.hashCode ^
-      transactionCategory.hashCode;
+      transactionCategory.hashCode ^
+      month.hashCode;
   }
 
   TransactionModel copyWith({
@@ -61,6 +65,7 @@ class TransactionModel {
     String? transactionDescription,
     String? transactionType,
     String? transactionCategory,
+    String? month,
   }) {
     return TransactionModel(
       userId: userId ?? this.userId,
@@ -69,7 +74,8 @@ class TransactionModel {
       transactionName: transactionName ?? this.transactionName,
       transactionDescription: transactionDescription ?? this.transactionDescription,
       transactionType: transactionType ?? this.transactionType,
-      transactionCategory: transactionCategory ?? this.transactionCategory,
+      transactionCategory: transactionCategory ?? this.transactionCategory, 
+      month: month ?? this.month,
     );
   }
 
@@ -82,6 +88,7 @@ class TransactionModel {
       'transactionDescription': transactionDescription,
       'transactionType': transactionType,
       'transactionCategory': transactionCategory,
+      'month': month,
     };
   }
 
@@ -94,6 +101,7 @@ class TransactionModel {
       transactionDescription: map['transactionDescription'],
       transactionType: map['transactionType'],
       transactionCategory: map['transactionCategory'],
+      month: map['month']
     );
   }
 

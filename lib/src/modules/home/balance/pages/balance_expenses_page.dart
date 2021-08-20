@@ -25,8 +25,9 @@ class _BalanceExpensesState extends State<BalanceExpenses> {
   }
   @override
   Widget build(BuildContext context) {
-    return BalancesCardPage(transactions: widget.controller.transactions,
-      
+    return BalancesCardPage(
+      transactions: widget.controller.transactions,
+      balance: widget.controller.monthlyBalance.expenses,
     );
   }
 }

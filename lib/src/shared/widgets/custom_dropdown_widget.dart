@@ -34,7 +34,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
         height: 30,
         decoration: BoxDecoration(
           gradient: widget.gradient,
-          color: Colors.white.withOpacity(0.1),
+          color: null,
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: DropdownButton<String>(

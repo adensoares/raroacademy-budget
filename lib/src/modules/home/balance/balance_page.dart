@@ -20,8 +20,9 @@ class _BalancePageState extends State<BalancePage> {
 
   @override
   void initState() {
-
     super.initState();
+    controller.getMonths();
+    controller.getBalance();
   }
 
   @override
@@ -30,14 +31,11 @@ class _BalancePageState extends State<BalancePage> {
       length: 3,
       child: Scaffold(
         appBar: CustomAppbar(
-            text: "R\$ 1.104,53",
+            text: "R\$ ${controller.monthlyBalance.total}",
             gradient: AppColors.headerButtonGradient, 
             dropdown: CustomDropdown(
-            initialValue: 'Ago',
-            dropdownItens: [
-              "Ago",
-              "Set"
-            ],
+            initialValue: controller.months[0],
+            dropdownItens: controller.months
             ), 
             tabBar: TabBar(
               tabs: [
