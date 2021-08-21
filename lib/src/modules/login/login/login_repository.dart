@@ -2,6 +2,7 @@ import 'package:budget/src/shared/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class LoginRepository {
   final TextEditingController? email;
@@ -68,19 +69,6 @@ class LoginRepository {
     } catch (e) {
       print(e);
       return false;
-    }
-  }
-
-  Future<bool?> senhaExiste() async {
-    try {
-      final response = await FirebaseFirestore.instance
-          .collection('/users')
-          .where('senha', isEqualTo: password!.text)
-          .get();
-      return response.docs.length > 0;
-    } on FirebaseAuthException catch (e) {
-      print('erro com o login codigo : ${e.code}');
-      print(e.message);
     }
   }
 }

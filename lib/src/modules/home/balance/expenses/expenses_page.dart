@@ -1,5 +1,7 @@
+import 'package:budget/src/shared/auth/auth_controller.dart';
 import 'package:budget/src/shared/constants/dropdown_expenses_type.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
+import 'package:budget/src/shared/models/user_model.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
@@ -67,7 +69,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
         ),
       ),
       drawer: CustomDrawer(
-        textHeader: "Olá, José",
+        textHeader: 'Olá, ${Modular.get<AuthController>().user?.name}',
       ),
       body: Padding(
         padding: const EdgeInsets.only(

@@ -1,5 +1,7 @@
 import 'package:budget/src/modules/home/widgets/daily_balance_card.dart';
+import 'package:budget/src/shared/auth/auth_controller.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
+import 'package:budget/src/shared/models/user_model.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SimpleAppbar(
-        title: "Olá, José da silva",
+        title: 'Olá, ${Modular.get<AuthController>().user?.name}',
         gradient: AppColors.headerButtonGradient,
         expanded: false,
         child: Builder(builder: (context) {
@@ -34,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         }),
       ),
       drawer: CustomDrawer(
-        textHeader: "Olá, José",
+        textHeader: 'Olá, ${Modular.get<AuthController>().user?.name}',
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),

@@ -1,4 +1,5 @@
 import 'package:animated_card/animated_card.dart';
+import 'package:budget/src/shared/auth/auth_controller.dart';
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,17 +16,19 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((timeStamp) {
-      FirebaseAuth.instance.authStateChanges().listen((User? user) {
-        if (user == null) {
-          print('User is currently signed out!');
-          print(user);
-          Modular.to.navigate("/login");
-        } else {
-          print('User is signed in!');
-          print(user);
-          Modular.to.navigate("/home");
-        }
-      });
+      Future.delayed(Duration(seconds: 3)).then((value) =>
+          FirebaseAuth.instance.authStateChanges().listen((User? user) {
+            if (user == null) {
+              print('User is currently signed out!');
+              print(user);
+              Modular.to.navigate("/login");
+            } else {
+              print('User is signed in!');
+              Modular.get<AuthController>()
+                  .getUser()
+                  .then((_) => {print(user), Modular.to.navigate("/home")});
+            }
+          }));
     });
     super.initState();
   }

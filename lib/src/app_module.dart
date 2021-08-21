@@ -1,12 +1,20 @@
+import 'package:budget/src/app_controller.dart';
 import 'package:budget/src/modules/home/home_module.dart';
 import 'package:budget/src/modules/login/login_module.dart';
 import 'package:budget/src/modules/splash/splash_module.dart';
+import 'package:budget/src/shared/auth/auth_controller.dart';
+import 'package:budget/src/shared/auth/auth_repository.dart';
+import 'package:budget/src/shared/models/user_model.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class AppModule extends Module {
   // Provide a list of dependencies to inject into your project
   @override
-  List<Bind> get binds => [];
+  List<Bind> get binds => [
+        Bind.singleton((i) => AuthRepository()),
+        Bind.singleton(
+            (i) => AuthController(authRepository: i.get<AuthRepository>()))
+      ];
 
   // Provide all the routes for your module
   @override
