@@ -2,12 +2,12 @@ import 'dart:convert';
 
 
 class UserModel {
-  final String userId ;
-  final String name;
-  final String email;
-  final String phone;
-  final String cpf;
-  final String password;
+  final String? userId ;
+  final String? name;
+  final String? email;
+  final String? phone;
+  final String? cpf;
+  final String? password;
 
   UserModel({
     required this.userId,

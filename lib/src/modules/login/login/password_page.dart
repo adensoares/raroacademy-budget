@@ -1,11 +1,13 @@
 import 'package:budget/src/modules/home/home_page.dart';
-import 'package:budget/src/modules/login/login_repository.dart';
+import 'package:budget/src/modules/login/login/login_repository.dart';
+import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:budget/src/shared/widgets/button_widget.dart';
 import 'package:budget/src/shared/widgets/custom_text_form_field_widget.dart';
 import 'package:budget/src/shared/widgets/header_page_login_widget.dart';
 import 'package:budget/src/shared/widgets/header_page_password_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:validatorless/validatorless.dart';
 
 class PasswordPage extends StatefulWidget {
@@ -62,7 +64,7 @@ class _PasswordPageState extends State<PasswordPage> {
                               hintText: 'insira seu email',
                             ),
                             SizedBox(
-                              height: 28,
+                              height: 16,
                             ),
                             CustomTextFormField(
                               obscureText: true,
@@ -78,15 +80,17 @@ class _PasswordPageState extends State<PasswordPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Modular.to.navigate("/login");
+                                  },
                                   child: Text(
                                     'RECUPERAR SENHA',
                                     style: AppTextStyles.purple14w500Roboto,
                                   ),
                                 ),
                                 ButtonWidget(
-                                  color: Colors.grey,
-                                  borderRadius: 10,
+                                  gradient: AppColors.headerButtonGradient,
+                                  borderRadius: 50,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         top: 10,
@@ -94,8 +98,8 @@ class _PasswordPageState extends State<PasswordPage> {
                                         right: 16,
                                         left: 16),
                                     child: Text(
-                                      'Continuar',
-                                      style: AppTextStyles.gray16w400Roboto,
+                                      'CONTINUAR',
+                                      style: AppTextStyles.white14w500Roboto,
                                     ),
                                   ),
                                   onTap: () async {
@@ -110,18 +114,20 @@ class _PasswordPageState extends State<PasswordPage> {
                                               .senhaExiste();
                                       if (senhaExisteNoFirebase != true) {
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content:
-                                                    Text('Senha incorreta!')));
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text('Senha incorreta!'),
+                                          ),
+                                        );
                                       } else
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content: Text(
-                                                    'Login feito com sucesso!')));
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => HomePage()));
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                'Login feito com sucesso!'),
+                                          ),
+                                        );
+                                      Modular.to.navigate("/home");
                                     }
                                   },
                                 ),

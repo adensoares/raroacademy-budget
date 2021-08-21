@@ -1,6 +1,7 @@
 import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:budget/src/shared/widgets/custom_dropdown_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import '../shared_widgets.dart';
 
@@ -38,9 +39,9 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                         alignment: Alignment.topLeft,
                         child: Builder(builder: (context) {
                           return IconButton(
-                            onPressed: () => Scaffold.of(context).openDrawer(),
+                            onPressed: () => Modular.to.navigate('/home'),
                             icon: Icon(
-                              Icons.menu,
+                              Icons.arrow_back,
                               color: Colors.white,
                             ),
                           );

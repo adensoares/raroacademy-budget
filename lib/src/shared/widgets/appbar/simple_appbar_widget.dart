@@ -7,11 +7,13 @@ class SimpleAppbar extends StatelessWidget implements PreferredSizeWidget {
     this.title = "",
     this.gradient,
     required this.expanded,
+    this.child,
   }) : super(key: key);
 
   final String title;
   final Gradient? gradient;
   final bool expanded;
+  final Widget? child;
 
   @override
   Size get preferredSize => Size.fromHeight(expanded ? 189 : 100);
@@ -32,15 +34,7 @@ class SimpleAppbar extends StatelessWidget implements PreferredSizeWidget {
             flex: 1,
             child: Align(
               alignment: Alignment.topLeft,
-              child: Builder(builder: (context) {
-                return IconButton(
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                  icon: Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                  ),
-                );
-              }),
+              child: child,
             ),
           ),
           Expanded(

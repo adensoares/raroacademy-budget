@@ -65,7 +65,7 @@ class BalanceRepository {
       
       months = (response.data()!["months"]).cast<String>();
       if(months.length == 0){
-        return ["-"];
+        return [" "];
       }
       print(months);
       return months;

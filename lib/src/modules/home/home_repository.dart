@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:budget/src/shared/models/balance_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,42 +26,50 @@ class HomeRepository {
     }
   }
 
-  Future<List<String>> getMonths() async{
-
-     List<String> months = [];
-    try{
+  Future<List<String>> getMonths() async {
+    List<String> months = [" "];
+    try {
       final response = await FirebaseFirestore.instance
-      .collection("/balances")
-      .doc("auShXOUMllSyz77ogasa")
-      .get();
+          .collection("/months")
+          .doc("FiZytUcJpjbQPbOBRa38")
+          .get();
 
-      print((response.data()!["nameMonths"]).runtimeType);
+      print((response.data()!["months"]).runtimeType);
 
-      print(response.data()!["nameMonths"]);
-      months = (response.data()!["nameMonths"]).cast<String>();
+      print(response.data()!["months"]);
+      
+      months = (response.data()!["months"]).cast<String>();
+      if(months.length == 0){
+        return [" "];
+      }
       print(months);
       return months;
-
-    }catch (e) {
-      print('Erro no servidor: $e');
-      throw Exception("Erro de conexão");
+    } on FirebaseException catch (e) {
+      print('Erro no servidor: ${e.code}');
+      throw e.message ??
+          'Não foi possível recuperar os dados do servidor. Erro ${e.code}';
     }
   }
 
-  Future<void> getMonthlyBalance(String month) async {
+  Future<MonthlyBalanceModel> getMonthlyBalance() async {
+
+    MonthlyBalanceModel monthlyBalance = MonthlyBalanceModel(expenses: 0, incomes: 0, month: "", total: 0);
     try {
       final response = await FirebaseFirestore.instance
-      .collection("/balances")
-      .doc("auShXOUMllSyz77ogasa")
-      .get();
+          .collection("/monthly_balances")
+          .doc("9Pl7LsinbHWZS85YlVOl")
+          .get();
 
-      Map<String, dynamic> data = response.data()!["months"][month];
-      //json.decode()
-      print(response.data()!["months"]);
+      print((response.data()).runtimeType);
 
-    }catch (e) {
-      print('Erro no servidor: $e');
-      throw Exception("Erro de conexão");
+      print(response.data());
+      monthlyBalance = MonthlyBalanceModel.fromMap(response.data()!) ;
+      print(monthlyBalance);
+      return monthlyBalance;
+    } on FirebaseException catch (e) {
+      print('Erro no servidor: ${e.code}');
+      throw e.message ??
+          'Não foi possível recuperar os dados do servidor. Erro ${e.code}';
     }
   }
 

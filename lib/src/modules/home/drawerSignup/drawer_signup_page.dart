@@ -4,17 +4,18 @@ import 'package:budget/src/shared/widgets/appbar/simple_appbar_widget.dart';
 
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:validatorless/validatorless.dart';
 
-class DrawerSignup extends StatefulWidget {
-  DrawerSignup({Key? key}) : super(key: key);
+class DrawerSignupPage extends StatefulWidget {
+  DrawerSignupPage({Key? key}) : super(key: key);
 
   @override
-  _DrawerSignupState createState() => _DrawerSignupState();
+  _DrawerSignupPageState createState() => _DrawerSignupPageState();
 }
 
-class _DrawerSignupState extends State<DrawerSignup> {
+class _DrawerSignupPageState extends State<DrawerSignupPage> {
   final _formkey = GlobalKey<FormState>();
   final _maskformaterCPF = MaskTextInputFormatter(
       mask: '###.###.###-##', filter: {'#': RegExp(r'[0-9]')});
@@ -26,8 +27,15 @@ class _DrawerSignupState extends State<DrawerSignup> {
     return Scaffold(
       appBar: SimpleAppbar(
         expanded: true,
-        gradient: AppColors.splashGradient,
+        gradient: AppColors.headerButtonGradient,
         title: 'Cadastro',
+        child: IconButton(
+          onPressed: () => Modular.to.navigate('/home'),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,

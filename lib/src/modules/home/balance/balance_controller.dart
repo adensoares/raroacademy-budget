@@ -6,7 +6,7 @@ import 'package:budget/src/shared/models/transaction_model.dart';
 class BalanceController {
   BalanceRepository repository = BalanceRepository();
   List<TransactionModel> transactions = [];
-  List<String> months = ["-"];
+  List<String> months = [" "];
   MonthlyBalanceModel monthlyBalance = MonthlyBalanceModel(expenses: 0, incomes: 0, month: "", total: 0);
 
   Future<void> getIncomes() async {

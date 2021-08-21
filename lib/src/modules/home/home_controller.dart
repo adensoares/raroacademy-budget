@@ -16,7 +16,7 @@ abstract class _HomeControllerBase with Store {
   @observable
   String generalBalance = "0,00";
 
-  List<String> months = [];
+  List<String> months = [" "];
 
   @action
   Future<void> getGeneralBalance()async {
@@ -48,7 +48,7 @@ abstract class _HomeControllerBase with Store {
   Future<void> getMonthlyBalance() async {
     try {
       state = AppStatus.loading;
-      await repository.getMonthlyBalance("Agosto");
+      await repository.getMonthlyBalance();
       state = AppStatus.success;
     }
     catch(e) {

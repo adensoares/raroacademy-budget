@@ -4,6 +4,7 @@ import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import 'widgets/general_balance_card_widget.dart';
 import 'widgets/last_transactions_card_widget.dart';
@@ -31,8 +32,17 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: SimpleAppbar(
         title: "Olá, José da silva",
-        gradient: AppColors.splashGradient,
+        gradient: AppColors.headerButtonGradient,
         expanded: false,
+        child: Builder(builder: (context) {
+          return IconButton(
+            onPressed: () => Scaffold.of(context).openDrawer(),
+            icon: Icon(
+              Icons.menu,
+              color: Colors.white,
+            ),
+          );
+        }),
       ),
       drawer: CustomDrawer(
         textHeader: "Olá, José",
@@ -59,7 +69,9 @@ class _HomePageState extends State<HomePage> {
                         dropdownItens: controller.months,
                         gradient: AppColors.headerButtonGradient),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                Modular.to.navigate("/home/balance");
+              },
                 ),
                 LastTransactionsCard()
               ],

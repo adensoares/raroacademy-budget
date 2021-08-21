@@ -1,14 +1,13 @@
-import 'package:budget/src/modules/login/buttons/facebook/button_facebook_widget.dart';
-import 'package:budget/src/modules/login/buttons/google/button_google_widget.dart';
-import 'package:budget/src/modules/login/login_repository.dart';
-import 'package:budget/src/modules/login/password_page.dart';
-import 'package:budget/src/shared/constants/app_colors.dart';
-import 'package:budget/src/shared/constants/app_text_styles.dart';
-import 'package:budget/src/shared/widgets/button_widget.dart';
-import 'package:budget/src/shared/widgets/custom_text_form_field_widget.dart';
+import 'package:budget/src/modules/login/login/password_page.dart';
+import 'package:budget/src/modules/login/login/widgets/facebook_button_widget.dart';
+import 'package:budget/src/modules/login/login/widgets/google_button_widget.dart';
+import 'package:budget/src/modules/login/login/login_repository.dart';
+import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/header_page_login_widget.dart';
+import 'package:budget/src/shared/widgets/shared_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:validatorless/validatorless.dart';
 
 class LoginPage extends StatefulWidget {
@@ -43,7 +42,9 @@ class _LoginPageState extends State<LoginPage> {
                         text: 'Vamos\ncomeçar!',
                         text1: 'Novo usuário? ',
                         text2: 'Crie uma conta',
-                        ontap: () {}),
+                        ontap: () {
+                          Modular.to.navigate("/login/signup");
+                        }),
                   ),
                   SizedBox(height: 64),
                   Column(
@@ -70,8 +71,8 @@ class _LoginPageState extends State<LoginPage> {
                             Align(
                                 alignment: Alignment.centerRight,
                                 child: ButtonWidget(
-                                  color: Colors.grey,
-                                  borderRadius: 10,
+                                  color: AppColors.lightGray,
+                                  borderRadius: 50,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         top: 10,
@@ -79,8 +80,8 @@ class _LoginPageState extends State<LoginPage> {
                                         right: 16,
                                         left: 16),
                                     child: Text(
-                                      'Continuar',
-                                      style: AppTextStyles.gray16w400Roboto,
+                                      'CONTINUAR',
+                                      style: AppTextStyles.gray14w500Roboto,
                                     ),
                                   ),
                                   onTap: () async {
@@ -98,11 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 content:
                                                     Text('Login não existe!')));
                                       } else
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (_) =>
-                                                    PasswordPage()));
+                                        Modular.to.navigate("/login/password");
                                     }
                                   },
                                 )),

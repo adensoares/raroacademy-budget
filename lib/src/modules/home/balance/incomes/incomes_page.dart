@@ -1,6 +1,11 @@
+import 'package:budget/src/modules/home/balance/incomes/incomes_controller.dart';
 import 'package:budget/src/shared/constants/dropdown_incomes_type.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
+import 'package:budget/src/shared/models/transaction_model.dart';
+import 'package:budget/src/shared/utils/month_to_string.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
@@ -12,8 +17,21 @@ class IncomesPage extends StatefulWidget {
 }
 
 class _IncomesPageState extends State<IncomesPage> {
+  
   DateTime date = DateTime.now();
   String? formattedDate;
+  IncomesController controller = IncomesController();
+  TransactionModel transaction = TransactionModel(
+    userId: "",
+    price: 0,
+    date: Timestamp.fromDate(DateTime.now()),
+    transactionName: "",
+    transactionType: "",
+    transactionCategory: "",
+    month: monthToString(DateTime.now().month)
+  );
+  TextEditingController incomeNameController = TextEditingController();
+  TextEditingController incomePriceController = TextEditingController();
 
   Future<Null> selectTimePicker(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -26,8 +44,9 @@ class _IncomesPageState extends State<IncomesPage> {
       setState(() {
         date = picked;
         formattedDate = DateFormat('dd/MM/yyyy').format(date);
-
         print(date.toString());
+        transaction.date = Timestamp.fromDate(date);
+        transaction.month = monthToString(date.month);
       });
     }
   }
@@ -44,10 +63,10 @@ class _IncomesPageState extends State<IncomesPage> {
 
   @override
   void initState() {
-    formattedDate = DateFormat('dd/MM/yyyy').format(date);
-
-    _value = list[0];
     super.initState();
+    formattedDate = DateFormat('dd/MM/yyyy').format(date);
+    _value = list[0];
+    transaction.transactionCategory = _value.value;
   }
 
   @override
@@ -57,6 +76,13 @@ class _IncomesPageState extends State<IncomesPage> {
         title: "Entrada",
         gradient: AppColors.headerButtonGradient,
         expanded: true,
+        child: IconButton(
+          onPressed: () => Modular.to.navigate('/home/balance'),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
       ),
       drawer: CustomDrawer(
         textHeader: "Olá, José",
@@ -79,6 +105,7 @@ class _IncomesPageState extends State<IncomesPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomTextFormField(
+                      controler: incomePriceController,
                       obscureText: false,
                       labelText: "Valor em R\$",
                       keyboardType: TextInputType.number,
@@ -97,8 +124,10 @@ class _IncomesPageState extends State<IncomesPage> {
                         ),
                         isExpanded: true,
                         onChanged: (value) {
+                          print(value);
                           setState(() {
                             _value = value as DropDownIncomesType;
+                            transaction.transactionCategory = _value.value;
                           });
                         },
                         value: _value,
@@ -139,6 +168,7 @@ class _IncomesPageState extends State<IncomesPage> {
                       ),
                     ),
                     CustomTextFormField(
+                      controler: incomeNameController,
                       obscureText: false,
                       labelText: "Nome da entrada",
                     ),
@@ -178,7 +208,7 @@ class _IncomesPageState extends State<IncomesPage> {
           ),
           gradient: AppColors.headerButtonGradient,
           onTap: () {
-                        
+            print(transaction);      
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       // resizeToAvoidBottomInset: false,

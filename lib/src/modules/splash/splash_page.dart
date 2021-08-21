@@ -1,9 +1,8 @@
 import 'package:animated_card/animated_card.dart';
-import 'package:budget/src/modules/home/home_page.dart';
-import 'package:budget/src/modules/login/login_page.dart';
-import 'package:budget/src/modules/signup/signup_page.dart';
 import 'package:budget/src/shared/constants/app_colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class SplashPage extends StatefulWidget {
   SplashPage({Key? key}) : super(key: key);
@@ -15,14 +14,26 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((timeStamp) {
-      Future.delayed(Duration(seconds: 3)).then((value) =>
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => LoginPage())));
-    });
     super.initState();
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((timeStamp) {
+      FirebaseAuth.instance.authStateChanges().listen((User? user) {
+        if (user == null) {
+          print('User is currently signed out!');
+          print(user);
+
+          Future.delayed(Duration(seconds: 3)).then(
+            (value) => Modular.to.navigate("/login"),
+          );
+        } else {
+          print('User is signed in!');
+          print(user);
+
+          Future.delayed(Duration(seconds: 3)).then(
+            (value) => Modular.to.navigate("/home"),
+          );
+        }
+      });
+    });
   }
 
   @override
