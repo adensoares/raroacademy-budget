@@ -14,26 +14,20 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-    super.initState();
     WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((timeStamp) {
       FirebaseAuth.instance.authStateChanges().listen((User? user) {
         if (user == null) {
           print('User is currently signed out!');
           print(user);
-
-          Future.delayed(Duration(seconds: 3)).then(
-            (value) => Modular.to.navigate("/login"),
-          );
+          Modular.to.navigate("/login");
         } else {
           print('User is signed in!');
           print(user);
-
-          Future.delayed(Duration(seconds: 3)).then(
-            (value) => Modular.to.navigate("/home"),
-          );
+          Modular.to.navigate("/home");
         }
       });
     });
+    super.initState();
   }
 
   @override
