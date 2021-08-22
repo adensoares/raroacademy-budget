@@ -12,4 +12,11 @@ class ExpensesController {
       print(e);
     }
   }
+  Future<void> updateBalance(TransactionModel transaction) async {
+    try{
+      await repository.updateBalance(transaction);
+    }catch(e){
+      print(e);
+    }
+  }
 }

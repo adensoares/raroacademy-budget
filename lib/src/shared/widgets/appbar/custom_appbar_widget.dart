@@ -1,12 +1,11 @@
 import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:budget/src/shared/widgets/custom_dropdown_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import '../shared_widgets.dart';
 
-class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppbar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppbar(
       {Key? key,
       required this.text,
@@ -24,9 +23,15 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => Size.fromHeight(189);
 
   @override
+  State<CustomAppbar> createState() => _CustomAppbarState();
+}
+
+class _CustomAppbarState extends State<CustomAppbar> {
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(gradient: gradient),
+        decoration: BoxDecoration(gradient: widget.gradient),
         child: Padding(
           padding: const EdgeInsets.only(top: 16, left: 16.0, right: 16.0),
           child: Column(
@@ -53,7 +58,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                         child: Flex(
                       direction: Axis.horizontal,
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children: [dropdown],
+                      children: [widget.dropdown],
                     ))
                   ],
                 ),
@@ -61,16 +66,14 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Observer(builder: (_) {
-                      return Text(
-                        text,
-                        style: AppTextStyles.white26w700Roboto,
-                      );
-                    }),
+                    Text(
+                      widget.text,
+                      style: AppTextStyles.white26w700Roboto,
+                    )                   
                   ],
                 ),
                 Container(
-                  child: tabBar,
+                  child: widget.tabBar,
                 )
               ]),
         ));

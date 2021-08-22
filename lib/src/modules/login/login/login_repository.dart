@@ -1,7 +1,8 @@
+import 'package:budget/src/shared/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class LoginRepository {
   final TextEditingController? email;
@@ -25,7 +26,27 @@ class LoginRepository {
     }
   }
 
-  Future<void> logar() async {
+  // Future<bool> logar() async {
+  //   try {
+  //     await FirebaseAuth.instance.signInWithEmailAndPassword(
+  //       email: email!.text,
+  //       password: password!.text,
+  //     );
+  //     if (FirebaseAuth.instance.currentUser != null) {
+  //       print("Entrou");
+  //       return true;
+  //     } else {
+  //       print("Nao Entrou");
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //     print("Catch");
+  //     return false;
+  //   }
+  // }
+
+  Future logar() async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -33,32 +54,21 @@ class LoginRepository {
         password: password!.text,
       );
       userCredential.user;
-      FirebaseAuth.instance.authStateChanges().listen((event) {
-        if (event == null) {
-          print('usuario está deslogado!');
-        } else
-          print('usuario está logado');
-      });
-      await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('usuario não encontrado!');
-      } else if (e.code == 'wrong-password') {
-        print('senha errada!');
-      }
-    }
-  }
 
-  Future<bool?> senhaExiste() async {
-    try {
-      final response = await FirebaseFirestore.instance
+      final getUser = await FirebaseFirestore.instance
           .collection('/users')
-          .where('senha', isEqualTo: password!.text)
+          .doc(userCredential.user!.uid)
           .get();
-      return response.docs.length > 0;
-    } on FirebaseAuthException catch (e) {
-      print('erro com o login codigo : ${e.code}');
-      print(e.message);
+      if (getUser.data() != null) {
+        print(getUser.data());
+        return true;
+      } else {
+        return false;
+        // throw 'Usuário não encontrado!';
+      }
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 }

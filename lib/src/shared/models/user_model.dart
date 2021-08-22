@@ -1,13 +1,12 @@
 import 'dart:convert';
 
-
 class UserModel {
-  final String? userId ;
-  final String? name;
-  final String? email;
-  final String? phone;
-  final String? cpf;
-  final String? password;
+  String? userId;
+  String? name;
+  String? email;
+  String? phone;
+  String? cpf;
+  String? password;
 
   UserModel({
     required this.userId,
@@ -19,7 +18,7 @@ class UserModel {
   });
 
   UserModel copyWith({
-    String? userId ,
+    String? userId,
     String? name,
     String? email,
     String? phone,

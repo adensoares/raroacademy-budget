@@ -3,6 +3,10 @@ import 'package:budget/src/shared/constants/dropdown_expenses_type.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/models/transaction_model.dart';
 import 'package:budget/src/shared/utils/month_to_string.dart';
+import 'package:budget/src/shared/auth/auth_controller.dart';
+import 'package:budget/src/shared/constants/dropdown_expenses_type.dart';
+import 'package:budget/src/shared/constants/shared_constants.dart';
+import 'package:budget/src/shared/models/user_model.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -92,7 +96,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
         ),
       ),
       drawer: CustomDrawer(
-        textHeader: "Olá, José",
+        textHeader: 'Olá, ${Modular.get<AuthController>().user?.name}',
       ),
       body: Padding(
         padding: const EdgeInsets.only(
@@ -215,11 +219,12 @@ class _ExpensesPageState extends State<ExpensesPage> {
           onTap: () {
             bool formvalid = _formKey.currentState?.validate() ?? false;
             if(formvalid){
-            final int expensePrice = int.parse(expensePriceController.text.replaceAll(",", "."))*100;
+            final int expensePrice = (double.parse(expensePriceController.text.replaceAll(",", "."))*100).toInt();
               transaction.price = expensePrice;
               transaction.transactionName = "";
-              transaction.userId = "auShXOUMllSyz77ogasa";
+              transaction.userId = Modular.get<AuthController>().user?.userId;
               controller.createExpense(transaction);
+              controller.updateBalance(transaction);
             }
             print(transaction);
           }),

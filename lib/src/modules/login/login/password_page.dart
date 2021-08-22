@@ -103,32 +103,45 @@ class _PasswordPageState extends State<PasswordPage> {
                                     ),
                                   ),
                                   onTap: () async {
-                                    var formvalid = _formloginWithPasswordkey
-                                            .currentState
-                                            ?.validate() ??
-                                        false;
-                                    if (formvalid) {
-                                      final senhaExisteNoFirebase =
-                                          await LoginRepository(
-                                                  password: _passwordEC)
-                                              .senhaExiste();
-                                      if (senhaExisteNoFirebase != true) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text('Senha incorreta!'),
-                                          ),
-                                        );
-                                      } else
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                                'Login feito com sucesso!'),
-                                          ),
-                                        );
-                                      Modular.to.navigate("/home");
+                                    bool validado = _formloginWithPasswordkey
+                                        .currentState!
+                                        .validate();
+                                    if (validado) {
+                                      LoginRepository(
+                                        email: _emailEC,
+                                        password: _passwordEC,
+                                      ).logar().then(
+                                            (value) => {
+                                              if (value)
+                                                {
+                                                  Modular.to.navigate("/home"),
+                                                }
+                                            },
+                                          );
                                     }
+
+                                    // if (formvalid) {
+                                    //   final senhaExisteNoFirebase =
+                                    //       await LoginRepository(
+                                    //               password: _passwordEC)
+                                    //           .senhaExiste();
+                                    //   if (senhaExisteNoFirebase != true) {
+                                    //     ScaffoldMessenger.of(context)
+                                    //         .showSnackBar(
+                                    //       SnackBar(
+                                    //         content: Text('Senha incorreta!'),
+                                    //       ),
+                                    //     );
+                                    //   } else
+                                    //     ScaffoldMessenger.of(context)
+                                    //         .showSnackBar(
+                                    //       SnackBar(
+                                    //         content: Text(
+                                    //             'Login feito com sucesso!'),
+                                    //       ),
+                                    //     );
+                                    //   Modular.to.navigate("/home");
+                                    // }
                                   },
                                 ),
                               ],

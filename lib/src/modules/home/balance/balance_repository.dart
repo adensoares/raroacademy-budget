@@ -1,6 +1,8 @@
+import 'package:budget/src/shared/auth/auth_controller.dart';
 import 'package:budget/src/shared/models/balance_model.dart';
 import 'package:budget/src/shared/models/transaction_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class BalanceRepository {
 
@@ -8,7 +10,7 @@ class BalanceRepository {
     try {
       final response = await FirebaseFirestore.instance
         .collection('/transactions')
-        .where("userId", isEqualTo: "auShXOUMllSyz77ogasa")
+        .where("userId", isEqualTo: Modular.get<AuthController>().user?.userId)
         .where("transactionType", isEqualTo: "in")
         .get();
 
@@ -32,7 +34,7 @@ class BalanceRepository {
     try {
       final response = await FirebaseFirestore.instance
           .collection('/transactions')
-          .where("userId", isEqualTo: "auShXOUMllSyz77ogasa")
+          .where("userId", isEqualTo: Modular.get<AuthController>().user?.userId)
           .where("transactionType", isEqualTo: "out")
           .get();
 
@@ -56,7 +58,7 @@ class BalanceRepository {
     try {
       final response = await FirebaseFirestore.instance
           .collection('/transactions')
-          .where("userId", isEqualTo: "auShXOUMllSyz77ogasa")
+          .where("userId", isEqualTo: Modular.get<AuthController>().user?.userId)
           .get();
 
       print(response.docs.length);
@@ -80,7 +82,7 @@ class BalanceRepository {
     try {
       final response = await FirebaseFirestore.instance
           .collection("/months")
-          .doc("FiZytUcJpjbQPbOBRa38")
+          .doc(Modular.get<AuthController>().user?.userId)
           .get();
 
       print((response.data()!["months"]).runtimeType);
@@ -106,7 +108,7 @@ class BalanceRepository {
     try {
       final response = await FirebaseFirestore.instance
           .collection("/monthly_balances")
-          .doc("auShXOUMllSyz77ogasa")
+          .doc(Modular.get<AuthController>().user?.userId)
           .get();
 
       print((response.data()).runtimeType);

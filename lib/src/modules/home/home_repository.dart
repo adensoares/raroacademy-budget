@@ -1,18 +1,21 @@
 import 'dart:convert';
 
+import 'package:budget/src/shared/auth/auth_controller.dart';
 import 'package:budget/src/shared/models/balance_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class HomeRepository {
 
   Future<String> getGeneralBalance() async{
     late int? generalBalance;
     try{
+      print(Modular.get<AuthController>().user?.userId);
       final response = await FirebaseFirestore.instance
       .collection("/balances")
-      .doc("auShXOUMllSyz77ogasa")
+      .doc(Modular.get<AuthController>().user?.userId)
       .get();
 
       print(response.data()!["total"]);
@@ -31,7 +34,7 @@ class HomeRepository {
     try {
       final response = await FirebaseFirestore.instance
           .collection("/months")
-          .doc("FiZytUcJpjbQPbOBRa38")
+          .doc(Modular.get<AuthController>().user?.userId)
           .get();
 
       print((response.data()!["months"]).runtimeType);
@@ -57,7 +60,7 @@ class HomeRepository {
     try {
       final response = await FirebaseFirestore.instance
           .collection("/monthly_balances")
-          .doc("9Pl7LsinbHWZS85YlVOl")
+          .doc(Modular.get<AuthController>().user?.userId)
           .get();
 
       print((response.data()).runtimeType);

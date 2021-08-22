@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TransactionModel {
 
-  String userId;
+  String? userId;
   int price;
   Timestamp date;
   String transactionName;

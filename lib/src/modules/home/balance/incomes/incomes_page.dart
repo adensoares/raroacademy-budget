@@ -3,6 +3,10 @@ import 'package:budget/src/shared/constants/dropdown_incomes_type.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/models/transaction_model.dart';
 import 'package:budget/src/shared/utils/month_to_string.dart';
+import 'package:budget/src/shared/auth/auth_controller.dart';
+import 'package:budget/src/shared/constants/dropdown_incomes_type.dart';
+import 'package:budget/src/shared/constants/shared_constants.dart';
+import 'package:budget/src/shared/models/user_model.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -94,7 +98,7 @@ class _IncomesPageState extends State<IncomesPage> {
         ),
       ),
       drawer: CustomDrawer(
-        textHeader: "Olá, José",
+        textHeader: 'Olá, ${Modular.get<AuthController>().user?.name}',
       ),
       body: Padding(
         padding: const EdgeInsets.only(
@@ -224,11 +228,12 @@ class _IncomesPageState extends State<IncomesPage> {
           onTap: () {
             bool formvalid = _formKey.currentState?.validate() ?? false;
             if(formvalid){
-              final int incomePrice = int.parse(incomePriceController.text.replaceAll(",", "."))*100;
+              final int incomePrice = (double.parse(incomePriceController.text.replaceAll(",", "."))*100).toInt();
               transaction.price = incomePrice;
               transaction.transactionName = incomeNameController.text;
-              transaction.userId = "auShXOUMllSyz77ogasa";
+              transaction.userId = Modular.get<AuthController>().user?.userId;
               controller.createIncome(transaction);
+              controller.updateBalance(transaction);
             }
             print(transaction);      
           }),
