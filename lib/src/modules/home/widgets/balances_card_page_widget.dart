@@ -1,11 +1,20 @@
-import 'package:budget/src/shared/constants/shared_constants.dart';
+import 'package:budget/src/shared/utils/transactions_icons.dart';
 import 'package:flutter/material.dart';
 
+import 'package:budget/src/shared/constants/shared_constants.dart';
+import 'package:budget/src/shared/models/transaction_model.dart';
+
 class BalancesCardPage extends StatelessWidget {
+
   const BalancesCardPage({
     Key? key,
+    required this.transactions, 
+    required this.balance,
   }) : super(key: key);
 
+  final List<TransactionModel> transactions;
+  final int balance;
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -15,60 +24,21 @@ class BalancesCardPage extends StatelessWidget {
         child: Column(
           children: [
             Flexible(
-              child: ListView(
+              child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 //physics: NeverScrollableScrollPhysics(),
                 //shrinkWrap: true,
-                children: [
-                  ListTile(
-                    leading: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.yellow,
-                        shape: BoxShape.circle
-                      ),
-                    ),
-                    title: Text("Teste1"),
-                  ),
-                  ListTile(
-                    title: Text("Teste2"),
-                  ),
-                  ListTile(
-                    title: Text("Teste3"),
-                  ),
-                  ListTile(
-                    title: Text("Teste4"),
-                  ),
-                  ListTile(
-                    title: Text("Teste5"),
-                  ),
-                  ListTile(
-                    title: Text("Teste6"),
-                  ),
-                  ListTile(
-                    title: Text("Teste7"),
-                  ),
-                  ListTile(
-                    title: Text("Teste8"),
-                  ),
-                  ListTile(
-                    title: Text("Teste8"),
-                  ),
-                   ListTile(
-                    title: Text("Teste8"),
-                  ),
-                   ListTile(
-                    title: Text("Teste8"),
-                  ),
-                   ListTile(
-                    title: Text("Teste8"),
-                  ),
-                   ListTile(
-                    title: Text("Teste8"),
-                  ),
-                  
-                ],
+                itemCount: transactions.length,
+                
+                itemBuilder: (context, index){
+                  print(transactions[index].transactionType);
+                  return ListTile(
+                    leading: getIconTransaction(transactions[index].transactionCategory),
+                    title: Text(
+                      transactions[index].transactionCategory),
+                    trailing: Text("R\$ ${transactions[index].price}"),
+                  );
+                },
               ),
             ),
             Divider(),
@@ -77,7 +47,7 @@ class BalancesCardPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Total Saídas", style: AppTextStyles.purple16w500Roboto,),
-                  Text("-R\$ 2.415,00", style: AppTextStyles.red14w500Roboto,),
+                  Text("-R\$ $balance", style: AppTextStyles.red14w500Roboto,),
               ],
               )
             ),

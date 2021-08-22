@@ -39,10 +39,6 @@ dependencies:
   firebase_auth: ^3.0.1
   mobx: ^2.0.4
   flutter_mobx: ^2.0.2
-
-  
-  
-  
   
 
 dev_dependencies:

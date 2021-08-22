@@ -14,7 +14,7 @@ class AuthRepository {
     if (userResponse.data() != null) {
       //Atribui os dados do userResponse ao user através o map do UserModel
       UserModel user = UserModel.fromMap(userResponse.data()!);
-      user.userId = userResponse.data()!['uid'];
+      user.userId = _auth.currentUser!.uid;
       print('user abaixo');
       print(user);
       return user;
