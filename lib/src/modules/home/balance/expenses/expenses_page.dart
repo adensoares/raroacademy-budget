@@ -1,11 +1,18 @@
+import 'package:budget/src/modules/home/balance/expenses/expenses_controller.dart';
+import 'package:budget/src/shared/constants/dropdown_expenses_type.dart';
+import 'package:budget/src/shared/constants/shared_constants.dart';
+import 'package:budget/src/shared/models/transaction_model.dart';
+import 'package:budget/src/shared/utils/month_to_string.dart';
 import 'package:budget/src/shared/auth/auth_controller.dart';
 import 'package:budget/src/shared/constants/dropdown_expenses_type.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/models/user_model.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:validatorless/validatorless.dart';
 
 class ExpensesPage extends StatefulWidget {
   const ExpensesPage({Key? key}) : super(key: key);
@@ -17,6 +24,19 @@ class ExpensesPage extends StatefulWidget {
 class _ExpensesPageState extends State<ExpensesPage> {
   DateTime date = DateTime.now();
   String? formattedDate;
+  ExpensesController controller = ExpensesController();
+  TransactionModel transaction = TransactionModel(
+    userId: "",
+    price: 0,
+    date: Timestamp.fromDate(DateTime.now()),
+    transactionName: "",
+    transactionType: "out",
+    transactionCategory: "",
+    month: monthToString(DateTime.now().month)
+  );
+
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController expensePriceController = TextEditingController();
 
   Future<Null> selectTimePicker(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -29,7 +49,8 @@ class _ExpensesPageState extends State<ExpensesPage> {
       setState(() {
         date = picked;
         formattedDate = DateFormat('dd/MM/yyyy').format(date);
-
+        transaction.date = Timestamp.fromDate(date);
+        transaction.month = monthToString(date.month);
         print(date.toString());
       });
     }
@@ -47,10 +68,16 @@ class _ExpensesPageState extends State<ExpensesPage> {
 
   @override
   void initState() {
-    formattedDate = DateFormat('dd/MM/yyyy').format(date);
-
-    _value = list[0];
     super.initState();
+    formattedDate = DateFormat('dd/MM/yyyy').format(date);
+    _value = list[0];
+    transaction.transactionCategory = _value.value;
+  }
+
+  @override
+  void dispose() {
+    expensePriceController.dispose();
+    super.dispose();
   }
 
   @override
@@ -82,23 +109,27 @@ class _ExpensesPageState extends State<ExpensesPage> {
           return true;
         },
         child: Padding(
-          padding: const EdgeInsets.only(
-            bottom: 40.0,
-            left: 16.0,
-            right: 16.0,
-            top: 16.0,
-          ),
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(54.0),
-                child: SingleChildScrollView(
+        padding: const EdgeInsets.only(
+          bottom: 40.0,
+          left: 16.0,
+          right: 16.0,
+          top: 16.0,
+        ),
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(54.0),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomTextFormField(
+                        controler: expensePriceController,
+                        validator: Validatorless.required("Preencha com o valor da entrada!"),
                         obscureText: false,
                         labelText: "Valor em R\$",
                         keyboardType: TextInputType.number,
@@ -119,12 +150,12 @@ class _ExpensesPageState extends State<ExpensesPage> {
                           onChanged: (value) {
                             setState(() {
                               _value = value as DropDownExpensesType;
+                              transaction.transactionCategory = _value.value;
                             });
                           },
                           value: _value,
                           selectedItemBuilder: (BuildContext context) {
-                            return list
-                                .map<Widget>((DropDownExpensesType item) {
+                            return list.map<Widget>((DropDownExpensesType item) {
                               return Row(
                                 children: [
                                   Text(_value.value),
@@ -146,12 +177,10 @@ class _ExpensesPageState extends State<ExpensesPage> {
                                         iconcolor: e.iconsWidget.iconcolor,
                                       ),
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
+                                        padding: const EdgeInsets.only(left: 8.0),
                                         child: Text(
                                           e.value,
-                                          style:
-                                              AppTextStyles.black16w400Roboto,
+                                          style: AppTextStyles.black16w400Roboto,
                                         ),
                                       )
                                     ],
@@ -197,7 +226,18 @@ class _ExpensesPageState extends State<ExpensesPage> {
             color: Colors.white,
           ),
           gradient: AppColors.headerButtonGradient,
-          onTap: () {}),
+          onTap: () {
+            bool formvalid = _formKey.currentState?.validate() ?? false;
+            if(formvalid){
+            final int expensePrice = (double.parse(expensePriceController.text.replaceAll(",", "."))*100).toInt();
+              transaction.price = expensePrice;
+              transaction.transactionName = "";
+              transaction.userId = Modular.get<AuthController>().user?.userId;
+              controller.createExpense(transaction);
+              controller.updateBalance(transaction);
+            }
+            print(transaction);
+          }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
