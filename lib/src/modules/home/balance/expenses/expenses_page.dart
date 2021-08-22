@@ -88,7 +88,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
         gradient: AppColors.headerButtonGradient,
         expanded: true,
         child: IconButton(
-          onPressed: () => Modular.to.navigate('/home/balance'),
+          onPressed: () => Modular.to.pop(),
           icon: Icon(
             Icons.arrow_back,
             color: Colors.white,
@@ -98,7 +98,17 @@ class _ExpensesPageState extends State<ExpensesPage> {
       drawer: CustomDrawer(
         textHeader: 'Olá, ${Modular.get<AuthController>().user?.name}',
       ),
-      body: Padding(
+      body: WillPopScope(
+        onWillPop: () async {
+          if (Modular.to.canPop()) {
+            print("CanPop");
+            Modular.to.pop();
+            return false;
+          }
+          print("CanNotPop");
+          return true;
+        },
+        child: Padding(
         padding: const EdgeInsets.only(
           bottom: 40.0,
           left: 16.0,
