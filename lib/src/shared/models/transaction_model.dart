@@ -8,7 +8,6 @@ class TransactionModel {
   int price;
   Timestamp date;
   String transactionName;
-  String? transactionDescription;
   String transactionType;
   String transactionCategory;
   String month;
@@ -18,7 +17,6 @@ class TransactionModel {
     required this.price,
     required this.date,
     required this.transactionName,
-    this.transactionDescription,
     required this.transactionType,
     required this.transactionCategory,
     required this.month,
@@ -27,7 +25,7 @@ class TransactionModel {
 
   @override
   String toString() {
-    return 'Transaction(userId: $userId, price: $price, date: $date, transactionName: $transactionName, transactionDescription: $transactionDescription, transactionType: $transactionType, transactionCategory: $transactionCategory, month: $month)';
+    return 'Transaction(userId: $userId, price: $price, date: $date, transactionName: $transactionName, transactionType: $transactionType, transactionCategory: $transactionCategory, month: $month)';
   }
 
   @override
@@ -39,7 +37,6 @@ class TransactionModel {
       other.price == price &&
       other.date == date &&
       other.transactionName == transactionName &&
-      other.transactionDescription == transactionDescription &&
       other.transactionType == transactionType &&
       other.transactionCategory == transactionCategory &&
       other.month == month;
@@ -51,7 +48,6 @@ class TransactionModel {
       price.hashCode ^
       date.hashCode ^
       transactionName.hashCode ^
-      transactionDescription.hashCode ^
       transactionType.hashCode ^
       transactionCategory.hashCode ^
       month.hashCode;
@@ -62,7 +58,6 @@ class TransactionModel {
     int? price,
     Timestamp? date,
     String? transactionName,
-    String? transactionDescription,
     String? transactionType,
     String? transactionCategory,
     String? month,
@@ -72,7 +67,6 @@ class TransactionModel {
       price: price ?? this.price,
       date: date ?? this.date,
       transactionName: transactionName ?? this.transactionName,
-      transactionDescription: transactionDescription ?? this.transactionDescription,
       transactionType: transactionType ?? this.transactionType,
       transactionCategory: transactionCategory ?? this.transactionCategory, 
       month: month ?? this.month,
@@ -85,7 +79,6 @@ class TransactionModel {
       'price': price,
       'date': date.millisecondsSinceEpoch,
       'transactionName': transactionName,
-      'transactionDescription': transactionDescription,
       'transactionType': transactionType,
       'transactionCategory': transactionCategory,
       'month': month,
@@ -96,9 +89,8 @@ class TransactionModel {
     return TransactionModel(
       userId: map['userId'],
       price: map['price'],
-      date: map['date'],
+      date: Timestamp.fromMicrosecondsSinceEpoch(map['date']),
       transactionName: map['transactionName'],
-      transactionDescription: map['transactionDescription'],
       transactionType: map['transactionType'],
       transactionCategory: map['transactionCategory'],
       month: map['month']

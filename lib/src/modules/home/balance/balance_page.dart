@@ -6,6 +6,7 @@ import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/appbar/custom_appbar_widget.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class BalancePage extends StatefulWidget {
@@ -16,7 +17,6 @@ class BalancePage extends StatefulWidget {
 }
 
 class _BalancePageState extends State<BalancePage> {
-
   BalanceController controller = BalanceController();
 
   @override
@@ -24,36 +24,41 @@ class _BalancePageState extends State<BalancePage> {
     super.initState();
     controller.getMonths();
     controller.getBalance();
+    print(controller.errorMessage);
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
+   return Observer(builder: (_){
+     if(controller.state == AppStatus.loading){
+       return CircularProgressIndicator();
+     }
+     else if(controller.state == AppStatus.success){
+       return DefaultTabController(
         length: 3,
         child: Builder(builder: (BuildContext context) {
           return Scaffold(
             appBar: CustomAppbar(
-            text: "R\$ ${controller.monthlyBalance.total}",
-            gradient: AppColors.headerButtonGradient, 
-            dropdown: CustomDropdown(
-            initialValue: controller.months[0],
-            dropdownItens: controller.months
-            ), 
-            tabBar: TabBar(
-              tabs: [
-               Tab(text: "Entradas"),
-               Tab(text: "Saídas"),
-               Tab(text: "Total"),
-              ],
+              text: "R\$ ${controller.monthlyBalance.total}",
+              gradient: AppColors.headerButtonGradient,
+              dropdown: CustomDropdown(
+                  initialValue: controller.months[0],
+                  dropdownItens: controller.months),
+              tabBar: TabBar(
+                tabs: [
+                  Tab(text: "Entradas"),
+                  Tab(text: "Saídas"),
+                  Tab(text: "Total"),
+                ],
+              ),
             ),
-          ),
-        body: TabBarView(
-          children: [
-            BalanceIncomes(controller: controller,),
-            BalanceExpenses(controller: controller),
-            BalanceTotal(controller: controller),
-          ]
-        ),
+            body: TabBarView(children: [
+              BalanceIncomes(
+                controller: controller,
+              ),
+              BalanceExpenses(controller: controller),
+              BalanceTotal(controller: controller),
+            ]),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: DefaultTabController.of(context)?.index != 2
@@ -70,7 +75,7 @@ class _BalancePageState extends State<BalancePage> {
                       DefaultTabController.of(context)?.index == 0
                           ? Modular.to.navigate("/home/balance/incomes")
                           : DefaultTabController.of(context)?.index == 1
-                              ? Modular.to.navigate("/home/balance/incomes")
+                              ? Modular.to.navigate("/home/balance/expenses")
                               : Modular.to
                                   .popUntil(ModalRoute.withName('/login'));
                       print(DefaultTabController.of(context)?.index);
@@ -79,5 +84,12 @@ class _BalancePageState extends State<BalancePage> {
                 : Container(),
           );
         }));
+     }
+     else{
+       return Center(
+         child: Text("Erro")
+       );
+     }
+    });
   }
 }

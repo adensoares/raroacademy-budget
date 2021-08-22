@@ -2,8 +2,8 @@ import 'package:budget/src/shared/models/transaction_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-class IncomesRepository {
-  Future<void> createIncome(TransactionModel transaction) async {
+class ExpensesRepository {
+  Future<void> createExpense(TransactionModel transaction) async {
     try{
       await FirebaseFirestore.instance.collection("/transactions")
       .add(

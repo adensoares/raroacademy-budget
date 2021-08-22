@@ -39,21 +39,6 @@ class LastTransactionsCard extends StatelessWidget {
               shrinkWrap: true,
               children: [
                 ListTile(
-                  title: Text("Teste1"),
-                ),
-                ListTile(
-                  title: Text("Teste2"),
-                ),
-                ListTile(
-                  title: Text("Teste3"),
-                ),
-                ListTile(
-                  title: Text("Teste4"),
-                ),
-                ListTile(
-                  title: Text("Teste5"),
-                ),
-                ListTile(
                   title: Text("Teste6"),
                 ),
                 ListTile(

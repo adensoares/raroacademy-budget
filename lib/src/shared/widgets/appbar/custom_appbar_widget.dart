@@ -1,6 +1,7 @@
 import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:budget/src/shared/widgets/custom_dropdown_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import '../shared_widgets.dart';
@@ -60,10 +61,12 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      text,
-                      style: AppTextStyles.white26w700Roboto,
-                    ),
+                    Observer(builder: (_) {
+                      return Text(
+                        text,
+                        style: AppTextStyles.white26w700Roboto,
+                      );
+                    }),
                   ],
                 ),
                 Container(

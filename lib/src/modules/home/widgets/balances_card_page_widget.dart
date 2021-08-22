@@ -34,7 +34,9 @@ class BalancesCardPage extends StatelessWidget {
                   print(transactions[index].transactionType);
                   return ListTile(
                     leading: getIconTransaction(transactions[index].transactionCategory),
-                    title: Text(transactions[index].transactionName),
+                    title: Text(
+                      transactions[index].transactionCategory),
+                    trailing: Text("R\$ ${transactions[index].price}"),
                   );
                 },
               ),
