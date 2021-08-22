@@ -19,7 +19,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   HomeController controller = HomeController();
 
   @override
@@ -29,6 +28,7 @@ class _HomePageState extends State<HomePage> {
     controller.getMonths();
     controller.getMonthlyBalance();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,28 +72,45 @@ class _HomePageState extends State<HomePage> {
                         gradient: AppColors.headerButtonGradient),
                   ),
                   onTap: () {
-                Modular.to.navigate("/home/balance");
-              },
+                    Modular.to.navigate("/home/balance");
+                  },
                 ),
                 LastTransactionsCard()
               ],
             ),
           );
-        }else {
-          return Column(
-            children: [
-              Text("Erro na conexão", style: AppTextStyles.cyan48w400Roboto,),
-              ButtonWidget(
-                borderRadius: 34.0,
-                child: Text("TENTAR NOVAMENTE", style: AppTextStyles.white14w500Roboto,),
-                onTap: (){
-                }
-              )
-            ],
+        } else {
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Erro na conexão",
+                  style: AppTextStyles.cyan48w400Roboto,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                ButtonWidget(
+                    borderRadius: 34.0,
+                    child: Text(
+                      "TENTAR NOVAMENTE",
+                      style: AppTextStyles.black16w400Roboto,
+                    ),
+                    onTap: () {
+                      if (controller.state == AppStatus.loading) {
+                        Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (controller.state == AppStatus.success) {
+                        Modular.to.pushReplacementNamed('/home');
+                      }
+                    })
+              ],
+            ),
           );
         }
-      }
-      ),
+      }),
     );
   }
 }

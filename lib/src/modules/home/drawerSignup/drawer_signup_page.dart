@@ -1,3 +1,5 @@
+import 'package:budget/src/shared/auth/auth_controller.dart';
+import 'package:budget/src/shared/auth/auth_repository.dart';
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/appbar/simple_appbar_widget.dart';
@@ -59,11 +61,15 @@ class _DrawerSignupPageState extends State<DrawerSignupPage> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               CustomTextFormField(
+                                initialvalue:
+                                    '${Modular.get<AuthController>().user?.name}',
                                 obscureText: false,
                                 keyboardType: TextInputType.name,
                                 labelText: 'Nome',
                               ),
                               CustomTextFormField(
+                                initialvalue:
+                                    '${Modular.get<AuthController>().user?.cpf}',
                                 inputformatter: [_maskformaterCPF],
                                 obscureText: false,
                                 keyboardType: TextInputType.number,
@@ -71,6 +77,8 @@ class _DrawerSignupPageState extends State<DrawerSignupPage> {
                                 validator: Validatorless.cpf('Valor inválido'),
                               ),
                               CustomTextFormField(
+                                  initialvalue:
+                                      '${Modular.get<AuthController>().user?.email}',
                                   obscureText: false,
                                   keyboardType: TextInputType.emailAddress,
                                   labelText: 'E-mail',
@@ -78,6 +86,8 @@ class _DrawerSignupPageState extends State<DrawerSignupPage> {
                                     Validatorless.email('email inválido'),
                                   ])),
                               CustomTextFormField(
+                                initialvalue:
+                                    '${Modular.get<AuthController>().user?.phone}',
                                 inputformatter: [_maskformaterNumber],
                                 obscureText: false,
                                 keyboardType: TextInputType.number,
@@ -104,7 +114,7 @@ class _DrawerSignupPageState extends State<DrawerSignupPage> {
           }
         },
         label: Text('SALVAR ALTERAÇÕES'),
-        backgroundColor: AppColors.gray,
+        backgroundColor: AppColors.purple,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       resizeToAvoidBottomInset: false,

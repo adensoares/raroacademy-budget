@@ -26,26 +26,6 @@ class LoginRepository {
     }
   }
 
-  // Future<bool> logar() async {
-  //   try {
-  //     await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //       email: email!.text,
-  //       password: password!.text,
-  //     );
-  //     if (FirebaseAuth.instance.currentUser != null) {
-  //       print("Entrou");
-  //       return true;
-  //     } else {
-  //       print("Nao Entrou");
-  //       return false;
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     print("Catch");
-  //     return false;
-  //   }
-  // }
-
   Future logar() async {
     try {
       UserCredential userCredential =
