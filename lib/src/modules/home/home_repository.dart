@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:budget/src/shared/auth/auth_controller.dart';
+import 'package:budget/src/shared/models/transaction_model.dart';
+import 'package:budget/src/shared/utils/extensions.dart';
 import 'package:budget/src/shared/models/balance_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,19 +11,25 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 class HomeRepository {
 
-  Future<String> getGeneralBalance() async{
+  Future<int> getGeneralBalance() async{
     late int? generalBalance;
     try{
-      print(Modular.get<AuthController>().user?.userId);
+      
       final response = await FirebaseFirestore.instance
       .collection("/balances")
       .doc(Modular.get<AuthController>().user?.userId)
       .get();
 
       print(response.data()!["total"]);
-      generalBalance = (response.data()!["total"]) as int;
+      if(response.data()!["total"] != null){
+        generalBalance = (response.data()!["total"]) as int;
+        print(generalBalance);
+      }
+      else{
+        generalBalance = 0;
+      }
       print(generalBalance);
-      return (generalBalance.toDouble()).reais();
+      return (generalBalance);
 
     } catch (e) {
       print('Erro no servidor: $e');
@@ -32,19 +40,18 @@ class HomeRepository {
   Future<List<String>> getMonths() async {
     List<String> months = [" "];
     try {
+      print(Modular.get<AuthController>().user?.userId);
       final response = await FirebaseFirestore.instance
           .collection("/months")
           .doc(Modular.get<AuthController>().user?.userId)
           .get();
 
-      print((response.data()!["months"]).runtimeType);
+      print(response.data()?["months"]);
 
-      print(response.data()!["months"]);
-      
-      months = (response.data()!["months"]).cast<String>();
-      if(months.length == 0){
-        return [" "];
+      if(response.data()?["months"] != null){
+        months = (response.data()?["months"]).cast<String>();
       }
+
       print(months);
       return months;
     } on FirebaseException catch (e) {
@@ -56,19 +63,24 @@ class HomeRepository {
 
   Future<MonthlyBalanceModel> getMonthlyBalance() async {
 
-    MonthlyBalanceModel monthlyBalance = MonthlyBalanceModel(expenses: 0, incomes: 0, month: "", total: 0);
+    MonthlyBalanceModel monthlyBalance = MonthlyBalanceModel(expenses: 0, incomes: 0, month: "", total: 0, userId: '');
     try {
-      final response = await FirebaseFirestore.instance
-          .collection("/monthly_balances")
-          .doc(Modular.get<AuthController>().user?.userId)
-          .get();
+      final doc = await FirebaseFirestore.instance
+      .collection("/monthly_balances")
+      .where("userId", isEqualTo: Modular.get<AuthController>().user?.userId)
+      .get();
 
-      print((response.data()).runtimeType);
-
-      print(response.data());
-      monthlyBalance = MonthlyBalanceModel.fromMap(response.data()!) ;
-      print(monthlyBalance);
+      print(doc.docs);
+      if(doc.docs.length > 0){
+        final response = await FirebaseFirestore.instance
+        .collection("/monthly_balances")
+        .doc(doc.docs.first.id)
+        .get();
+        monthlyBalance = MonthlyBalanceModel.fromMap(response.data()!);
+      }
+  print(monthlyBalance);
       return monthlyBalance;
+
     } on FirebaseException catch (e) {
       print('Erro no servidor: ${e.code}');
       throw e.message ??
@@ -76,28 +88,28 @@ class HomeRepository {
     }
   }
 
-  // Future<List<TransactionModel>> getIncomes() async {
-  //   try {
-  //     final response = await FirebaseFirestore.instance
-  //         .collection('/transactions')
-  //         .where("userId", isEqualTo: "auShXOUMllSyz77ogasa")
-  //         .where("transactionType", isEqualTo: "in")
-  //         .get();          
+  Future<List<TransactionModel>> getLastTransactions() async {
+    try {
+      final response = await FirebaseFirestore.instance
+          .collection('/transactions')
+          .where("userId", isEqualTo: Modular.get<AuthController>().user?.userId)
+          .orderBy("date").limitToLast(3)
+          //.limit(3)
+          .get();
 
-  //     print(response.docs.length);
+      print("Aqui ${response.docs.length}");
+      if(response.docs.length == 0){
+        return [];
+      }
 
-  //     List<TransactionModel> listTransactions =  response.docs.map((e) => TransactionModel.fromMap(e.data())).toList();
-  //     print(listTransactions);
-  //     return listTransactions;
-  //   }on FirebaseAuthException catch (e) {
-  //     print('Erro no servidor: ${e.code}');
-  //     throw e.message ?? 'Não foi possível recuperar os dados do servdor. Erro ${e.code}';
-  //   }
-  // }
-}
-
-extension parse on double {
-  String reais() {
-    return "R\$ ${this.toStringAsFixed(2).replaceAll(".", ",")}";
+      List<TransactionModel> lastTransactions =
+          response.docs.map((e) => TransactionModel.fromMap(e.data())).toList();
+      print(lastTransactions);
+      return lastTransactions;
+    } on FirebaseException catch (e) {
+      print('Erro no servidor: ${e.code}');
+      throw e.message ??
+          'Não foi possível recuperar os dados do servdor. Erro ${e.code}';
+    }
   }
 }

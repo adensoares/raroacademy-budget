@@ -78,21 +78,20 @@ class BalanceRepository {
   }
 
   Future<List<String>> getMonths() async {
-    List<String> months = [""];
+    List<String> months = [" "];
     try {
+      print(Modular.get<AuthController>().user?.userId);
       final response = await FirebaseFirestore.instance
           .collection("/months")
           .doc(Modular.get<AuthController>().user?.userId)
           .get();
 
-      print((response.data()!["months"]).runtimeType);
+      print(response.data()?["months"]);
 
-      print(response.data()!["months"]);
-      
-      months = (response.data()!["months"]).cast<String>();
-      if(months.length == 0){
-        return [" "];
+      if(response.data()?["months"] != null){
+        months = (response.data()?["months"]).cast<String>();
       }
+
       print(months);
       return months;
     } on FirebaseException catch (e) {
@@ -102,21 +101,26 @@ class BalanceRepository {
     }
   }
 
-  Future<MonthlyBalanceModel> getMonthlyBalance() async {
+   Future<MonthlyBalanceModel> getMonthlyBalance() async {
 
-    MonthlyBalanceModel monthlyBalance = MonthlyBalanceModel(expenses: 0, incomes: 0, month: "", total: 0);
+    MonthlyBalanceModel monthlyBalance = MonthlyBalanceModel(expenses: 0, incomes: 0, month: "", total: 0, userId: '');
     try {
-      final response = await FirebaseFirestore.instance
-          .collection("/monthly_balances")
-          .doc(Modular.get<AuthController>().user?.userId)
-          .get();
+      final doc = await FirebaseFirestore.instance
+      .collection("/monthly_balances")
+      .where("userId", isEqualTo: Modular.get<AuthController>().user?.userId)
+      .get();
 
-      print((response.data()).runtimeType);
-
-      print(response.data());
-      monthlyBalance = MonthlyBalanceModel.fromMap(response.data()!) ;
-      print(monthlyBalance);
+      print(doc.docs);
+      if(doc.docs.length > 0){
+        final response = await FirebaseFirestore.instance
+        .collection("/monthly_balances")
+        .doc(doc.docs.first.id)
+        .get();
+        monthlyBalance = MonthlyBalanceModel.fromMap(response.data()!);
+      }
+  print(monthlyBalance);
       return monthlyBalance;
+
     } on FirebaseException catch (e) {
       print('Erro no servidor: ${e.code}');
       throw e.message ??

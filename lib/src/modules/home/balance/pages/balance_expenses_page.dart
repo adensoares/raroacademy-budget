@@ -20,6 +20,7 @@ class _BalanceExpensesState extends State<BalanceExpenses> {
 
   @override
   void initState() {
+    widget.controller.changeVisibilityButton(true);
     widget.controller.getExpenses();
      print(widget.controller.transactions);
     super.initState();
@@ -34,13 +35,16 @@ class _BalanceExpensesState extends State<BalanceExpenses> {
       }
       else if(widget.controller.state == AppStatus.success){
         return BalancesCardPage(
+          totalType: "Saídas",
           transactions: widget.controller.transactions,
-          balance: widget.controller.monthlyBalance.expenses,
+          balance: -widget.controller.monthlyBalance.expenses,
         );
       }
       else{
-        return Center(
-          child: Text("Erro"),
+        return Scaffold(
+          body: Center(
+            child: Text("Erro"),
+          ),
         );
       }
     });

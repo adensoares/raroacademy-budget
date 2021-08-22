@@ -12,7 +12,11 @@ class BalanceController = _BalanceControllerBase with _$BalanceController;
 abstract class _BalanceControllerBase with Store {
 
   String errorMessage = "";
+
   BalanceRepository repository = BalanceRepository();
+
+  @observable
+  bool visibleButton = true;
 
   @observable
   AppStatus state = AppStatus.empty;
@@ -22,7 +26,18 @@ abstract class _BalanceControllerBase with Store {
   List<String> months = [" "];
 
   @observable
-  MonthlyBalanceModel monthlyBalance = MonthlyBalanceModel(expenses: 0, incomes: 0, month: "", total: 0);
+  MonthlyBalanceModel monthlyBalance = MonthlyBalanceModel(expenses: 0, incomes: 0, month: "", total: 0, userId: '');
+
+  @action
+  void changeVisibilityButton(bool visibility){
+    try{
+      state = AppStatus.loading;
+      visibleButton = visibility;
+      state = AppStatus.success;
+    }catch(e){
+      state = AppStatus.error;
+    }    
+  }
 
   @action
   Future<void> getIncomes() async {
