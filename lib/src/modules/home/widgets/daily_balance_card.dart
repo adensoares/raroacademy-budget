@@ -1,5 +1,6 @@
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
+import 'package:budget/src/shared/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class DailyBalanceCard extends StatelessWidget {
@@ -7,9 +8,9 @@ class DailyBalanceCard extends StatelessWidget {
     Key? key, required this.balance, required this.incomes, required this.expenses, required this.dropdown,
   }) : super(key: key);
 
-  final String balance;
-  final String incomes;
-  final String expenses;
+  final int balance;
+  final int incomes;
+  final int expenses;
   final CustomDropdown dropdown;
 
   @override
@@ -22,7 +23,7 @@ class DailyBalanceCard extends StatelessWidget {
             contentPadding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 8.0),
             trailing: dropdown,
             title: Text("Dia a dia", style: AppTextStyles.purple20w500Roboto,),
-            subtitle: Text("R\$ 3.000,00", style: AppTextStyles.black24w400Roboto,),
+            subtitle: Text(balance.reais(), style: AppTextStyles.black24w400Roboto,),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -32,14 +33,14 @@ class DailyBalanceCard extends StatelessWidget {
                   children: [
                     Flexible(
                       child: FractionallySizedBox(
-                        widthFactor: 0.8,
+                        widthFactor: 1.0,
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Saidas", style: AppTextStyles.lightGray14w500Roboto,),
-                              Text("R\$ 5.000,00", style: AppTextStyles.lightGray14w400Roboto,),
+                              Text("Entradas", style: AppTextStyles.lightGray14w500Roboto,),
+                              Text(incomes.reais(), style: AppTextStyles.lightGray14w400Roboto,),
                             ],
                           ),
                         ),
@@ -52,7 +53,7 @@ class DailyBalanceCard extends StatelessWidget {
                     Flexible(
                       child: FractionallySizedBox(
                         alignment: FractionalOffset.centerLeft,
-                        widthFactor: 0.8,
+                        widthFactor: (incomes >= expenses)? 1.0 : (incomes/expenses).abs(),
                         child: Container(
                           height: 11,
                           decoration: BoxDecoration(
@@ -76,12 +77,12 @@ class DailyBalanceCard extends StatelessWidget {
                   children: [
                     Flexible(
                       child: FractionallySizedBox(
-                        widthFactor: 0.8,
+                        widthFactor: 1.0,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Saidas", style: AppTextStyles.lightGray14w500Roboto,),
-                            Text("R\$ 5.000,00", style: AppTextStyles.lightGray14w400Roboto,),
+                            Text(expenses.reais(), style: AppTextStyles.lightGray14w400Roboto,),
                           ],
                         ),
                       ),
@@ -93,7 +94,7 @@ class DailyBalanceCard extends StatelessWidget {
                     Flexible(
                       child: FractionallySizedBox(
                         alignment: FractionalOffset.centerLeft,
-                        widthFactor: 0.8,
+                        widthFactor: (expenses >= incomes)? 1.0 : (expenses/incomes).abs(),
                         child: Container(
                           height: 11,                                     
                           decoration: BoxDecoration(

@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 class MonthlyBalanceModel {
+  String userId;
   final int expenses;
   final int incomes;
   final String month;
   final int total;
   MonthlyBalanceModel({
+    required this.userId,
     required this.expenses,
     required this.incomes,
     required this.month,
@@ -13,12 +15,14 @@ class MonthlyBalanceModel {
   });
 
   MonthlyBalanceModel copyWith({
+    String? userId,
     int? expenses,
     int? incomes,
     String? month,
     int? total,
   }) {
     return MonthlyBalanceModel(
+      userId: userId ?? this.userId,
       expenses: expenses ?? this.expenses,
       incomes: incomes ?? this.incomes,
       month: month ?? this.month,
@@ -28,6 +32,7 @@ class MonthlyBalanceModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'userId': userId,
       'expenses': expenses,
       'incomes': incomes,
       'month': month,
@@ -37,6 +42,7 @@ class MonthlyBalanceModel {
 
   factory MonthlyBalanceModel.fromMap(Map<String, dynamic> map) {
     return MonthlyBalanceModel(
+      userId: map['userId'],
       expenses: map['expenses'],
       incomes: map['incomes'],
       month: map['month'],
@@ -50,7 +56,7 @@ class MonthlyBalanceModel {
 
   @override
   String toString() {
-    return 'MonthlyBalanceModel(expenses: $expenses, incomes: $incomes, month: $month, total: $total)';
+    return 'MonthlyBalanceModel(userId: $userId, expenses: $expenses, incomes: $incomes, month: $month, total: $total)';
   }
 
   @override
@@ -58,6 +64,7 @@ class MonthlyBalanceModel {
     if (identical(this, other)) return true;
   
     return other is MonthlyBalanceModel &&
+      other.userId == userId &&
       other.expenses == expenses &&
       other.incomes == incomes &&
       other.month == month &&
@@ -66,7 +73,8 @@ class MonthlyBalanceModel {
 
   @override
   int get hashCode {
-    return expenses.hashCode ^
+    return userId.hashCode ^
+      expenses.hashCode ^
       incomes.hashCode ^
       month.hashCode ^
       total.hashCode;

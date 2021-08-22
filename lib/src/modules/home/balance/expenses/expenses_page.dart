@@ -225,6 +225,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
               transaction.userId = Modular.get<AuthController>().user?.userId;
               controller.createExpense(transaction);
               controller.updateBalance(transaction);
+              Modular.to.navigate("/home/balance");
             }
             print(transaction);
           }),

@@ -29,8 +29,20 @@ class ExpensesRepository {
       );
 
       final response = await FirebaseFirestore.instance.collection("/monthly_balances")
-      .doc(Modular.get<AuthController>().user?.userId)
+      .where("month", isEqualTo: transaction.month)
+      .where("userId", isEqualTo: transaction.userId)
       .get();
+
+      print(response.docs.first.id);
+
+      await FirebaseFirestore.instance.collection("/monthly_balances")
+      .doc(response.docs.first.id)
+      .update(
+        {
+        "expenses": FieldValue.increment(transaction.price),
+        "total": FieldValue.increment(-transaction.price)
+        }
+      );
       
     }on FirebaseException catch(e){
       print('Erro no servidor: ${e.code}');

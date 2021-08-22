@@ -20,6 +20,8 @@ class _BalanceTotalState extends State<BalanceTotal> {
 
 @override
 void initState() {
+  widget.controller.changeVisibilityButton(false);
+  print("Aqui " + widget.controller.visibleButton.toString());
   widget.controller.getAll(); 
   super.initState();
   
@@ -40,8 +42,10 @@ void initState() {
         );
       }
       else{
-        return Center(
-          child: Text("Erro"),
+        return Scaffold(
+          body: Center(
+            child: Text("Erro"),
+          ),
         );
       }
     });

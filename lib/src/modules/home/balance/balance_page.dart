@@ -5,6 +5,7 @@ import 'package:budget/src/modules/home/balance/pages/balance_total_page.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/appbar/custom_appbar_widget.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
+import 'package:budget/src/shared/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -31,7 +32,11 @@ class _BalancePageState extends State<BalancePage> {
   Widget build(BuildContext context) {
    return Observer(builder: (_){
      if(controller.state == AppStatus.loading){
-       return CircularProgressIndicator();
+       return Scaffold(
+         body: Center(
+           child: CircularProgressIndicator()
+        )
+      );
      }
      else if(controller.state == AppStatus.success){
        return DefaultTabController(
@@ -39,7 +44,7 @@ class _BalancePageState extends State<BalancePage> {
         child: Builder(builder: (BuildContext context) {
           return Scaffold(
             appBar: CustomAppbar(
-              text: "R\$ ${controller.monthlyBalance.total}",
+              text: controller.monthlyBalance.total.reais(),
               gradient: AppColors.headerButtonGradient,
               dropdown: CustomDropdown(
                   initialValue: controller.months[0],
@@ -53,9 +58,7 @@ class _BalancePageState extends State<BalancePage> {
               ),
             ),
             body: TabBarView(children: [
-              BalanceIncomes(
-                controller: controller,
-              ),
+              BalanceIncomes(controller: controller,),
               BalanceExpenses(controller: controller),
               BalanceTotal(controller: controller),
             ]),
@@ -81,8 +84,9 @@ class _BalancePageState extends State<BalancePage> {
                       print(DefaultTabController.of(context)?.index);
                     },
                   )
-                : Container(),
+                : Container()
           );
+        
         }));
      }
      else{

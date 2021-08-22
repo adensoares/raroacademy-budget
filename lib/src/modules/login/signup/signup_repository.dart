@@ -50,6 +50,8 @@ class SignupRepository {
       }).catchError((_) {
         print('aconteceu um erro');
       });
+      await FirebaseFirestore.instance.collection('/months').doc(user.uid).set({});
+      await FirebaseFirestore.instance.collection('/balances').doc(user.uid).set({});
     } catch (e) {
       print(e);
     }

@@ -234,6 +234,7 @@ class _IncomesPageState extends State<IncomesPage> {
               transaction.userId = Modular.get<AuthController>().user?.userId;
               controller.createIncome(transaction);
               controller.updateBalance(transaction);
+              Modular.to.navigate("/home/balance");
             }
             print(transaction);      
           }),

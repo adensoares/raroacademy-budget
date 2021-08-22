@@ -1,6 +1,6 @@
 import 'package:budget/src/shared/utils/transactions_icons.dart';
 import 'package:flutter/material.dart';
-
+import 'package:budget/src/shared/utils/extensions.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/models/transaction_model.dart';
 
@@ -10,8 +10,10 @@ class BalancesCardPage extends StatelessWidget {
     Key? key,
     required this.transactions, 
     required this.balance,
+    this.totalType = "" 
   }) : super(key: key);
 
+  final String totalType;
   final List<TransactionModel> transactions;
   final int balance;
   
@@ -36,7 +38,7 @@ class BalancesCardPage extends StatelessWidget {
                     leading: getIconTransaction(transactions[index].transactionCategory),
                     title: Text(
                       transactions[index].transactionCategory),
-                    trailing: Text("R\$ ${transactions[index].price}"),
+                    trailing: Text(transactions[index].price.reais()),
                   );
                 },
               ),
@@ -46,8 +48,10 @@ class BalancesCardPage extends StatelessWidget {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Total Saídas", style: AppTextStyles.purple16w500Roboto,),
-                  Text("-R\$ $balance", style: AppTextStyles.red14w500Roboto,),
+                  Text("Total " + totalType, style: AppTextStyles.purple16w500Roboto,),
+                  (balance >= 0 && totalType != "Saídas") ?
+                  Text("+" +balance.reais(), style: AppTextStyles.green14w500Roboto)
+                  :Text(balance.reais(), style: AppTextStyles.red14w500Roboto,),
               ],
               )
             ),
