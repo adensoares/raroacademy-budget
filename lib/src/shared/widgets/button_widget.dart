@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 
 class ButtonWidget extends StatelessWidget {
-  const ButtonWidget ({ Key? key, this.width, this.height, this.gradient, this.color, required this.borderRadius, required this.child, this.prefixIcon, this.posfixIcon, this.boxShadow, required this.onTap });
+  const ButtonWidget(
+      {Key? key,
+      this.width,
+      this.height,
+      this.gradient,
+      this.color,
+      required this.borderRadius,
+      required this.child,
+      this.prefixIcon,
+      this.posfixIcon,
+      this.boxShadow,
+      required this.onTap});
 
   final double? width;
   final double? height;
@@ -12,8 +23,7 @@ class ButtonWidget extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? posfixIcon;
   final List<BoxShadow>? boxShadow;
-  final void Function() onTap;
-  
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +32,11 @@ class ButtonWidget extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-          gradient: gradient,
-          color: color,
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(borderRadius),
-          boxShadow: boxShadow
-        ),
+            gradient: gradient,
+            color: color,
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(borderRadius),
+            boxShadow: boxShadow),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,7 +44,7 @@ class ButtonWidget extends StatelessWidget {
           children: [
             prefixIcon ?? Container(),
             child,
-            posfixIcon ??  Container(),
+            posfixIcon ?? Container(),
           ],
         ),
       ),

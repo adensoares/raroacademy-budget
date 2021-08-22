@@ -45,7 +45,7 @@ class SignupRepository {
       await FirebaseFirestore.instance.collection('/users').doc(user!.uid).set({
         'email': email!.text,
         'cpf': cpf!.text,
-        'phone-number': number!.text,
+        'phoneNumber': number!.text,
         'name': name!.text,
       }).catchError((_) {
         print('aconteceu um erro');

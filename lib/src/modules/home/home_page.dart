@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               onTap: () {
-                Modular.to.navigate("/home/balance");
+                Modular.to.pushNamed("/home/balance");
               },
             ),
             LastTransactionsCard()

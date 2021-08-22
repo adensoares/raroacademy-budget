@@ -3,4 +3,9 @@
 
 // class LoginController = _LoginControllerBase with _$LoginController;
 
-// abstract class _LoginControllerBase with Store {}
+// abstract class _LoginControllerBase with Store {
+//   @observable
+//   bool showPassword = false;
+
+
+// }

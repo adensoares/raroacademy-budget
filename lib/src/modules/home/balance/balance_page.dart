@@ -37,11 +37,22 @@ class _BalancePageState extends State<BalancePage> {
                 ],
               ),
             ),
-            body: TabBarView(children: [
-              BalanceIncomes(),
-              BalanceExpenses(),
-              BalanceTotal(),
-            ]),
+            body: WillPopScope(
+              onWillPop: () async {
+                if (Modular.to.canPop()) {
+                  print("CanPop");
+                  Modular.to.pop();
+                  return false;
+                }
+                print("CanNotPop");
+                return true;
+              },
+              child: TabBarView(children: [
+                BalanceIncomes(),
+                BalanceExpenses(),
+                BalanceTotal(),
+              ]),
+            ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton: DefaultTabController.of(context)?.index != 2
@@ -56,11 +67,11 @@ class _BalancePageState extends State<BalancePage> {
                     ),
                     onTap: () {
                       DefaultTabController.of(context)?.index == 0
-                          ? Modular.to.navigate("/home/balance/incomes")
+                          ? Modular.to.pushNamed("/home/balance/incomes")
                           : DefaultTabController.of(context)?.index == 1
-                              ? Modular.to.navigate("/home/balance/incomes")
+                              ? Modular.to.pushNamed("/home/balance/incomes")
                               : Modular.to
-                                  .popUntil(ModalRoute.withName('/login'));
+                                  .popUntil(ModalRoute.withName('/home'));
                       print(DefaultTabController.of(context)?.index);
                     },
                   )
