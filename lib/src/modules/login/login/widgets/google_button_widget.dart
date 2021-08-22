@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
-class ButtonGoogleWidget extends StatelessWidget {
-  ButtonGoogleWidget({Key? key}) : super(key: key);
+import 'package:budget/src/modules/login/login/widgets/google_button_controller.dart';
+
+// ignore: must_be_immutable
+class GoogleButtonWidget extends StatelessWidget {
+  GoogleButtonWidget({
+    Key? key,
+    required this.onpressed,
+  }) : super(key: key);
+  final void Function() onpressed;
+  AppStatusGoogle? statusGoogle;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +20,7 @@ class ButtonGoogleWidget extends StatelessWidget {
           primary: Colors.white,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0))),
-      onPressed: () {},
+      onPressed: onpressed,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
