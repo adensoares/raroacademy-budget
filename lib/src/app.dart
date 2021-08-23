@@ -1,15 +1,17 @@
-import 'package:budget/src/modules/home/home_page.dart';
+import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Budget',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: AppColors.customMaterialPurple,
       ),
-      home: HomePage(),
-    );
+      initialRoute: "/",
+    ).modular();
   }
 }
