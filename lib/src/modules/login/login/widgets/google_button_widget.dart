@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
 
-
 import 'package:budget/src/modules/login/login/widgets/google_button_controller.dart';
 
 // ignore: must_be_immutable
 class GoogleButtonWidget extends StatelessWidget {
   GoogleButtonWidget({
     Key? key,
-    required this.onpressed,
+    required this.onPressed,
   }) : super(key: key);
-  final void Function() onpressed;
+  final void Function() onPressed;
   AppStatusGoogle? statusGoogle;
 
-class ButtonGoogleWidget extends StatelessWidget {
-  ButtonGoogleWidget({Key? key, this.onPressed}) : super(key: key);
-
-
-  final void Function()? onPressed;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -26,11 +20,7 @@ class ButtonGoogleWidget extends StatelessWidget {
           primary: Colors.white,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0))),
-
-      
-
       onPressed: onPressed,
-
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
