@@ -17,30 +17,35 @@ class BalanceExpenses extends StatefulWidget {
 }
 
 class _BalanceExpensesState extends State<BalanceExpenses> {
-
   @override
   void initState() {
     widget.controller.changeVisibilityButton(true);
     widget.controller.getExpenses();
-     print(widget.controller.transactions);
+    print(widget.controller.transactions);
     super.initState();
   }
+
+  @override
+  void didUpdateWidget(covariant BalanceExpenses oldWidget) {
+    widget.controller.getExpenses();
+
+    super.didUpdateWidget(oldWidget);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Observer(builder: (_){
-      if(widget.controller.state == AppStatus.loading){
+    return Observer(builder: (_) {
+      if (widget.controller.state == AppStatus.loading) {
         return Center(
           child: CircularProgressIndicator(),
         );
-      }
-      else if(widget.controller.state == AppStatus.success){
+      } else if (widget.controller.state == AppStatus.success) {
         return BalancesCardPage(
           totalType: "Saídas",
           transactions: widget.controller.transactions,
           balance: -widget.controller.monthlyBalance.expenses,
         );
-      }
-      else{
+      } else {
         return Scaffold(
           body: Center(
             child: Text("Erro"),

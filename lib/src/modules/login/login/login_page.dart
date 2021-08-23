@@ -95,7 +95,8 @@ class _LoginPageState extends State<LoginPage> {
                                         false;
                                     if (formvalid) {
                                       final loginExisteNoFirebase =
-                                          await LoginRepository(email: _emailEC)
+                                          await LoginRepository(
+                                                  email: _emailEC.text)
                                               .emailExiste();
 
                                       if (loginExisteNoFirebase! != true) {
@@ -123,7 +124,12 @@ class _LoginPageState extends State<LoginPage> {
                                               );
                                             });
                                       } else
-                                        Modular.to.pushNamed("/login/password");
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (_) => PasswordPage(
+                                                  email: _emailEC.text)),
+                                        );
+                                      print(_emailEC.text);
                                     }
                                   },
                                 )),
