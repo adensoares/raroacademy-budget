@@ -20,7 +20,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   HomeController controller = HomeController();
 
   @override
@@ -32,6 +31,18 @@ class _HomePageState extends State<HomePage> {
     controller.getLastTransactions();
     print(controller.lastTransactions);
   }
+
+  bool hideBbalance = true;
+
+  @override
+  void didUpdateWidget(covariant HomePage oldWidget) {
+    controller.getGeneralBalance();
+    controller.getMonths();
+    controller.getMonthlyBalance();
+    controller.getLastTransactions();
+    super.didUpdateWidget(oldWidget);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +74,10 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                GeneralBalanceCard(balance: controller.generalBalance),
+                GeneralBalanceCard(
+                  balance: controller.generalBalance,
+                  hideBalance: true,
+                ),
                 InkWell(
                   child: DailyBalanceCard(
                     balance: controller.monthlyBalance.total,
@@ -75,31 +89,33 @@ class _HomePageState extends State<HomePage> {
                         gradient: AppColors.headerButtonGradient),
                   ),
                   onTap: () {
-                Modular.to.navigate("/home/balance");
-              },
+                    Modular.to.pushNamed("/home/balance");
+                  },
                 ),
                 LastTransactionsCard(
-                  lastTransactionsBalance: controller.lastTransactionsBalance,
-                  transactions: controller.lastTransactions
-                )
+                    lastTransactionsBalance: controller.lastTransactionsBalance,
+                    transactions: controller.lastTransactions)
               ],
             ),
           );
-        }else {
+        } else {
           return Column(
             children: [
-              Text("Erro na conexão", style: AppTextStyles.cyan48w400Roboto,),
+              Text(
+                "Erro na conexão",
+                style: AppTextStyles.cyan48w400Roboto,
+              ),
               ButtonWidget(
-                borderRadius: 34.0,
-                child: Text("TENTAR NOVAMENTE", style: AppTextStyles.white14w500Roboto,),
-                onTap: (){
-                }
-              )
+                  borderRadius: 34.0,
+                  child: Text(
+                    "TENTAR NOVAMENTE",
+                    style: AppTextStyles.white14w500Roboto,
+                  ),
+                  onTap: () {})
             ],
           );
         }
-      }
-      ),
+      }),
     );
   }
 }

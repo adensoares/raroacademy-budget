@@ -49,10 +49,14 @@ class CustomDrawer extends StatelessWidget {
                     Modular.to.pushNamed("/home/drawerSignup");
                   },
                 ),
-                Expanded(
-                    child: Divider(
-                  thickness: 1,
-                )),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Divider(
+                      thickness: 1,
+                    )),
+                  ],
+                ),
                 Padding(
                     padding: EdgeInsets.only(left: 25.0, top: 15.0),
                     child: Text(
@@ -75,10 +79,14 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   onTap: () {},
                 ),
-                Expanded(
-                    child: Divider(
-                  thickness: 1,
-                )),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Divider(
+                      thickness: 1,
+                    )),
+                  ],
+                ),
                 Padding(
                     padding: EdgeInsets.only(left: 25.0, top: 15.0),
                     child: Text(
@@ -93,10 +101,14 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   onTap: () {},
                 ),
-                Expanded(
-                    child: Divider(
-                  thickness: 1,
-                )),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Divider(
+                      thickness: 1,
+                    )),
+                  ],
+                ),
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 25.0),
                   title: Text(
@@ -108,7 +120,14 @@ class CustomDrawer extends StatelessWidget {
               ],
             ),
           ),
-          Divider(),
+          Row(
+            children: [
+              Expanded(
+                  child: Divider(
+                thickness: 1,
+              )),
+            ],
+          ),
           ListTile(
             title: const Text(
               'Sair',

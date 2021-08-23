@@ -1,5 +1,5 @@
 import 'package:budget/src/modules/login/login/login_page.dart';
-import 'package:budget/src/modules/login/login/widgets/toggle_visibility_widget.dart';
+import 'package:budget/src/shared/widgets/toggle_visibility_widget.dart';
 import 'package:budget/src/modules/login/signup/validator_password.dart';
 import 'package:budget/src/modules/login/signup/signup_repository.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
@@ -553,6 +553,7 @@ class _SignupPageState extends State<SignupPage> {
                                       ]),
                                       suffixIcon: ToggleVisibility(
                                         visible: hidePassword1,
+                                        color: AppColors.gray,
                                         onPressed: () {
                                           setState(() {
                                             hidePassword1 = !hidePassword1;
@@ -572,6 +573,7 @@ class _SignupPageState extends State<SignupPage> {
                                       obscureText: hidePassword2,
                                       suffixIcon: ToggleVisibility(
                                         visible: hidePassword2,
+                                        color: AppColors.gray,
                                         onPressed: () {
                                           setState(() {
                                             hidePassword2 = !hidePassword2;

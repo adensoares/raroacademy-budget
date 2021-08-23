@@ -6,17 +6,19 @@ class ToggleVisibility extends StatelessWidget {
     Key? key,
     this.visible = false,
     this.onPressed,
+    this.color,
   }) : super(key: key);
 
   final bool visible;
   final VoidCallback? onPressed;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       icon: Icon(
         visible ? Icons.visibility_off : Icons.visibility,
-        color: AppColors.gray,
+        color: color,
       ),
       onPressed: onPressed,
     );

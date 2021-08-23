@@ -114,5 +114,4 @@ class AppShadows {
     blurRadius: 12.0,
     spreadRadius: 0,
   );
-
 }

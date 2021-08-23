@@ -30,83 +30,76 @@ class _BalancePageState extends State<BalancePage> {
 
   @override
   Widget build(BuildContext context) {
-   return Observer(builder: (_){
-     if(controller.state == AppStatus.loading){
-       return Scaffold(
-         body: Center(
-           child: CircularProgressIndicator()
-        )
-      );
-     }
-     else if(controller.state == AppStatus.success){
-       return DefaultTabController(
-        length: 3,
-        child: Builder(builder: (BuildContext context) {
-          return Scaffold(
-            appBar: CustomAppbar(
-              text: controller.monthlyBalance.total.reais(),
-              gradient: AppColors.headerButtonGradient,
-              dropdown: CustomDropdown(
-                  initialValue: controller.months[0],
-                  dropdownItens: controller.months),
-              tabBar: TabBar(
-                tabs: [
-                  Tab(text: "Entradas"),
-                  Tab(text: "Saídas"),
-                  Tab(text: "Total"),
-                ],
-              ),
-            ),
-            body: WillPopScope(
-              onWillPop: () async {
-                if (Modular.to.canPop()) {
-                  print("CanPop");
-                  Modular.to.pop();
-                  return false;
-                }
-                print("CanNotPop");
-                return true;
-              },
-              child: TabBarView(children: [
-              BalanceIncomes(
-                controller: controller,
-              ),
-              BalanceExpenses(controller: controller),
-              BalanceTotal(controller: controller),
-            ]),
-            ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: DefaultTabController.of(context)?.index != 2
-                ? ButtonWidget(
-                    width: 48.0,
-                    height: 48.0,
-                    gradient: AppColors.circleButtonGradient,
-                    borderRadius: 25.0,
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.white,
+    return Observer(builder: (_) {
+      if (controller.state == AppStatus.loading) {
+        return Scaffold(body: Center(child: CircularProgressIndicator()));
+      } else if (controller.state == AppStatus.success) {
+        return DefaultTabController(
+            length: 3,
+            child: Builder(builder: (BuildContext context) {
+              return Scaffold(
+                  appBar: CustomAppbar(
+                    text: controller.monthlyBalance.total.reais(),
+                    gradient: AppColors.headerButtonGradient,
+                    dropdown: CustomDropdown(
+                        initialValue: controller.months[0],
+                        dropdownItens: controller.months),
+                    tabBar: TabBar(
+                      tabs: [
+                        Tab(text: "Entradas"),
+                        Tab(text: "Saídas"),
+                        Tab(text: "Total"),
+                      ],
                     ),
-                    onTap: () {
-                      DefaultTabController.of(context)?.index == 0
-                          ? Modular.to.pushNamed("/home/balance/incomes")
-                          : DefaultTabController.of(context)?.index == 1
-                              ? Modular.to.pushNamed("/home/balance/incomes")
-                              : Modular.to
-                                  .popUntil(ModalRoute.withName('/home'));
-                      print(DefaultTabController.of(context)?.index);
+                  ),
+                  body: WillPopScope(
+                    onWillPop: () async {
+                      if (Modular.to.canPop()) {
+                        print("CanPop");
+                        Modular.to.pop();
+                        return false;
+                      }
+                      print("CanNotPop");
+                      return true;
                     },
-                  )
-                : Container()
-          );
-        
-        }));
-     }
-     else{
-       return Center(
-         child: Text("Erro")
-       );
-     }
+                    child: TabBarView(children: [
+                      BalanceIncomes(
+                        controller: controller,
+                      ),
+                      BalanceExpenses(controller: controller),
+                      BalanceTotal(controller: controller),
+                    ]),
+                  ),
+                  floatingActionButtonLocation:
+                      FloatingActionButtonLocation.centerFloat,
+                  floatingActionButton: DefaultTabController.of(context)
+                              ?.index !=
+                          2
+                      ? ButtonWidget(
+                          width: 48.0,
+                          height: 48.0,
+                          gradient: AppColors.circleButtonGradient,
+                          borderRadius: 25.0,
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                          ),
+                          onTap: () {
+                            DefaultTabController.of(context)?.index == 0
+                                ? Modular.to.pushNamed("/home/balance/incomes")
+                                : DefaultTabController.of(context)?.index == 1
+                                    ? Modular.to
+                                        .pushNamed("/home/balance/expenses")
+                                    : Modular.to
+                                        .popUntil(ModalRoute.withName('/home'));
+                            print(DefaultTabController.of(context)?.index);
+                          },
+                        )
+                      : Container());
+            }));
+      } else {
+        return Center(child: Text("Erro"));
+      }
     });
   }
 }
