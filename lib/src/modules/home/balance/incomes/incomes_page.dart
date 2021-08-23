@@ -22,19 +22,17 @@ class IncomesPage extends StatefulWidget {
 }
 
 class _IncomesPageState extends State<IncomesPage> {
-  
   DateTime date = DateTime.now();
   String? formattedDate;
   IncomesController controller = IncomesController();
   TransactionModel transaction = TransactionModel(
-    userId: "",
-    price: 0,
-    date: Timestamp.fromDate(DateTime.now()),
-    transactionName: "",
-    transactionType: "in",
-    transactionCategory: "",
-    month: monthToString(DateTime.now().month)
-  );
+      userId: "",
+      price: 0,
+      date: Timestamp.fromDate(DateTime.now()),
+      transactionName: "",
+      transactionType: "in",
+      transactionCategory: "",
+      month: monthToString(DateTime.now().month));
   final _formKey = GlobalKey<FormState>();
   TextEditingController incomePriceController = TextEditingController();
   TextEditingController incomeNameController = TextEditingController();
@@ -101,127 +99,133 @@ class _IncomesPageState extends State<IncomesPage> {
         textHeader: 'Olá, ${Modular.get<AuthController>().user?.name}',
       ),
       body: WillPopScope(
-        onWillPop: () async {
-          if (Modular.to.canPop()) {
-            print("CanPop");
-            Modular.to.pop();
-            return false;
-          }
-          print("CanNotPop");
-          return true;
-        },
-        child: Padding(
-        padding: const EdgeInsets.only(
-          bottom: 40.0,
-          left: 16.0,
-          right: 16.0,
-          top: 16.0,
-        ),
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(54.0),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomTextFormField(
-                        controler: incomePriceController,
-                        validator:Validatorless.required("Preencha com o valor da entrada!"),
-                        obscureText: false,
-                        labelText: "Valor em R\$",
-                        keyboardType: TextInputType.number,
-                      ),
-                      SizedBox(
-                        height: 24.0,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: AppColors.gray),
-                            ),
-                            labelText: 'Tipo de entrada',
+          onWillPop: () async {
+            if (Modular.to.canPop()) {
+              print("CanPop");
+              Modular.to.pop();
+              return false;
+            }
+            print("CanNotPop");
+            return true;
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(
+              bottom: 40.0,
+              left: 16.0,
+              right: 16.0,
+              top: 16.0,
+            ),
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(54.0),
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomTextFormField(
+                            controler: incomePriceController,
+                            validator: Validatorless.required(
+                                "Preencha com o valor da entrada!"),
+                            obscureText: false,
+                            labelText: "Valor em R\$",
+                            keyboardType: TextInputType.number,
                           ),
-                          isExpanded: true,
-                          onChanged: (value) {
-                            print(value);
-                            setState(() {
-                              _value = value as DropDownIncomesType;
-                              transaction.transactionCategory = _value.value;
-                            });
-                          },
-                          value: _value,
-                          selectedItemBuilder: (BuildContext context) {
-                            return list.map<Widget>((DropDownIncomesType item) {
-                              return Row(
-                                children: [
-                                  Text(_value.value),
-                                ],
-                              );
-                            }).toList();
-                          },
-                          items: list
-                              .map(
-                                (e) => DropdownMenuItem(
-                                  value: e,
-                                  child: Row(
-                                    children: [
-                                      IconsWidget(
-                                        icontype: e.iconsWidget.icontype,
-                                        size: e.iconsWidget.size,
-                                        containerColor:
-                                            e.iconsWidget.containerColor,
-                                        iconcolor: e.iconsWidget.iconcolor,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 8.0),
-                                        child: Text(
-                                          e.value,
-                                          style: AppTextStyles.black16w400Roboto,
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                          SizedBox(
+                            height: 24.0,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: DropdownButtonFormField(
+                              decoration: InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: AppColors.gray),
                                 ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                      CustomTextFormField(
-                        controler: incomeNameController,
-                        obscureText: false,
-                        labelText: "Nome da entrada",
-                        validator: Validatorless.required("Preencha uma descrição para a entrada"),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 38.0,
-                          left: 8.0,
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            selectTimePicker(context);
-                          },
-                          child: Text(
-                            formattedDate.toString(),
-                            style: AppTextStyles.purple14w500Roboto,
+                                labelText: 'Tipo de entrada',
+                              ),
+                              isExpanded: true,
+                              onChanged: (value) {
+                                print(value);
+                                setState(() {
+                                  _value = value as DropDownIncomesType;
+                                  transaction.transactionCategory =
+                                      _value.value;
+                                });
+                              },
+                              value: _value,
+                              selectedItemBuilder: (BuildContext context) {
+                                return list
+                                    .map<Widget>((DropDownIncomesType item) {
+                                  return Row(
+                                    children: [
+                                      Text(_value.value),
+                                    ],
+                                  );
+                                }).toList();
+                              },
+                              items: list
+                                  .map(
+                                    (e) => DropdownMenuItem(
+                                      value: e,
+                                      child: Row(
+                                        children: [
+                                          IconsWidget(
+                                            icontype: e.iconsWidget.icontype,
+                                            size: e.iconsWidget.size,
+                                            containerColor:
+                                                e.iconsWidget.containerColor,
+                                            iconcolor: e.iconsWidget.iconcolor,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: Text(
+                                              e.value,
+                                              style: AppTextStyles
+                                                  .black16w400Roboto,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
                           ),
-                        ),
+                          CustomTextFormField(
+                            controler: incomeNameController,
+                            obscureText: false,
+                            labelText: "Nome da entrada",
+                            validator: Validatorless.required(
+                                "Preencha uma descrição para a entrada"),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 38.0,
+                              left: 8.0,
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                selectTimePicker(context);
+                              },
+                              child: Text(
+                                formattedDate.toString(),
+                                style: AppTextStyles.purple14w500Roboto,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ),
-      ),
+          )),
       floatingActionButton: ButtonWidget(
           borderRadius: 24,
           height: 50,
@@ -237,8 +241,11 @@ class _IncomesPageState extends State<IncomesPage> {
           gradient: AppColors.headerButtonGradient,
           onTap: () {
             bool formvalid = _formKey.currentState?.validate() ?? false;
-            if(formvalid){
-              final int incomePrice = (double.parse(incomePriceController.text.replaceAll(",", "."))*100).toInt();
+            if (formvalid) {
+              final int incomePrice = (double.parse(
+                          incomePriceController.text.replaceAll(",", ".")) *
+                      100)
+                  .toInt();
               transaction.price = incomePrice;
               transaction.transactionName = incomeNameController.text;
               transaction.userId = Modular.get<AuthController>().user?.userId;
@@ -246,7 +253,7 @@ class _IncomesPageState extends State<IncomesPage> {
               controller.updateBalance(transaction);
               Modular.to.navigate("/home/balance");
             }
-            print(transaction);      
+            print(transaction);
           }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       // resizeToAvoidBottomInset: false,
