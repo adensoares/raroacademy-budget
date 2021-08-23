@@ -149,7 +149,6 @@ class _LoginPageState extends State<LoginPage> {
                         'ou',
                         style: AppTextStyles.gray16w400Roboto,
                       ),
-google_login
                       GoogleButtonWidget(onpressed: () async {
                         if (googleController.state == AppStatusGoogle.loading) {
                           Center(child: CircularProgressIndicator());
@@ -181,15 +180,6 @@ google_login
                                   googleController.messageError.toString())));
                         }
                       }),
-
-                      ButtonGoogleWidget(
-                        onPressed: () {
-                          Modular.get<AuthController>()
-                              .signInWithGoogle()
-                              .then((value) => print('Funcionou'));
-                        },
-                      ),
- 
                       ButtonFacebookWidget(),
                     ],
                   ),
