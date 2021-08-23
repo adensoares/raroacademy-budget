@@ -26,20 +26,15 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     controller.getGeneralBalance();
-    controller.getMonths();
+    //controller.getMonths();
     controller.getMonthlyBalance();
     controller.getLastTransactions();
-    print(controller.lastTransactions);
   }
 
   bool hideBbalance = true;
 
   @override
   void didUpdateWidget(covariant HomePage oldWidget) {
-    controller.getGeneralBalance();
-    controller.getMonths();
-    controller.getMonthlyBalance();
-    controller.getLastTransactions();
     super.didUpdateWidget(oldWidget);
   }
 
@@ -69,33 +64,40 @@ class _HomePageState extends State<HomePage> {
             child: CircularProgressIndicator(),
           );
         } else if (controller.state == AppStatus.success) {
-          return SingleChildScrollView(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GeneralBalanceCard(
-                  balance: controller.generalBalance,
-                  hideBalance: true,
-                ),
-                InkWell(
-                  child: DailyBalanceCard(
-                    balance: controller.monthlyBalance.total,
-                    expenses: controller.monthlyBalance.expenses,
-                    incomes: controller.monthlyBalance.incomes,
-                    dropdown: CustomDropdown(
-                        initialValue: controller.months[0],
-                        dropdownItens: controller.months,
-                        gradient: AppColors.headerButtonGradient),
+          return RefreshIndicator(
+            onRefresh: () {
+              return Modular.to.pushReplacementNamed('/home');
+            },
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GeneralBalanceCard(
+                    balance: controller.generalBalance,
+                    hideBalance: true,
                   ),
-                  onTap: () {
-                    Modular.to.pushNamed("/home/balance");
-                  },
-                ),
-                LastTransactionsCard(
-                    lastTransactionsBalance: controller.lastTransactionsBalance,
-                    transactions: controller.lastTransactions)
-              ],
+                  InkWell(
+                    child: DailyBalanceCard(
+                      balance: controller.monthlyBalance.total,
+                      expenses: controller.monthlyBalance.expenses,
+                      incomes: controller.monthlyBalance.incomes,
+                      dropdown: CustomDropdown(
+                          initialValue: controller.months[0],
+                          dropdownItens: controller.months,
+                          gradient: AppColors.headerButtonGradient),
+                    ),
+                    onTap: () {
+                      Modular.to.pushNamed("/home/balance");
+                    },
+                  ),
+                  LastTransactionsCard(
+                      lastTransactionsBalance:
+                          controller.lastTransactionsBalance,
+                      transactions: controller.lastTransactions)
+                ],
+              ),
             ),
           );
         } else {

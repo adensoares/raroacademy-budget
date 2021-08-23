@@ -4,6 +4,7 @@ import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/models/transaction_model.dart';
 import 'package:budget/src/shared/utils/extensions.dart';
 import 'package:budget/src/shared/utils/transactions_icons.dart';
+import 'package:intl/intl.dart';
 
 class LastTransactionsCard extends StatelessWidget {
   LastTransactionsCard({
@@ -62,15 +63,15 @@ class LastTransactionsCard extends StatelessWidget {
               shrinkWrap: true,
               itemCount: transactions.length,
               itemBuilder: (context, index) {
-                print(transactions[index].transactionType);
                 int transactionPrice = transactions[index].price;
                 if (transactions[index].transactionType == "out") {
                   transactionPrice *= -1;
                 }
+                String complement = (transactions[index].transactionName != "")? " - ${transactions[index].transactionName}": "";
                 return ListTile(
                   leading: getIconTransaction(
                       transactions[index].transactionCategory),
-                  title: Text(transactions[index].transactionCategory),
+                  title: Text(transactions[index].transactionCategory + complement),
                   trailing: Text(transactionPrice.reais()),
                 );
               },
