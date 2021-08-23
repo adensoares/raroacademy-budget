@@ -149,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                         'ou',
                         style: AppTextStyles.gray16w400Roboto,
                       ),
-                      GoogleButtonWidget(onpressed: () async {
+                      GoogleButtonWidget(onPressed: () async {
                         if (googleController.state == AppStatusGoogle.loading) {
                           Center(child: CircularProgressIndicator());
                         }

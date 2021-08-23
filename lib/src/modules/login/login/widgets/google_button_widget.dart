@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:budget/src/modules/login/login/widgets/google_button_controller.dart';
-
 // ignore: must_be_immutable
 class GoogleButtonWidget extends StatelessWidget {
   GoogleButtonWidget({
     Key? key,
-    required this.onpressed,
-    this.onPressed,
+    required this.onPressed,
   }) : super(key: key);
-  final void Function() onpressed;
-  AppStatusGoogle? statusGoogle;
 
   final void Function()? onPressed;
   @override

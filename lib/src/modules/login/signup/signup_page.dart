@@ -118,8 +118,8 @@ class _SignupPageState extends State<SignupPage> {
                                       labelText: "Nome",
                                       obscureText: false,
                                       validator: Validatorless.multiple([
-                                        Validatorless.min(
-                                            16, 'numero muito pequeno'),
+                                        Validatorless.max(
+                                            25, 'numero muito grande'),
                                         Validatorless.required(
                                             'campo obrigatório'),
                                       ]),
@@ -271,12 +271,8 @@ class _SignupPageState extends State<SignupPage> {
                                             'telefone com ddd (exemplo : 071)',
                                         obscureText: false,
                                         validator: Validatorless.multiple([
-                                          Validatorless.max(12,
-                                              'numero muito grande!, insira 12 numeros!'),
-                                          Validatorless.min(12,
-                                              'numero pequeno! insira 12 numeros!'),
-                                          Validatorless.number(
-                                              'numero inválido'),
+                                          Validatorless.min(
+                                              16, 'Numero muito pequeno'),
                                           Validatorless.required(
                                               'campo obrigatório'),
                                         ]),
