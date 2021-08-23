@@ -23,9 +23,8 @@ class _BalancePageState extends State<BalancePage> {
   @override
   void initState() {
     super.initState();
-    controller.getMonths();
+    //controller.getMonths();
     controller.getBalance();
-    print(controller.errorMessage);
   }
 
   @override
@@ -55,11 +54,9 @@ class _BalancePageState extends State<BalancePage> {
                   body: WillPopScope(
                     onWillPop: () async {
                       if (Modular.to.canPop()) {
-                        print("CanPop");
                         Modular.to.pop();
                         return false;
                       }
-                      print("CanNotPop");
                       return true;
                     },
                     child: TabBarView(children: [

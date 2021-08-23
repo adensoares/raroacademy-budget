@@ -1,3 +1,4 @@
+import 'package:budget/src/shared/utils/month_to_string.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -50,8 +51,19 @@ class SignupRepository {
       }).catchError((_) {
         print('aconteceu um erro');
       });
-      await FirebaseFirestore.instance.collection('/months').doc(user.uid).set({});
-      await FirebaseFirestore.instance.collection('/balances').doc(user.uid).set({});
+      await FirebaseFirestore.instance.collection('/months').doc(user.uid).set({
+        "months": [monthToString(DateTime.now().month)]
+      });
+      await FirebaseFirestore.instance.collection('/balances').doc(user.uid).set({
+        "total": 0
+      });
+      await FirebaseFirestore.instance.collection('/monthly_balance').add({
+        "expenses": 0,
+        "incomes": 0,
+        "month": monthToString(DateTime.now().month),
+        "total": 0,
+        "userId": user.uid
+      });
     } catch (e) {
       print(e);
     }

@@ -26,20 +26,15 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     controller.getGeneralBalance();
-    // controller.getMonths();
+    //controller.getMonths();
     controller.getMonthlyBalance();
     controller.getLastTransactions();
-    print(controller.lastTransactions);
   }
 
   bool hideBbalance = true;
 
   @override
   void didUpdateWidget(covariant HomePage oldWidget) {
-    controller.getGeneralBalance();
-    controller.getMonths();
-    controller.getMonthlyBalance();
-    controller.getLastTransactions();
     super.didUpdateWidget(oldWidget);
   }
 

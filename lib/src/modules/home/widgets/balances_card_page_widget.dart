@@ -33,11 +33,11 @@ class BalancesCardPage extends StatelessWidget {
                 itemCount: transactions.length,
                 
                 itemBuilder: (context, index){
-                  print(transactions[index].transactionType);
+                  String complement = (transactions[index].transactionName != "")? " - ${transactions[index].transactionName}": "";
                   return ListTile(
                     leading: getIconTransaction(transactions[index].transactionCategory),
                     title: Text(
-                      transactions[index].transactionCategory),
+                      transactions[index].transactionCategory + complement),
                     trailing: Text(transactions[index].price.reais()),
                   );
                 },
