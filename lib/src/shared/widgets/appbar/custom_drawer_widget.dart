@@ -47,9 +47,65 @@ class CustomDrawer extends StatelessWidget {
                     style: AppTextStyles.black16w400Roboto,
                   ),
                   onTap: () {
-                    Modular.to.navigate("drawerSignup");
+                    Modular.to.pushNamed("/home/drawerSignup");
                   },
-                )
+                ),
+                Expanded(
+                    child: Divider(
+                  thickness: 1,
+                )),
+                Padding(
+                    padding: EdgeInsets.only(left: 25.0, top: 15.0),
+                    child: Text(
+                      "Conta",
+                      style: AppTextStyles.lightGray14w400Roboto,
+                    )),
+                ListTile(
+                  contentPadding: EdgeInsets.only(left: 25.0),
+                  title: Text(
+                    "Gerenciar cartões",
+                    style: AppTextStyles.black16w400Roboto,
+                  ),
+                  onTap: () {},
+                ),
+                ListTile(
+                  contentPadding: EdgeInsets.only(left: 25.0),
+                  title: Text(
+                    "Investimentos",
+                    style: AppTextStyles.black16w400Roboto,
+                  ),
+                  onTap: () {},
+                ),
+                Expanded(
+                    child: Divider(
+                  thickness: 1,
+                )),
+                Padding(
+                    padding: EdgeInsets.only(left: 25.0, top: 15.0),
+                    child: Text(
+                      "Segurança",
+                      style: AppTextStyles.lightGray14w400Roboto,
+                    )),
+                ListTile(
+                  contentPadding: EdgeInsets.only(left: 25.0),
+                  title: Text(
+                    "Alterar senha",
+                    style: AppTextStyles.black16w400Roboto,
+                  ),
+                  onTap: () {},
+                ),
+                Expanded(
+                    child: Divider(
+                  thickness: 1,
+                )),
+                ListTile(
+                  contentPadding: EdgeInsets.only(left: 25.0),
+                  title: Text(
+                    "Ajuda",
+                    style: AppTextStyles.black16w400Roboto,
+                  ),
+                  onTap: () {},
+                ),
               ],
             ),
           ),

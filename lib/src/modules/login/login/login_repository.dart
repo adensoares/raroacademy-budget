@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginRepository {
   final TextEditingController? email;
@@ -25,26 +26,6 @@ class LoginRepository {
       throw e.message ?? 'nao foi possivel realizar o email';
     }
   }
-
-  // Future<bool> logar() async {
-  //   try {
-  //     await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //       email: email!.text,
-  //       password: password!.text,
-  //     );
-  //     if (FirebaseAuth.instance.currentUser != null) {
-  //       print("Entrou");
-  //       return true;
-  //     } else {
-  //       print("Nao Entrou");
-  //       return false;
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     print("Catch");
-  //     return false;
-  //   }
-  // }
 
   Future logar() async {
     try {

@@ -90,7 +90,7 @@ class _IncomesPageState extends State<IncomesPage> {
         gradient: AppColors.headerButtonGradient,
         expanded: true,
         child: IconButton(
-          onPressed: () => Modular.to.navigate('/home/balance'),
+          onPressed: () => Modular.to.pop(),
           icon: Icon(
             Icons.arrow_back,
             color: Colors.white,
@@ -100,7 +100,17 @@ class _IncomesPageState extends State<IncomesPage> {
       drawer: CustomDrawer(
         textHeader: 'Olá, ${Modular.get<AuthController>().user?.name}',
       ),
-      body: Padding(
+      body: WillPopScope(
+        onWillPop: () async {
+          if (Modular.to.canPop()) {
+            print("CanPop");
+            Modular.to.pop();
+            return false;
+          }
+          print("CanNotPop");
+          return true;
+        },
+        child: Padding(
         padding: const EdgeInsets.only(
           bottom: 40.0,
           left: 16.0,
@@ -234,6 +244,7 @@ class _IncomesPageState extends State<IncomesPage> {
               transaction.userId = Modular.get<AuthController>().user?.userId;
               controller.createIncome(transaction);
               controller.updateBalance(transaction);
+              Modular.to.navigate("/home/balance");
             }
             print(transaction);      
           }),

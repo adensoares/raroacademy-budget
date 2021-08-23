@@ -5,6 +5,7 @@ import 'package:budget/src/modules/login/login/widgets/google_buttom_repository.
 import 'package:budget/src/modules/login/login/widgets/google_button_controller.dart';
 import 'package:budget/src/modules/login/login/widgets/google_button_widget.dart';
 import 'package:budget/src/modules/login/login/login_repository.dart';
+import 'package:budget/src/shared/auth/auth_controller.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/header_page_login_widget.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
@@ -47,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                         text1: 'Novo usuário? ',
                         text2: 'Crie uma conta',
                         ontap: () {
-                          Modular.to.navigate("/login/signup");
+                          Modular.to.pushNamed("/login/signup");
                         }),
                   ),
                   SizedBox(height: 64),
@@ -75,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                             Align(
                                 alignment: Alignment.centerRight,
                                 child: ButtonWidget(
-                                  color: AppColors.lightGray,
+                                  gradient: AppColors.headerButtonGradient,
                                   borderRadius: 50,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
@@ -85,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                                         left: 16),
                                     child: Text(
                                       'CONTINUAR',
-                                      style: AppTextStyles.gray14w500Roboto,
+                                      style: AppTextStyles.white14w500Roboto,
                                     ),
                                   ),
                                   onTap: () async {
@@ -98,12 +99,31 @@ class _LoginPageState extends State<LoginPage> {
                                               .emailExiste();
 
                                       if (loginExisteNoFirebase! != true) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content:
-                                                    Text('Login não existe!')));
+                                        // ScaffoldMessenger.of(context)
+                                        //     .showSnackBar(
+                                        //   SnackBar(
+                                        //     content: Text('Login não existe!'),
+                                        //   ),
+                                        // );
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: Text("Atenção"),
+                                                content: Text(
+                                                    "E-mail não encontrado"),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Modular.to.pop();
+                                                    },
+                                                    child: Text("Fechar"),
+                                                  ),
+                                                ],
+                                              );
+                                            });
                                       } else
-                                        Modular.to.navigate("/login/password");
+                                        Modular.to.pushNamed("/login/password");
                                     }
                                   },
                                 )),
@@ -123,6 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                         'ou',
                         style: AppTextStyles.gray16w400Roboto,
                       ),
+google_login
                       GoogleButtonWidget(onpressed: () async {
                         if (googleController.state == AppStatusGoogle.loading) {
                           Center(child: CircularProgressIndicator());
@@ -154,6 +175,15 @@ class _LoginPageState extends State<LoginPage> {
                                   googleController.messageError.toString())));
                         }
                       }),
+
+                      ButtonGoogleWidget(
+                        onPressed: () {
+                          Modular.get<AuthController>()
+                              .signInWithGoogle()
+                              .then((value) => print('Funcionou'));
+                        },
+                      ),
+ 
                       ButtonFacebookWidget(),
                     ],
                   ),

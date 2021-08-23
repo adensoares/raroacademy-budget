@@ -172,4 +172,11 @@ class AppTextStyles {
     color: AppColors.red,
     letterSpacing: 0.15,
   );
+
+  static const TextStyle green14w500Roboto = TextStyle(
+    fontSize: 14.0,
+    fontWeight: FontWeight.w500,
+    color: AppColors.green,
+    letterSpacing: 0.15,
+  );
 }

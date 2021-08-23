@@ -24,18 +24,50 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$lastTransactionsBalanceAtom =
+      Atom(name: '_HomeControllerBase.lastTransactionsBalance');
+
+  @override
+  int get lastTransactionsBalance {
+    _$lastTransactionsBalanceAtom.reportRead();
+    return super.lastTransactionsBalance;
+  }
+
+  @override
+  set lastTransactionsBalance(int value) {
+    _$lastTransactionsBalanceAtom
+        .reportWrite(value, super.lastTransactionsBalance, () {
+      super.lastTransactionsBalance = value;
+    });
+  }
+
   final _$generalBalanceAtom = Atom(name: '_HomeControllerBase.generalBalance');
 
   @override
-  String get generalBalance {
+  int get generalBalance {
     _$generalBalanceAtom.reportRead();
     return super.generalBalance;
   }
 
   @override
-  set generalBalance(String value) {
+  set generalBalance(int value) {
     _$generalBalanceAtom.reportWrite(value, super.generalBalance, () {
       super.generalBalance = value;
+    });
+  }
+
+  final _$monthlyBalanceAtom = Atom(name: '_HomeControllerBase.monthlyBalance');
+
+  @override
+  MonthlyBalanceModel get monthlyBalance {
+    _$monthlyBalanceAtom.reportRead();
+    return super.monthlyBalance;
+  }
+
+  @override
+  set monthlyBalance(MonthlyBalanceModel value) {
+    _$monthlyBalanceAtom.reportWrite(value, super.monthlyBalance, () {
+      super.monthlyBalance = value;
     });
   }
 
@@ -45,6 +77,15 @@ mixin _$HomeController on _HomeControllerBase, Store {
   @override
   Future<void> getGeneralBalance() {
     return _$getGeneralBalanceAsyncAction.run(() => super.getGeneralBalance());
+  }
+
+  final _$getLastTransactionsAsyncAction =
+      AsyncAction('_HomeControllerBase.getLastTransactions');
+
+  @override
+  Future<void> getLastTransactions() {
+    return _$getLastTransactionsAsyncAction
+        .run(() => super.getLastTransactions());
   }
 
   final _$getMonthsAsyncAction = AsyncAction('_HomeControllerBase.getMonths');
@@ -66,7 +107,9 @@ mixin _$HomeController on _HomeControllerBase, Store {
   String toString() {
     return '''
 state: ${state},
-generalBalance: ${generalBalance}
+lastTransactionsBalance: ${lastTransactionsBalance},
+generalBalance: ${generalBalance},
+monthlyBalance: ${monthlyBalance}
     ''';
   }
 }

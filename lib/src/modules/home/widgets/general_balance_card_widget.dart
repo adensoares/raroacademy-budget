@@ -1,4 +1,5 @@
 import 'package:budget/src/shared/constants/shared_constants.dart';
+import 'package:budget/src/shared/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
 class GeneralBalanceCard extends StatelessWidget {
@@ -6,7 +7,7 @@ class GeneralBalanceCard extends StatelessWidget {
     Key? key, required this.balance,
   }) : super(key: key);
 
-  final String balance;
+  final int balance;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class GeneralBalanceCard extends StatelessWidget {
           onPressed: (){},
         ),
         title: Text("Saldo Geral", style: AppTextStyles.purple20w500Roboto,),
-        subtitle: Text(balance, style: AppTextStyles.black24w400Roboto,),
+        subtitle: Text(balance.reais(), style: AppTextStyles.black24w400Roboto,),
       )
     );
   }

@@ -45,7 +45,7 @@ class _CustomAppbarState extends State<CustomAppbar> {
                         alignment: Alignment.topLeft,
                         child: Builder(builder: (context) {
                           return IconButton(
-                            onPressed: () => Modular.to.navigate('/home'),
+                            onPressed: () => Modular.to.pop(),
                             icon: Icon(
                               Icons.arrow_back,
                               color: Colors.white,
