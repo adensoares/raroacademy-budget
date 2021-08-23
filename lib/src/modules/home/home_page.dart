@@ -101,20 +101,34 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         } else {
-          return Column(
-            children: [
-              Text(
-                "Erro na conexão",
-                style: AppTextStyles.cyan48w400Roboto,
-              ),
-              ButtonWidget(
-                  borderRadius: 34.0,
-                  child: Text(
-                    "TENTAR NOVAMENTE",
-                    style: AppTextStyles.white14w500Roboto,
-                  ),
-                  onTap: () {})
-            ],
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Erro na conexão",
+                  style: AppTextStyles.cyan48w400Roboto,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                ButtonWidget(
+                    borderRadius: 34.0,
+                    child: Text(
+                      "TENTAR NOVAMENTE",
+                      style: AppTextStyles.black16w400Roboto,
+                    ),
+                    onTap: () {
+                      if (controller.state == AppStatus.loading) {
+                        Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (controller.state == AppStatus.success) {
+                        Modular.to.pushReplacementNamed('/home');
+                      }
+                    })
+              ],
+            ),
           );
         }
       }),

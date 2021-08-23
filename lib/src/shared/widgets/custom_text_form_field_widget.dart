@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -12,11 +13,11 @@ class CustomTextFormField extends StatelessWidget {
     this.helperText,
     this.keyboardType,
     this.suffixIcon,
+    required this.obscureText,
     this.border,
     this.onTap,
     this.validator,
     this.controler,
-    required this.obscureText,
     this.inputformatter,
     this.initialValue,
     this.enabled,
@@ -39,6 +40,8 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: inputformatter,
+      initialValue: initialValue,
       keyboardType: keyboardType,
       obscureText: obscureText,
       cursorColor: AppColors.black,
@@ -46,7 +49,6 @@ class CustomTextFormField extends StatelessWidget {
       controller: controler,
       validator: validator,
       onTap: onTap,
-      initialValue: initialValue,
       enabled: enabled,
       decoration: InputDecoration(
         focusedBorder: UnderlineInputBorder(

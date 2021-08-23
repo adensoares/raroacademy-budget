@@ -1,3 +1,6 @@
+import 'package:budget/src/modules/home/drawerSignup/drawer_signup_repository.dart';
+import 'package:budget/src/shared/auth/auth_controller.dart';
+import 'package:budget/src/shared/auth/auth_repository.dart';
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/widgets/appbar/simple_appbar_widget.dart';
@@ -16,11 +19,28 @@ class DrawerSignupPage extends StatefulWidget {
 }
 
 class _DrawerSignupPageState extends State<DrawerSignupPage> {
+  final nameEC = TextEditingController(
+      text: '${Modular.get<AuthController>().user?.name}');
+  final emailEC = TextEditingController(
+      text: '${Modular.get<AuthController>().user?.email}');
+  final phoneNumberEC = TextEditingController();
+  final cpfEC =
+      TextEditingController(text: '${Modular.get<AuthController>().user?.cpf}');
+
   final _formkey = GlobalKey<FormState>();
   final _maskformaterCPF = MaskTextInputFormatter(
       mask: '###.###.###-##', filter: {'#': RegExp(r'[0-9]')});
   final _maskformaterNumber = MaskTextInputFormatter(
       mask: '(###) #####-####', filter: {'#': RegExp(r'[0-9]')});
+
+  @override
+  void dispose() {
+    nameEC.dispose();
+    emailEC.dispose();
+    phoneNumberEC.dispose();
+    cpfEC.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,11 +93,14 @@ class _DrawerSignupPageState extends State<DrawerSignupPage> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 CustomTextFormField(
+                                  controler: nameEC,
                                   obscureText: false,
                                   keyboardType: TextInputType.name,
                                   labelText: 'Nome',
                                 ),
                                 CustomTextFormField(
+                                  enabled: false,
+                                  controler: cpfEC,
                                   inputformatter: [_maskformaterCPF],
                                   obscureText: false,
                                   keyboardType: TextInputType.number,
@@ -86,6 +109,7 @@ class _DrawerSignupPageState extends State<DrawerSignupPage> {
                                       Validatorless.cpf('Valor inválido'),
                                 ),
                                 CustomTextFormField(
+                                    controler: emailEC,
                                     obscureText: false,
                                     keyboardType: TextInputType.emailAddress,
                                     labelText: 'E-mail',
@@ -93,14 +117,14 @@ class _DrawerSignupPageState extends State<DrawerSignupPage> {
                                       Validatorless.email('E-mail inválido'),
                                     ])),
                                 CustomTextFormField(
-                                  inputformatter: [_maskformaterNumber],
-                                  obscureText: false,
-                                  keyboardType: TextInputType.number,
-                                  labelText: 'Celular',
-                                  helperText: 'Numero com ddd (exemplo: 071)',
-                                  validator:
-                                      Validatorless.number('Numero inválido'),
-                                ),
+                                    controler: phoneNumberEC,
+                                    inputformatter: [_maskformaterNumber],
+                                    obscureText: false,
+                                    keyboardType: TextInputType.number,
+                                    labelText: 'Celular',
+                                    helperText: 'Numero com ddd (exemplo: 071)',
+                                    validator: Validatorless.min(
+                                        16, 'numero muito pequeno')),
                               ],
                             ),
                           )),
@@ -113,14 +137,20 @@ class _DrawerSignupPageState extends State<DrawerSignupPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
+        onPressed: () async {
           if (_formkey.currentState!.validate()) {
+            DrawerSignupRepository(
+                    name: nameEC,
+                    cpf: cpfEC,
+                    phoneNumber: phoneNumberEC,
+                    email: emailEC)
+                .changeFiles();
             ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Alterações feitas com sucesso!')));
           }
         },
         label: Text('SALVAR ALTERAÇÕES'),
-        backgroundColor: AppColors.gray,
+        backgroundColor: AppColors.purple,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       resizeToAvoidBottomInset: false,
