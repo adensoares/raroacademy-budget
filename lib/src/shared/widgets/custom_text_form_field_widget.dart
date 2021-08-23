@@ -19,7 +19,8 @@ class CustomTextFormField extends StatelessWidget {
     this.validator,
     this.controler,
     this.inputformatter,
-    this.initialvalue,
+    this.initialValue,
+    this.enabled,
   }) : super(key: key);
 
   final String? hintText;
@@ -32,14 +33,15 @@ class CustomTextFormField extends StatelessWidget {
   final void Function()? onTap;
   final String? Function(String?)? validator;
   final TextEditingController? controler;
-  final List<TextInputFormatter>? inputformatter;
-  final String? initialvalue;
+  final List<MaskTextInputFormatter>? inputformatter;
+  final String? initialValue;
+  final bool? enabled;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       inputFormatters: inputformatter,
-      initialValue: initialvalue,
+      initialValue: initialValue,
       keyboardType: keyboardType,
       obscureText: obscureText,
       cursorColor: AppColors.black,
@@ -47,6 +49,7 @@ class CustomTextFormField extends StatelessWidget {
       controller: controler,
       validator: validator,
       onTap: onTap,
+      enabled: enabled,
       decoration: InputDecoration(
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(

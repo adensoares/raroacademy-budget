@@ -1,5 +1,8 @@
+import 'package:budget/src/modules/home/drawerSignup/drawer_signup_page.dart';
 import 'package:budget/src/modules/login/login/password_page.dart';
 import 'package:budget/src/modules/login/login/widgets/facebook_button_widget.dart';
+import 'package:budget/src/modules/login/login/widgets/google_buttom_repository.dart';
+import 'package:budget/src/modules/login/login/widgets/google_button_controller.dart';
 import 'package:budget/src/modules/login/login/widgets/google_button_widget.dart';
 import 'package:budget/src/modules/login/login/login_repository.dart';
 import 'package:budget/src/shared/auth/auth_controller.dart';
@@ -19,6 +22,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  GoogleController googleController = GoogleController();
   final _formloginkey = GlobalKey<FormState>();
   final _emailEC = TextEditingController();
 
@@ -91,7 +95,8 @@ class _LoginPageState extends State<LoginPage> {
                                         false;
                                     if (formvalid) {
                                       final loginExisteNoFirebase =
-                                          await LoginRepository(email: _emailEC)
+                                          await LoginRepository(
+                                                  email: _emailEC.text)
                                               .emailExiste();
 
                                       if (loginExisteNoFirebase! != true) {
@@ -119,7 +124,12 @@ class _LoginPageState extends State<LoginPage> {
                                               );
                                             });
                                       } else
-                                        Modular.to.pushNamed("/login/password");
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (_) => PasswordPage(
+                                                  email: _emailEC.text)),
+                                        );
+                                      print(_emailEC.text);
                                     }
                                   },
                                 )),
@@ -139,6 +149,39 @@ class _LoginPageState extends State<LoginPage> {
                         'ou',
                         style: AppTextStyles.gray16w400Roboto,
                       ),
+google_login
+                      GoogleButtonWidget(onpressed: () async {
+                        if (googleController.state == AppStatusGoogle.loading) {
+                          Center(child: CircularProgressIndicator());
+                        }
+                        await GoogleButtomRepository().signInWithGoogle();
+                        var response =
+                            await GoogleButtomRepository().googleUserExist();
+                        if (response != true) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              action: SnackBarAction(
+                                  label: 'Atualizar',
+                                  onPressed: () => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (_) => DrawerSignupPage()))),
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(22),
+                                      topRight: Radius.circular(22))),
+                              duration: Duration(seconds: 5),
+                              content: Text(
+                                  'Vá para cadastro ou para atualizar cadastro! :)',
+                                  style: AppTextStyles.purple14w500Roboto)));
+                        }
+
+                        if (googleController.state == AppStatusGoogle.error) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  googleController.messageError.toString())));
+                        }
+                      }),
+
                       ButtonGoogleWidget(
                         onPressed: () {
                           Modular.get<AuthController>()
@@ -146,6 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                               .then((value) => print('Funcionou'));
                         },
                       ),
+ 
                       ButtonFacebookWidget(),
                     ],
                   ),

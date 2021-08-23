@@ -16,8 +16,7 @@ class BalanceIncomes extends StatefulWidget {
   State<BalanceIncomes> createState() => _BalanceIncomesState();
 }
 
-class _BalanceIncomesState extends State<BalanceIncomes> {  
-
+class _BalanceIncomesState extends State<BalanceIncomes> {
   @override
   void initState() {
     widget.controller.changeVisibilityButton(true);
@@ -25,22 +24,27 @@ class _BalanceIncomesState extends State<BalanceIncomes> {
     print(widget.controller.transactions);
     super.initState();
   }
+
+  @override
+  void didUpdateWidget(covariant BalanceIncomes oldWidget) {
+    widget.controller.getIncomes();
+    super.didUpdateWidget(oldWidget);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Observer(builder: (_){
-      if(widget.controller.state == AppStatus.loading){
+    return Observer(builder: (_) {
+      if (widget.controller.state == AppStatus.loading) {
         return Center(
           child: CircularProgressIndicator(),
         );
-      }
-      else if(widget.controller.state == AppStatus.success){
+      } else if (widget.controller.state == AppStatus.success) {
         return BalancesCardPage(
           totalType: "Entradas",
           transactions: widget.controller.transactions,
           balance: widget.controller.monthlyBalance.incomes,
         );
-      }
-      else{
+      } else {
         return Scaffold(
           body: Center(
             child: Text("Erro"),
@@ -48,6 +52,5 @@ class _BalanceIncomesState extends State<BalanceIncomes> {
         );
       }
     });
-    
   }
 }

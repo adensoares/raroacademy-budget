@@ -1,6 +1,6 @@
 import 'package:budget/src/modules/home/home_page.dart';
 import 'package:budget/src/modules/login/login/login_repository.dart';
-import 'package:budget/src/modules/login/login/widgets/toggle_visibility_widget.dart';
+import 'package:budget/src/shared/widgets/toggle_visibility_widget.dart';
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:budget/src/shared/widgets/button_widget.dart';
@@ -12,7 +12,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:validatorless/validatorless.dart';
 
 class PasswordPage extends StatefulWidget {
-  PasswordPage({Key? key}) : super(key: key);
+  PasswordPage({Key? key, required this.email}) : super(key: key);
+  final String email;
 
   @override
   _PasswordPageState createState() => _PasswordPageState();
@@ -66,7 +67,9 @@ class _PasswordPageState extends State<PasswordPage> {
                             children: [
                               CustomTextFormField(
                                 obscureText: false,
-                                controler: _emailEC,
+                                // controler: _emailEC,
+                                initialValue: widget.email,
+                                enabled: false,
                                 keyboardType: TextInputType.emailAddress,
                                 validator: Validatorless.multiple([
                                   Validatorless.email('email inválido'),
@@ -83,7 +86,9 @@ class _PasswordPageState extends State<PasswordPage> {
                                 controler: _passwordEC,
                                 suffixIcon: ToggleVisibility(
                                   visible: hidePassword,
+                                  color: AppColors.gray,
                                   onPressed: () {
+                                    print(widget.email);
                                     setState(() {
                                       hidePassword = !hidePassword;
                                     });
@@ -129,7 +134,7 @@ class _PasswordPageState extends State<PasswordPage> {
                                           .validate();
                                       if (validado) {
                                         LoginRepository(
-                                          email: _emailEC,
+                                          email: widget.email,
                                           password: _passwordEC,
                                         ).logar().then(
                                               (value) => {

@@ -1,4 +1,5 @@
 import 'package:budget/src/modules/login/login/login_page.dart';
+import 'package:budget/src/modules/login/login/widgets/google_buttom_repository.dart';
 import 'package:budget/src/shared/constants/app_colors.dart';
 import 'package:budget/src/shared/constants/app_text_styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,10 +50,14 @@ class CustomDrawer extends StatelessWidget {
                     Modular.to.pushNamed("/home/drawerSignup");
                   },
                 ),
-                Expanded(
-                    child: Divider(
-                  thickness: 1,
-                )),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Divider(
+                      thickness: 1,
+                    )),
+                  ],
+                ),
                 Padding(
                     padding: EdgeInsets.only(left: 25.0, top: 15.0),
                     child: Text(
@@ -75,10 +80,14 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   onTap: () {},
                 ),
-                Expanded(
-                    child: Divider(
-                  thickness: 1,
-                )),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Divider(
+                      thickness: 1,
+                    )),
+                  ],
+                ),
                 Padding(
                     padding: EdgeInsets.only(left: 25.0, top: 15.0),
                     child: Text(
@@ -93,10 +102,14 @@ class CustomDrawer extends StatelessWidget {
                   ),
                   onTap: () {},
                 ),
-                Expanded(
-                    child: Divider(
-                  thickness: 1,
-                )),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Divider(
+                      thickness: 1,
+                    )),
+                  ],
+                ),
                 ListTile(
                   contentPadding: EdgeInsets.only(left: 25.0),
                   title: Text(
@@ -108,7 +121,14 @@ class CustomDrawer extends StatelessWidget {
               ],
             ),
           ),
-          Divider(),
+          Row(
+            children: [
+              Expanded(
+                  child: Divider(
+                thickness: 1,
+              )),
+            ],
+          ),
           ListTile(
             title: const Text(
               'Sair',
@@ -116,8 +136,8 @@ class CustomDrawer extends StatelessWidget {
               style: AppTextStyles.purple16w400Roboto,
             ),
             onTap: () async {
-              await FirebaseAuth.instance
-                  .signOut()
+              await GoogleButtomRepository()
+                  .signOutFromGoogle()
                   .then((value) => Modular.to.navigate("/login"));
             },
           ),

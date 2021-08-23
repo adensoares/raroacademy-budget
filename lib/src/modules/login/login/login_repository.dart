@@ -6,7 +6,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginRepository {
-  final TextEditingController? email;
+  final String? email;
   final TextEditingController? password;
 
   LoginRepository({
@@ -18,7 +18,7 @@ class LoginRepository {
     try {
       final response = await FirebaseFirestore.instance
           .collection('/users')
-          .where('email', isEqualTo: email!.text)
+          .where('email', isEqualTo: email!)
           .get();
       return response.docs.length > 0;
     } on FirebaseAuthException catch (e) {
@@ -31,7 +31,7 @@ class LoginRepository {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email!.text,
+        email: email!,
         password: password!.text,
       );
       userCredential.user;

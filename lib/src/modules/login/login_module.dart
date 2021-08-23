@@ -1,6 +1,7 @@
 import 'package:budget/src/modules/login/login/login_page.dart';
 import 'package:budget/src/modules/login/login/password_page.dart';
 import 'package:budget/src/modules/login/signup/signup_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class LoginModule extends Module {
@@ -11,6 +12,9 @@ class LoginModule extends Module {
   List<ModularRoute> get routes => [
         ChildRoute('/', child: (_, args) => LoginPage()),
         ChildRoute('/signup', child: (_, args) => SignupPage()),
-        ChildRoute('/password', child: (_, args) => PasswordPage()),
+        ChildRoute('/password',
+            child: (_, args) => PasswordPage(
+                  email: "",
+                )),
       ];
 }
