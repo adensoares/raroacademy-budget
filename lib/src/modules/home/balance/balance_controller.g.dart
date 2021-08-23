@@ -9,6 +9,22 @@ part of 'balance_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$BalanceController on _BalanceControllerBase, Store {
+  final _$visibleButtonAtom =
+      Atom(name: '_BalanceControllerBase.visibleButton');
+
+  @override
+  bool get visibleButton {
+    _$visibleButtonAtom.reportRead();
+    return super.visibleButton;
+  }
+
+  @override
+  set visibleButton(bool value) {
+    _$visibleButtonAtom.reportWrite(value, super.visibleButton, () {
+      super.visibleButton = value;
+    });
+  }
+
   final _$stateAtom = Atom(name: '_BalanceControllerBase.state');
 
   @override
@@ -94,9 +110,24 @@ mixin _$BalanceController on _BalanceControllerBase, Store {
     return _$getBalanceAsyncAction.run(() => super.getBalance());
   }
 
+  final _$_BalanceControllerBaseActionController =
+      ActionController(name: '_BalanceControllerBase');
+
+  @override
+  void changeVisibilityButton(bool visibility) {
+    final _$actionInfo = _$_BalanceControllerBaseActionController.startAction(
+        name: '_BalanceControllerBase.changeVisibilityButton');
+    try {
+      return super.changeVisibilityButton(visibility);
+    } finally {
+      _$_BalanceControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
+visibleButton: ${visibleButton},
 state: ${state},
 transactions: ${transactions},
 monthlyBalance: ${monthlyBalance}

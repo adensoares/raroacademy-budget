@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ButtonGoogleWidget extends StatelessWidget {
-  ButtonGoogleWidget({Key? key}) : super(key: key);
+  ButtonGoogleWidget({Key? key, this.onPressed}) : super(key: key);
 
+  final void Function()? onPressed;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -12,7 +13,7 @@ class ButtonGoogleWidget extends StatelessWidget {
           primary: Colors.white,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0))),
-      onPressed: () {},
+      onPressed: onPressed,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

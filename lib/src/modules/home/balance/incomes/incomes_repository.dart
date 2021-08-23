@@ -18,15 +18,32 @@ class IncomesRepository {
     }
   }
 
-  Future<void> updateBalance(TransactionModel transaction) async {
+   Future<void> updateBalance(TransactionModel transaction) async {
     try{
       await FirebaseFirestore.instance.collection("/balances")
       .doc(Modular.get<AuthController>().user?.userId)
       .update(
         {
+        "total": FieldValue.increment(-transaction.price)
+        }
+      );
+
+      final response = await FirebaseFirestore.instance.collection("/monthly_balances")
+      .where("month", isEqualTo: transaction.month)
+      .where("userId", isEqualTo: transaction.userId)
+      .get();
+
+      print(response.docs.first.id);
+
+      await FirebaseFirestore.instance.collection("/monthly_balances")
+      .doc(response.docs.first.id)
+      .update(
+        {
+        "incomes": FieldValue.increment(transaction.price),
         "total": FieldValue.increment(transaction.price)
         }
       );
+      
     }on FirebaseException catch(e){
       print('Erro no servidor: ${e.code}');
       throw e.message ??

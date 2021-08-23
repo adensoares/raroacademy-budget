@@ -4,6 +4,7 @@ import 'package:budget/src/shared/auth/auth_controller.dart';
 import 'package:budget/src/shared/constants/shared_constants.dart';
 import 'package:budget/src/shared/models/user_model.dart';
 import 'package:budget/src/shared/widgets/shared_widgets.dart';
+import 'package:budget/src/shared/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -27,6 +28,8 @@ class _HomePageState extends State<HomePage> {
     controller.getGeneralBalance();
     controller.getMonths();
     controller.getMonthlyBalance();
+    controller.getLastTransactions();
+    print(controller.lastTransactions);
   }
 
   @override
@@ -63,9 +66,9 @@ class _HomePageState extends State<HomePage> {
                 GeneralBalanceCard(balance: controller.generalBalance),
                 InkWell(
                   child: DailyBalanceCard(
-                    balance: "R\$ 3.000,00",
-                    expenses: "R\$ 5.000,00",
-                    incomes: "R\$ 8.000,00",
+                    balance: controller.monthlyBalance.total,
+                    expenses: controller.monthlyBalance.expenses,
+                    incomes: controller.monthlyBalance.incomes,
                     dropdown: CustomDropdown(
                         initialValue: controller.months[0],
                         dropdownItens: controller.months,
@@ -75,7 +78,10 @@ class _HomePageState extends State<HomePage> {
                     Modular.to.navigate("/home/balance");
                   },
                 ),
-                LastTransactionsCard()
+                LastTransactionsCard(
+                  lastTransactionsBalance: controller.lastTransactionsBalance,
+                  transactions: controller.lastTransactions
+                )
               ],
             ),
           );
