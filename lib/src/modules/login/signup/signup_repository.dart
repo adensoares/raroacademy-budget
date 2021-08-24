@@ -54,10 +54,11 @@ class SignupRepository {
       await FirebaseFirestore.instance.collection('/months').doc(user.uid).set({
         "months": [monthToString(DateTime.now().month)]
       });
-      await FirebaseFirestore.instance.collection('/balances').doc(user.uid).set({
-        "total": 0
-      });
-      await FirebaseFirestore.instance.collection('/monthly_balance').add({
+      await FirebaseFirestore.instance
+          .collection('/balances')
+          .doc(user.uid)
+          .set({"total": 0});
+      await FirebaseFirestore.instance.collection('/monthly_balances').add({
         "expenses": 0,
         "incomes": 0,
         "month": monthToString(DateTime.now().month),

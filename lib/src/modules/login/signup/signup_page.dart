@@ -695,12 +695,12 @@ class _SignupPageState extends State<SignupPage> {
                                     password: _passwordEC,
                                     name: _nameEC,
                                   ).registrar();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                          'Parabens ${_nameEC.text}, cadastro feito com sucesso!'),
-                                    ),
-                                  );
+                                  // ScaffoldMessenger.of(context).showSnackBar(
+                                  //   SnackBar(
+                                  //     content: Text(
+                                  //         'Parabens ${_nameEC.text}, cadastro feito com sucesso!'),
+                                  //   ),
+                                  // );
                                 },
                               ),
                             ),
